@@ -6,10 +6,8 @@ import {
   CheckCircle2, 
   AlertCircle, 
   Printer, 
-  MoreVertical, 
   Plus, 
   Minus, 
-  Trash2, 
   CreditCard, 
   DollarSign, 
   ArrowRight,
@@ -32,14 +30,15 @@ export const POS: React.FC = () => {
     settleOrder,
     clearTable,
     setTableStatus,
-    addNotification
+    addNotification,
+    settings
   } = useSavoraState();
 
   const [selectedTableId, setSelectedTableId] = useState<string>('T-04');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash'>('card');
-  const [selectedTipPercent, setSelectedTipPercent] = useState<number>(20);
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'cash' | 'upi'>('card');
+  const [selectedTipPercent, setSelectedTipPercent] = useState<number>(10);
   const [showReceiptModal, setShowReceiptModal] = useState(false);
   const [cartItems, setCartItems] = useState<OrderItem[]>([]);
   const [cartNotes, setCartNotes] = useState('');
@@ -74,8 +73,11 @@ export const POS: React.FC = () => {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }, [activeOrder, cartItems]);
 
-  const tax = Number((cartSubtotal * 0.08).toFixed(2));
-  const serviceCharge = Number((cartSubtotal * 0.05).toFixed(2));
+  const taxRate = settings.tax / 100;
+  const serviceRate = settings.service / 100;
+
+  const tax = Number((cartSubtotal * taxRate).toFixed(2));
+  const serviceCharge = Number((cartSubtotal * serviceRate).toFixed(2));
   const orderTotal = Number((cartSubtotal + tax + serviceCharge).toFixed(2));
   
   const tipAmount = Number((orderTotal * (selectedTipPercent / 100)).toFixed(2));
@@ -194,7 +196,7 @@ export const POS: React.FC = () => {
 
                 {table.status === 'occupied' && (
                   <p className={`font-mono text-xs font-bold mt-1.5 ${selectedTableId === table.id ? 'text-white' : 'text-primary'}`}>
-                    ${(orders.find(o => o.id === table.currentOrderId)?.totalPrice || 0).toFixed(2)}
+                    ₹{Math.round(orders.find(o => o.id === table.currentOrderId)?.totalPrice || 0)}
                   </p>
                 )}
               </div>
@@ -230,7 +232,7 @@ export const POS: React.FC = () => {
           {selectedTable.status === 'dirty' && (
             <button 
               onClick={() => clearTable(selectedTable.id)}
-              className="bg-primary text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg active:scale-95 transition-all shadow-sm"
+              className="bg-primary text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg active:scale-95 transition-all shadow-sm cursor-pointer"
             >
               Clear Table (Dirty)
             </button>
@@ -240,7 +242,7 @@ export const POS: React.FC = () => {
             <div className="flex gap-2">
               <button 
                 onClick={() => setShowReceiptModal(true)}
-                className="p-1.5 hover:bg-background border border-border-custom rounded-lg text-text-muted hover:text-text-primary transition-colors"
+                className="p-1.5 hover:bg-background border border-border-custom rounded-lg text-text-muted hover:text-text-primary transition-colors cursor-pointer"
                 title="Preview Bill Receipt"
               >
                 <Printer size={16} />
@@ -302,8 +304,8 @@ export const POS: React.FC = () => {
                     +
                   </button>
                 </div>
-                <span className="font-mono text-xs font-bold w-14 text-right text-text-primary">
-                  ${(item.price * item.quantity).toFixed(2)}
+                <span className="font-mono text-xs font-bold w-16 text-right text-text-primary">
+                  ₹{Math.round(item.price * item.quantity)}
                 </span>
               </div>
             </div>
@@ -316,7 +318,7 @@ export const POS: React.FC = () => {
                 Chef Preparation Notes
               </label>
               <textarea
-                placeholder="e.g. Medium-rare steak, sauces on side, allergies..."
+                placeholder="e.g. Less spicy, saffron strands extra, allergen warning..."
                 value={cartNotes}
                 onChange={(e) => setCartNotes(e.target.value)}
                 className="w-full bg-white dark:bg-[#1A1D1A] border border-border-custom rounded-xl p-3 text-xs outline-none focus:ring-1 focus:ring-primary focus:border-primary text-text-primary"
@@ -324,7 +326,7 @@ export const POS: React.FC = () => {
               />
               <button
                 onClick={handleSendToKitchen}
-                className="mt-3 w-full bg-primary hover:bg-primary/95 text-white py-3 rounded-xl text-xs font-bold shadow-md flex items-center justify-center gap-1.5 active:scale-95 transition-all"
+                className="mt-3 w-full bg-primary hover:bg-primary/95 text-white py-3 rounded-xl text-xs font-bold shadow-md flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer"
               >
                 <Send size={14} /> Send Order to KDS
               </button>
@@ -394,7 +396,7 @@ export const POS: React.FC = () => {
               >
                 <div className="flex justify-between items-start gap-1">
                   <h5 className="font-bold text-[10px] text-text-primary leading-tight truncate-2-lines">{dish.name}</h5>
-                  <span className="font-mono text-[10px] font-extrabold text-primary">${dish.price.toFixed(2)}</span>
+                  <span className="font-mono text-[10px] font-extrabold text-primary">₹{Math.round(dish.price)}</span>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className={`text-[8px] px-1.5 py-0.5 rounded font-extrabold uppercase ${
@@ -418,49 +420,64 @@ export const POS: React.FC = () => {
         <div className="p-4 border-b border-border-custom/40 bg-background/10">
           <h3 className="font-bold text-sm text-text-primary">Checkout Billing</h3>
           
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 grid grid-cols-3 gap-2">
             <button
               onClick={() => setPaymentMethod('card')}
-              className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+              className={`py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all shadow-sm cursor-pointer ${
                 paymentMethod === 'card' 
                   ? 'bg-primary text-white ring-1 ring-primary' 
                   : 'bg-white dark:bg-[#1A1D1A] border border-border-custom text-text-muted hover:text-text-primary'
               }`}
             >
-              <CreditCard size={14} /> Credit / Card
+              <CreditCard size={12} /> Card
             </button>
             
             <button
               onClick={() => setPaymentMethod('cash')}
-              className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+              className={`py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all shadow-sm cursor-pointer ${
                 paymentMethod === 'cash' 
                   ? 'bg-primary text-white ring-1 ring-primary' 
                   : 'bg-white dark:bg-[#1A1D1A] border border-border-custom text-text-muted hover:text-text-primary'
               }`}
             >
-              <DollarSign size={14} /> Cash Drawer
+              <DollarSign size={12} /> Cash
+            </button>
+
+            <button
+              onClick={() => setPaymentMethod('upi')}
+              className={`py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all shadow-sm cursor-pointer ${
+                paymentMethod === 'upi' 
+                  ? 'bg-primary text-white ring-1 ring-primary' 
+                  : 'bg-white dark:bg-[#1A1D1A] border border-border-custom text-text-muted hover:text-text-primary'
+              }`}
+            >
+              <QrCode size={12} /> UPI / QR
             </button>
           </div>
         </div>
 
         {/* Calculations Pane */}
-        <div className="flex-1 p-6 flex flex-col justify-between">
+        <div className="flex-1 p-6 flex flex-col justify-between overflow-y-auto custom-scroll">
           <div className="space-y-3">
             <div className="flex justify-between text-xs text-text-muted">
               <span>Subtotal Items</span>
-              <span className="font-bold font-mono text-text-primary">${cartSubtotal.toFixed(2)}</span>
+              <span className="font-bold font-mono text-text-primary">₹{cartSubtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-xs text-text-muted">
-              <span>Federal Sales Tax (8%)</span>
-              <span className="font-bold font-mono text-text-primary">${tax.toFixed(2)}</span>
+              <span>CGST ({(settings.tax / 2).toFixed(1)}%)</span>
+              <span className="font-bold font-mono text-text-primary">₹{(tax / 2).toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-xs text-text-muted">
+              <span>SGST ({(settings.tax / 2).toFixed(1)}%)</span>
+              <span className="font-bold font-mono text-text-primary">₹{(tax / 2).toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-xs text-text-muted pb-3 border-b border-border-custom/60">
-              <span>Service Charge (5%)</span>
-              <span className="font-bold font-mono text-text-primary">${serviceCharge.toFixed(2)}</span>
+              <span>Service Charge ({settings.service}%)</span>
+              <span className="font-bold font-mono text-text-primary">₹{serviceCharge.toFixed(2)}</span>
             </div>
             <div className="pt-4 flex justify-between items-baseline">
               <span className="text-sm font-semibold text-text-muted">Sub Total</span>
-              <span className="text-xl font-extrabold text-text-primary font-mono">${orderTotal.toFixed(2)}</span>
+              <span className="text-xl font-extrabold text-text-primary font-mono">₹{orderTotal.toFixed(2)}</span>
             </div>
           </div>
 
@@ -469,49 +486,65 @@ export const POS: React.FC = () => {
             <h4 className="text-[10px] font-bold tracking-widest text-text-muted uppercase mb-3">Add Tip (Cashier Gratuity)</h4>
             <div className="grid grid-cols-3 gap-3 text-center">
               <button 
+                onClick={() => setSelectedTipPercent(5)}
+                className={`py-3 border rounded-xl font-bold text-xs transition-all active:scale-95 cursor-pointer ${
+                  selectedTipPercent === 5 
+                    ? 'bg-primary/10 text-primary border-primary ring-1 ring-primary/20 shadow-sm' 
+                    : 'bg-white dark:bg-[#1A1D1A] border-border-custom text-text-muted hover:bg-background'
+                }`}
+              >
+                5% (₹{(orderTotal * 0.05).toFixed(0)})
+              </button>
+              <button 
+                onClick={() => setSelectedTipPercent(10)}
+                className={`py-3 border rounded-xl font-bold text-xs transition-all active:scale-95 cursor-pointer ${
+                  selectedTipPercent === 10 
+                    ? 'bg-primary/10 text-primary border-primary ring-1 ring-primary/20 shadow-sm' 
+                    : 'bg-white dark:bg-[#1A1D1A] border-border-custom text-text-muted hover:bg-background'
+                }`}
+              >
+                10% (₹{(orderTotal * 0.10).toFixed(0)})
+              </button>
+              <button 
                 onClick={() => setSelectedTipPercent(15)}
-                className={`py-3 border rounded-xl font-bold text-xs transition-all active:scale-95 ${
+                className={`py-3 border rounded-xl font-bold text-xs transition-all active:scale-95 cursor-pointer ${
                   selectedTipPercent === 15 
                     ? 'bg-primary/10 text-primary border-primary ring-1 ring-primary/20 shadow-sm' 
                     : 'bg-white dark:bg-[#1A1D1A] border-border-custom text-text-muted hover:bg-background'
                 }`}
               >
-                15% (${(orderTotal * 0.15).toFixed(2)})
-              </button>
-              <button 
-                onClick={() => setSelectedTipPercent(20)}
-                className={`py-3 border rounded-xl font-bold text-xs transition-all active:scale-95 ${
-                  selectedTipPercent === 20 
-                    ? 'bg-primary/10 text-primary border-primary ring-1 ring-primary/20 shadow-sm' 
-                    : 'bg-white dark:bg-[#1A1D1A] border-border-custom text-text-muted hover:bg-background'
-                }`}
-              >
-                20% (${(orderTotal * 0.20).toFixed(2)})
-              </button>
-              <button 
-                onClick={() => setSelectedTipPercent(25)}
-                className={`py-3 border rounded-xl font-bold text-xs transition-all active:scale-95 ${
-                  selectedTipPercent === 25 
-                    ? 'bg-primary/10 text-primary border-primary ring-1 ring-primary/20 shadow-sm' 
-                    : 'bg-white dark:bg-[#1A1D1A] border-border-custom text-text-muted hover:bg-background'
-                }`}
-              >
-                25% (${(orderTotal * 0.25).toFixed(2)})
+                15% (₹{(orderTotal * 0.15).toFixed(0)})
               </button>
             </div>
           </div>
+
+          {/* UPI Live QR Preview */}
+          {paymentMethod === 'upi' && activeOrder && (
+            <div className="mb-6 p-4 bg-white dark:bg-background border border-border-custom rounded-2xl flex flex-col items-center justify-center text-center shadow-sm">
+              <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-2">Scan QR to pay UPI</p>
+              <div className="p-2 bg-white rounded-xl border border-border-custom">
+                <img 
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(`upi://pay?pa=savorapay@upi&pn=${encodeURIComponent(settings.name)}&am=${finalTotal}&cu=INR`)}`}
+                  alt="UPI QR Code"
+                  className="w-[120px] h-[120px]"
+                />
+              </div>
+              <span className="text-[10px] font-bold font-mono text-primary mt-2">TOTAL: ₹{finalTotal.toFixed(2)}</span>
+              <span className="text-[8px] text-text-muted mt-0.5">BHIM, GPay, PhonePe, Paytm accepted</span>
+            </div>
+          )}
 
           {/* Grand total highlight */}
           <div className="space-y-4">
             <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 flex justify-between items-baseline">
               <span className="text-xs font-semibold text-text-muted">Total Due:</span>
-              <span className="text-3xl font-extrabold text-primary font-mono tracking-tight">${finalTotal.toFixed(2)}</span>
+              <span className="text-3xl font-extrabold text-primary font-mono tracking-tight">₹{finalTotal.toFixed(2)}</span>
             </div>
 
             <button 
               disabled={!activeOrder}
               onClick={() => setShowReceiptModal(true)}
-              className="w-full bg-[#F8F7F4] dark:bg-[#111311] hover:bg-border-custom/40 border border-border-custom py-3.5 rounded-xl text-xs font-bold text-text-primary transition-all active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none"
+              className="w-full bg-[#F8F7F4] dark:bg-[#111311] hover:bg-border-custom/40 border border-border-custom py-3.5 rounded-xl text-xs font-bold text-text-primary transition-all active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
             >
               <Printer size={14} /> Preview & Print Receipt Check
             </button>
@@ -519,7 +552,7 @@ export const POS: React.FC = () => {
             <button 
               disabled={!activeOrder}
               onClick={handleCompletePayment}
-              className="w-full bg-primary hover:bg-primary/95 text-white py-5 rounded-2xl font-bold text-sm shadow-lg shadow-primary/15 hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none"
+              className="w-full bg-primary hover:bg-primary/95 text-white py-5 rounded-2xl font-bold text-sm shadow-lg shadow-primary/15 hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
             >
               Complete payment check <ArrowRight size={16} />
             </button>
@@ -540,7 +573,7 @@ export const POS: React.FC = () => {
             {/* Modal close */}
             <button 
               onClick={() => setShowReceiptModal(false)}
-              className="absolute top-4 right-4 p-1 rounded-full hover:bg-sidebar text-text-muted"
+              className="absolute top-4 right-4 p-1 rounded-full hover:bg-sidebar text-text-muted cursor-pointer"
             >
               <X size={16} />
             </button>
@@ -549,7 +582,7 @@ export const POS: React.FC = () => {
             
             {/* Monospace Thermal Receipt */}
             <div className="text-center font-mono mt-4">
-              <h2 className="font-extrabold text-xl leading-none text-text-primary">SAVORA POS</h2>
+              <h2 className="font-extrabold text-xl leading-none text-text-primary">{settings.name.toUpperCase()}</h2>
               <p className="text-[9px] text-text-muted uppercase tracking-[0.2em] mt-1 font-bold">Smart Dining Solutions</p>
             </div>
 
@@ -577,7 +610,7 @@ export const POS: React.FC = () => {
                     <span>{item.quantity}x {item.name}</span>
                     {item.notes && <p className="text-[9px] text-text-muted pl-4 italic">"{item.notes}"</p>}
                   </div>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <span>₹{Math.round(item.price * item.quantity)}</span>
                 </div>
               ))}
             </div>
@@ -586,37 +619,45 @@ export const POS: React.FC = () => {
             <div className="space-y-1.5 mt-4 font-mono text-xs text-text-muted">
               <div className="flex justify-between">
                 <span>Subtotal Items</span>
-                <span>${cartSubtotal.toFixed(2)}</span>
+                <span>₹{cartSubtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span>Sales Tax (8%)</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>CGST ({(settings.tax / 2).toFixed(1)}%)</span>
+                <span>₹{(tax / 2).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span>Service Fee (5%)</span>
-                <span>${serviceCharge.toFixed(2)}</span>
+                <span>SGST ({(settings.tax / 2).toFixed(1)}%)</span>
+                <span>₹{(tax / 2).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Service Fee ({settings.service}%)</span>
+                <span>₹{serviceCharge.toFixed(2)}</span>
               </div>
               <div className="flex justify-between border-t border-dashed border-border-custom pt-2">
                 <span>Gratuity ({selectedTipPercent}%)</span>
-                <span>${tipAmount.toFixed(2)}</span>
+                <span>₹{tipAmount.toFixed(2)}</span>
               </div>
               <div className="flex justify-between font-extrabold text-base pt-3 border-t-2 border-border-custom text-text-primary">
                 <span>GRAND TOTAL</span>
-                <span className="text-primary">${finalTotal.toFixed(2)}</span>
+                <span className="text-primary">₹{finalTotal.toFixed(2)}</span>
               </div>
             </div>
 
             {/* Loyalty QR scan */}
             <div className="text-center mt-6 space-y-4 font-mono">
               <div className="bg-[#F8F7F4] dark:bg-[#111311] p-3 rounded-2xl inline-block border border-border-custom/50">
-                <QrCode size={48} className="text-text-primary mx-auto" />
-                <p className="text-[8px] mt-1.5 font-bold text-text-muted tracking-tight">SCAN FOR BILL / LOYALTY</p>
+                <img 
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(`upi://pay?pa=savorapay@upi&pn=${encodeURIComponent(settings.name)}&am=${finalTotal}&cu=INR`)}`}
+                  alt="Receipt Pay QR"
+                  className="w-[110px] h-[110px] mx-auto bg-white p-1 rounded-lg"
+                />
+                <p className="text-[8px] mt-1.5 font-bold text-text-muted tracking-tight">SCAN WITH ANY UPI APP TO PAY</p>
               </div>
-              <p className="text-[10px] italic text-text-muted">Thank you for dining with us.</p>
+              <p className="text-[10px] italic text-text-muted">{settings.receiptFooter}</p>
               
               <button 
                 onClick={handleCompletePayment}
-                className="w-full py-3 bg-primary hover:bg-primary/95 text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-md flex items-center justify-center gap-1.5"
+                className="w-full py-3 bg-primary hover:bg-primary/95 text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 Settle & Print check <CheckCircle2 size={12} />
               </button>
