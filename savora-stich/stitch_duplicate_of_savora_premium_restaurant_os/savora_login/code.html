@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Smart Dining Simplified</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#4f652d",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f3f4f0",
+                    "secondary-fixed-dim": "#b5d08b",
+                    "inverse-primary": "#a1d2af",
+                    "on-surface": "#1a1c1a",
+                    "on-background": "#1a1c1a",
+                    "on-primary-fixed-variant": "#224f35",
+                    "on-primary-container": "#f6fff5",
+                    "tertiary-container": "#a0646b",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#e2e3df",
+                    "surface-variant": "#e2e3df",
+                    "on-secondary-fixed-variant": "#384d17",
+                    "background": "#f9faf5",
+                    "error-container": "#ffdad6",
+                    "outline": "#717972",
+                    "on-surface-variant": "#414942",
+                    "surface-dim": "#d9dad6",
+                    "on-tertiary-fixed-variant": "#6b383e",
+                    "surface-container": "#edeeea",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#cee9a2",
+                    "secondary-fixed": "#d1eca5",
+                    "tertiary-fixed-dim": "#fbb4bb",
+                    "primary": "#386549",
+                    "surface-container-high": "#e7e9e4",
+                    "on-primary-fixed": "#00210f",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#121f00",
+                    "surface-bright": "#f9faf5",
+                    "tertiary": "#834c53",
+                    "on-tertiary-container": "#fffbff",
+                    "inverse-on-surface": "#f0f1ed",
+                    "surface-tint": "#3b684b",
+                    "tertiary-fixed": "#ffd9dc",
+                    "on-secondary-container": "#536a30",
+                    "primary-container": "#517e60",
+                    "outline-variant": "#c1c9c0",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2e312e",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#bceeca",
+                    "primary-fixed-dim": "#a1d2af",
+                    "surface": "#f9faf5",
+                    "on-tertiary-fixed": "#360d15"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "2xl": "48px",
+                    "gutter": "16px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "container-margin": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "headline-xl-mobile": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Geist"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .login-card-shadow {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04), 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body-md text-on-background min-h-screen flex items-center justify-center p-md sm:p-lg relative overflow-hidden">
+<!-- Atmospheric Background Decoration -->
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px]"></div>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-[1200px] grid grid-cols-1 lg:grid-cols-2 bg-surface-container-lowest rounded-[32px] overflow-hidden login-card-shadow relative z-10">
+<!-- Branding Section (Desktop Left) -->
+<section class="hidden lg:flex flex-col justify-between p-2xl bg-surface-container-low relative">
+<div class="z-10">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<span class="font-headline-xl text-headline-xl text-primary tracking-tight">Savora</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-md">Smart Dining.<br/><span class="text-primary">Simplified.</span></h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+                    Empower your restaurant with the all-in-one management platform. From POS to inventory, manage every detail with precision and grace.
+                </p>
+</div>
+<!-- Feature Showcase Chips -->
+<div class="grid grid-cols-2 gap-md mt-xl z-10">
+<div class="glass-panel p-md rounded-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<span class="font-label-md text-label-md">Real-time Insights</span>
+</div>
+<div class="glass-panel p-md rounded-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">qr_code_2</span>
+<span class="font-label-md text-label-md">Smart Ordering</span>
+</div>
+<div class="glass-panel p-md rounded-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory Sync</span>
+</div>
+<div class="glass-panel p-md rounded-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">payments</span>
+<span class="font-label-md text-label-md">Seamless Billing</span>
+</div>
+</div>
+<!-- Background Image Integration -->
+<div class="absolute inset-0 opacity-[0.15] mix-blend-multiply pointer-events-none" data-alt="A professional, high-end restaurant interior with clean lines, soft warm lighting, and minimalist furniture. The aesthetic is modern and sophisticated, featuring a palette of earthy tones and soft greens. The atmosphere is calm and organized, reflecting a premium SaaS product for hospitality management." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiJh_ct1GlkcHBK57P-x8XuwmiXELJonHtcnDLOK8gVhsPABBKL-9xp7aKvqogxIK-8mMW77-7POJ2KPI7tJiA60k8V6wQ6TXIAijtjrp_cWj8u6mXcYZNGFW6wsdWywXBKv3qYdvGSqAUhQv_wrMWwDPC_AGC2mtiT8MOoFNv_5w8u8KUXBkTfAjrJ7cI1F22hRdfMq-JLquHmb2V-jzbsJusoMnMQF5LHprXOzE6p0G3dnyQhdXqUZBsBbUnYMpicGmeCoMMK7hP')">
+</div>
+</section>
+<!-- Login Form Section (Right) -->
+<section class="flex flex-col justify-center px-lg py-2xl sm:px-2xl bg-surface-container-lowest">
+<!-- Mobile Branding Header -->
+<div class="lg:hidden flex flex-col items-center mb-xl text-center">
+<div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-on-primary mb-md shadow-lg">
+<span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-primary font-bold">Savora</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Smart Dining. Simplified.</p>
+</div>
+<div class="max-w-md mx-auto w-full">
+<header class="mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Welcome Back</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your credentials to access the manager dashboard.</p>
+</header>
+<form class="space-y-lg">
+<!-- Email Input -->
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">Email Address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">mail</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface rounded-xl border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none font-body-md text-on-surface" id="email" placeholder="manager@savora.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-xs">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline transition-all" href="#">Forgot Password?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full pl-12 pr-12 py-4 bg-surface rounded-xl border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none font-body-md text-on-surface" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me & Policy -->
+<div class="flex items-center gap-sm px-1">
+<input class="w-4 h-4 text-primary bg-surface border-outline-variant rounded focus:ring-primary" id="remember" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface-variant select-none" for="remember">Remember this device for 30 days</label>
+</div>
+<!-- Actions -->
+<div class="pt-md space-y-md">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md py-4 rounded-xl shadow-md active:scale-[0.98] transition-all flex items-center justify-center gap-sm" type="submit">
+                            Sign In
+                            <span class="material-symbols-outlined text-[20px]">login</span>
+</button>
+<div class="relative flex items-center py-sm">
+<div class="flex-grow border-t border-outline-variant"></div>
+<span class="flex-shrink mx-4 text-on-surface-variant font-label-sm text-label-sm">OR</span>
+<div class="flex-grow border-t border-outline-variant"></div>
+</div>
+<button class="w-full border border-outline-variant hover:bg-surface-container-high text-on-surface font-label-md text-label-md py-4 rounded-xl transition-all flex items-center justify-center gap-sm" type="button">
+<span class="material-symbols-outlined text-primary">fingerprint</span>
+                            Sign In with Biometrics
+                        </button>
+</div>
+</form>
+<footer class="mt-2xl text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                        Not a partner yet? <a class="text-primary font-semibold hover:underline" href="#">Register your restaurant</a>
+</p>
+</footer>
+</div>
+</section>
+</main>
+<!-- Floating Atmosphere Elements -->
+<div class="fixed bottom-lg right-lg hidden md:block">
+<div class="flex items-center gap-md bg-white/50 backdrop-blur-md p-sm px-md rounded-full border border-white/30 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Systems Operational</span>
+</div>
+</div>
+<!-- Script for subtle micro-interactions -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Authenticating...';
+                submitBtn.classList.add('opacity-80');
+                
+                // Simulate network delay
+                setTimeout(() => {
+                    submitBtn.innerHTML = 'Sign In <span class="material-symbols-outlined">login</span>';
+                    submitBtn.classList.remove('opacity-80');
+                }, 2000);
+            });
+
+            // Password visibility toggle
+            const visibilityBtn = document.querySelector('button[type="button"] .material-symbols-outlined');
+            const passwordInput = document.querySelector('#password');
+            let isVisible = false;
+
+            visibilityBtn.parentElement.addEventListener('click', () => {
+                isVisible = !isVisible;
+                passwordInput.type = isVisible ? 'text' : 'password';
+                visibilityBtn.innerText = isVisible ? 'visibility_off' : 'visibility';
+            });
+        });
+    </script>
+</body></html>

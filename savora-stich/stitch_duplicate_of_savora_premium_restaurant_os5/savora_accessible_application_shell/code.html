@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Premium Restaurant Management</title>
+<!-- Google Fonts: Geist & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Framer Motion (via CDN for micro-interactions) -->
+<script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar for sidebar navigation */
+        .nav-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .nav-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .nav-scroll::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+        /* Focus Ring Customization */
+        :focus-visible {
+            outline: none;
+            ring: 2px solid #386549; /* Primary color */
+            ring-offset: 2px;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #386549;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f9faf5",
+                        "surface-container": "#edeeea",
+                        "on-tertiary-fixed": "#360d15",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#00210f",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e312e",
+                        "tertiary": "#834c53",
+                        "on-tertiary-fixed-variant": "#6b383e",
+                        "surface": "#f9faf5",
+                        "inverse-primary": "#a1d2af",
+                        "tertiary-container": "#a0646b",
+                        "secondary-container": "#cee9a2",
+                        "secondary-fixed-dim": "#b5d08b",
+                        "primary-container": "#517e60",
+                        "surface-container-high": "#e7e9e4",
+                        "secondary": "#4f652d",
+                        "on-primary-container": "#f6fff5",
+                        "outline-variant": "#c1c9c0",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e2e3df",
+                        "outline": "#717972",
+                        "surface-dim": "#d9dad6",
+                        "primary-fixed": "#bceeca",
+                        "surface-container-highest": "#e2e3df",
+                        "on-primary-fixed-variant": "#224f35",
+                        "inverse-on-surface": "#f0f1ed",
+                        "on-surface-variant": "#414942",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#3b684b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#384d17",
+                        "tertiary-fixed": "#ffd9dc",
+                        "surface-container-low": "#f3f4f0",
+                        "secondary-fixed": "#d1eca5",
+                        "on-secondary-fixed": "#121f00",
+                        "on-background": "#1a1c1a",
+                        "tertiary-fixed-dim": "#fbb4bb",
+                        "primary-fixed-dim": "#a1d2af",
+                        "primary": "#386549",
+                        "on-tertiary-container": "#fffbff",
+                        "on-secondary-container": "#536a30",
+                        "on-primary": "#ffffff",
+                        "background": "#f9faf5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-margin": "24px",
+                        "base": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "2xl": "48px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "headline-xl-mobile": ["Geist"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface-bright font-body-md text-on-surface antialiased overflow-hidden">
+<!-- Skip to Content Link for Accessibility -->
+<a class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] bg-primary text-on-primary px-4 py-2 rounded-lg" href="#main-content">Skip to content</a>
+<!-- Sidebar Navigation Landmark -->
+<nav aria-label="Main Navigation" class="fixed left-0 top-0 h-screen w-[280px] z-50 bg-surface-container dark:bg-surface-container-high border-r border-outline-variant shadow-sm flex flex-col py-6 space-y-2 transition-transform lg:translate-x-0" id="sidebar">
+<!-- Logo & Branding -->
+<div class="px-6 pb-6 border-b border-outline-variant/30">
+<div class="flex items-center gap-3">
+<div aria-hidden="true" class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed leading-tight">Savora</h1>
+<p class="text-[11px] font-label-md text-on-surface-variant/70 uppercase tracking-widest">Premium Management</p>
+</div>
+</div>
+<p class="mt-4 font-label-md text-label-md text-on-surface-variant italic">Smart Dining. Simplified.</p>
+</div>
+<!-- Navigation Links (Scrollable Container) -->
+<div class="flex-1 overflow-y-auto px-2 space-y-1 nav-scroll">
+<!-- Active State: Dashboard -->
+<a aria-current="page" class="bg-secondary-container dark:bg-secondary-fixed-dim text-on-secondary-container dark:text-on-secondary-fixed rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors active:scale-95 duration-100 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-md text-label-md">Menu</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">table_restaurant</span>
+<span class="font-label-md text-label-md">Tables</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">soup_kitchen</span>
+<span class="font-label-md text-label-md">Kitchen</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Billing</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">engineering</span>
+<span class="font-label-md text-label-md">Employees</span>
+</a>
+<div class="mx-6 my-4 border-t border-outline-variant/30 pt-4">
+<span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant/50">Insights</span>
+</div>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">event_available</span>
+<span class="font-label-md text-label-md">Reservations</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined text-primary">psychology</span>
+<span class="font-label-md text-label-md">AI Insights</span>
+</a>
+</div>
+<!-- Sidebar Footer -->
+<div class="px-4 mt-auto pt-6 space-y-1">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none" href="#">
+<span aria-hidden="true" class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<div class="mt-4 p-4 bg-primary rounded-xl text-on-primary">
+<p class="font-label-md text-xs opacity-90">Currently on Professional</p>
+<button class="mt-2 w-full bg-white/20 hover:bg-white/30 transition-all py-2 rounded-lg font-label-md text-sm backdrop-blur-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 outline-none">Upgrade Plan</button>
+</div>
+</div>
+</nav>
+<!-- Top Header Landmark -->
+<header class="flex justify-between items-center px-6 h-16 w-full lg:pl-[304px] sticky top-0 z-40 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant shadow-sm">
+<!-- Search & Context Switcher -->
+<div class="flex items-center gap-6">
+<div class="relative w-72 lg:w-96 group">
+<span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+<input aria-label="Search orders, tables, or menu" class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl font-body-sm text-on-surface transition-all outline-none" placeholder="Search orders, tables, or menu..." type="text"/>
+</div>
+<button aria-haspopup="listbox" aria-label="Switch dining area" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-variant/30 hover:bg-surface-variant/50 cursor-pointer transition-all border border-outline-variant/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none">
+<span aria-hidden="true" class="material-symbols-outlined text-primary text-sm">storefront</span>
+<span class="font-label-md text-sm text-on-surface">Main Dining Room</span>
+<span aria-hidden="true" class="material-symbols-outlined text-xs">keyboard_arrow_down</span>
+</button>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<div class="hidden xl:flex flex-col items-end mr-4">
+<span class="font-label-md text-sm text-on-surface leading-tight">October 24, 2023</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Tuesday, 10:42 AM</span>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="You have new notifications" class="hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-full p-2 transition-all relative focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none">
+<span aria-hidden="true" class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button aria-label="Open global settings" class="hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-full p-2 transition-all focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none">
+<span aria-hidden="true" class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant/50 mx-2"></div>
+<button aria-label="Open profile menu" class="flex items-center gap-3 pl-2 group cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none rounded-lg p-1">
+<div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary transition-all">
+<img alt="Elena Rossi, General Manager" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Pn0bk-zrDoDs82Jx-vywf7nH8Oukwn4sVA0GlSK25futaUw0T4SdrcD5mtIo1sZD3EkSLKYR6NlC7adVZMbndr2ltEIvqv1c8FfJI_ETaTLfzMmQEMfUDa9T3HJm3hrranWwn69sQf_JQ2i21V_lPDwQBV1a6PZfJCbJU9CaETaukzWMkygGurTT-_qxnWz3ONbbX_5W_SIn4mndFZketIsFNd3jCjOSvyjTOtamjFT7k4icCQQhD6OdUPR63kjagY8AZ1UN15Y"/>
+</div>
+<div class="hidden sm:block text-left">
+<p class="font-label-md text-sm text-on-surface leading-none">Elena Rossi</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">General Manager</p>
+</div>
+</button>
+</div>
+</header>
+<!-- Main Content Landmark -->
+<main class="lg:pl-[280px] min-h-screen pt-4 pb-12 bg-surface-bright transition-all duration-300" id="main-content">
+<div class="px-gutter md:px-lg lg:px-xl py-6">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 mb-4 text-on-surface-variant/60 font-label-md text-xs uppercase tracking-widest">
+<a class="hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none rounded" href="#">Savora</a>
+<span aria-hidden="true" class="material-symbols-outlined text-sm">chevron_right</span>
+<span aria-current="page" class="text-primary font-bold">Dashboard</span>
+</nav>
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface tracking-tight">Dashboard</h2>
+<p class="font-body-md text-on-surface-variant mt-1">Welcome back, Elena. Here's what's happening at the Dining Room today.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-outline-variant hover:bg-surface-variant/20 transition-all font-label-md text-on-surface focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none">
+<span aria-hidden="true" class="material-symbols-outlined">calendar_today</span>
+<span>Today</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container transition-all shadow-md font-label-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none">
+<span aria-hidden="true" class="material-symbols-outlined">add</span>
+<span>New Booking</span>
+</button>
+</div>
+</div>
+<!-- Dashboard Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-gutter">
+<!-- Stat Card 1 -->
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30">
+<div class="flex justify-between items-start mb-4">
+<div aria-hidden="true" class="w-10 h-10 rounded-lg bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<span aria-label="Increase of 12.4%" class="text-xs font-label-md text-primary" text-primary-container="">+12.4%</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Daily Revenue</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">$4,285.50</h3>
+</div>
+<!-- Stat Card 2 -->
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30">
+<div class="flex justify-between items-start mb-4">
+<div aria-hidden="true" class="w-10 h-10 rounded-lg bg-tertiary-fixed/30 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">event_seat</span>
+</div>
+<span class="text-xs font-label-md text-on-surface-variant">85% Full</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Active Tables</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">32 / 38</h3>
+</div>
+<!-- Stat Card 3 -->
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30">
+<div class="flex justify-between items-start mb-4">
+<div aria-hidden="true" class="w-10 h-10 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<span aria-label="Decrease of 2 minutes" class="text-xs font-label-md text-error">-2m</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Avg. Table Turn</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">54 mins</h3>
+</div>
+<!-- Stat Card 4 -->
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30">
+<div class="flex justify-between items-start mb-4">
+<div aria-hidden="true" class="w-10 h-10 rounded-lg bg-outline-variant/30 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">star</span>
+</div>
+<span class="text-xs font-label-md text-primary">Excellent</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Guest Rating</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">4.9 / 5.0</h3>
+</div>
+</div>
+<!-- Main Content Area - Large Glass Card -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Kitchen Monitor -->
+<section aria-labelledby="kitchen-title" class="lg:col-span-2 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30 overflow-hidden">
+<div class="glass-card px-6 py-4 border-b border-outline-variant/30 flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-on-surface" id="kitchen-title">Kitchen Monitor</h4>
+<a class="text-primary font-label-md hover:underline focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none rounded" href="#">View All Orders</a>
+</div>
+<div class="p-6">
+<!-- Kitchen Loading Skeletons -->
+<div aria-label="Loading active kitchen orders" class="space-y-4" role="status">
+<div class="flex gap-4 p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
+<div class="w-12 h-12 rounded-lg bg-surface-container animate-pulse"></div>
+<div class="flex-1 space-y-2">
+<div class="h-4 w-3/4 bg-surface-container animate-pulse rounded"></div>
+<div class="h-3 w-1/2 bg-surface-container animate-pulse rounded"></div>
+</div>
+<div class="w-20 h-6 bg-secondary-container rounded-full animate-pulse"></div>
+</div>
+<div class="flex gap-4 p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
+<div class="w-12 h-12 rounded-lg bg-surface-container animate-pulse"></div>
+<div class="flex-1 space-y-2">
+<div class="h-4 w-2/3 bg-surface-container animate-pulse rounded"></div>
+<div class="h-3 w-1/4 bg-surface-container animate-pulse rounded"></div>
+</div>
+<div class="w-20 h-6 bg-error-container rounded-full animate-pulse"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Insights Aside Landmark -->
+<aside aria-labelledby="ai-title" class="bg-surface-container-low rounded-2xl border border-outline-variant/30 p-6 flex flex-col">
+<div class="flex items-center gap-2 mb-6">
+<span aria-hidden="true" class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<h4 class="font-headline-md text-headline-md text-on-surface" id="ai-title">AI Insights</h4>
+</div>
+<div class="space-y-4 flex-1">
+<div class="p-4 rounded-xl bg-primary-container text-on-primary-container">
+<p class="font-label-md text-sm mb-1">Peak Demand Prediction</p>
+<p class="font-body-sm opacity-90">Expect a 20% surge in demand between 7:30 PM and 8:45 PM. Consider preparing 15 extra signature steaks.</p>
+</div>
+<div class="p-4 rounded-xl bg-white border border-outline-variant/20 shadow-sm">
+<p class="font-label-md text-sm text-primary mb-1">Inventory Alert</p>
+<p class="font-body-sm text-on-surface-variant">Truffle oil supply is low. Order auto-drafted based on weekend forecasts.</p>
+</div>
+<div class="p-4 rounded-xl bg-white border border-outline-variant/20 shadow-sm">
+<p class="font-label-md text-sm text-tertiary mb-1">Staffing Suggestion</p>
+<p class="font-body-sm text-on-surface-variant">Shift coverage for Patio A is tight. One additional server recommended for the 6 PM block.</p>
+</div>
+</div>
+<button class="mt-6 w-full py-3 rounded-xl border-2 border-primary/20 text-primary hover:bg-primary/5 transition-all font-label-md flex items-center justify-center gap-2 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none">
+                        View Detailed Analysis
+                        <span aria-hidden="true" class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</aside>
+</div>
+</div>
+</main>
+<!-- Scripts -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hover effect for navigation items
+            const navItems = document.querySelectorAll('nav[aria-label="Main Navigation"] a');
+            navItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'translateX(4px)';
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'translateX(0px)';
+                });
+            });
+
+            // Escape key listener for menu closures
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    // Logic to close any open search overlays or mobile menus would go here
+                    // For this shell, we can log the event for future feature expansion
+                    console.log('Escape pressed: Closing overlays');
+                    
+                    // Example: if there were a mobile sidebar open
+                    // const sidebar = document.getElementById('sidebar');
+                    // if (window.innerWidth < 1024) sidebar.classList.add('-translate-x-full');
+                }
+            });
+
+            // Focus trapping simulation for mobile sidebar (pseudo-code/concept)
+            // In a real app, you would use a library like focus-trap
+            const sidebar = document.getElementById('sidebar');
+            const focusableElements = sidebar.querySelectorAll('a, button, input');
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            sidebar.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab' && window.innerWidth < 1024) {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            lastElement.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            firstElement.focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+            });
+
+            // Active state switching simulation
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (item.getAttribute('aria-current') === 'page') return;
+                    
+                    navItems.forEach(i => {
+                        i.className = 'text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none';
+                        i.removeAttribute('aria-current');
+                        const icon = i.querySelector('.material-symbols-outlined');
+                        if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+                    });
+
+                    item.className = 'bg-secondary-container dark:bg-secondary-fixed-dim text-on-secondary-container dark:text-on-secondary-fixed rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-colors active:scale-95 duration-100 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none';
+                    item.setAttribute('aria-current', 'page');
+                    const activeIcon = item.querySelector('.material-symbols-outlined');
+                    if (activeIcon) activeIcon.style.fontVariationSettings = "'FILL' 1";
+                });
+            });
+        });
+    </script>
+</body></html>

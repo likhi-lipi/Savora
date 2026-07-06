@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora POS - Restaurant Table Management</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts: Geist & Inter -->
+<link href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#1d3708",
+                    "secondary-fixed": "#cbedac",
+                    "on-tertiary-fixed": "#001c39",
+                    "on-secondary-fixed": "#0c2000",
+                    "surface-dim": "#0b141d",
+                    "on-tertiary": "#00315d",
+                    "on-surface": "#dae3f0",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-container": "#9ebf82",
+                    "inverse-on-surface": "#28313b",
+                    "tertiary-fixed": "#d4e3ff",
+                    "surface-tint": "#95d5a0",
+                    "on-primary-container": "#00401c",
+                    "surface": "#111827",
+                    "on-primary-fixed-variant": "#105229",
+                    "outline-variant": "#2d363f",
+                    "tertiary-container": "#5ea3f8",
+                    "secondary": "#afd192",
+                    "outline": "#4b5563",
+                    "tertiary-fixed-dim": "#a4c9ff",
+                    "on-secondary-fixed-variant": "#334e1d",
+                    "inverse-surface": "#dae3f0",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed": "#00210b",
+                    "secondary-fixed-dim": "#afd192",
+                    "on-background": "#dae3f0",
+                    "primary-fixed-dim": "#95d5a0",
+                    "primary-fixed": "#b0f2bb",
+                    "tertiary": "#a4c9ff",
+                    "inverse-primary": "#2d6a3f",
+                    "primary-container": "#1e3a24",
+                    "surface-container-high": "#1f2937",
+                    "surface-container": "#111827",
+                    "surface-container-low": "#1a2433",
+                    "error-container": "#93000a",
+                    "on-error": "#690005",
+                    "surface-container-highest": "#2d363f",
+                    "secondary-container": "#1e293b",
+                    "surface-container-lowest": "#060f17",
+                    "background": "#0b141d",
+                    "primary": "#95d5a0",
+                    "on-tertiary-container": "#003868",
+                    "surface-variant": "#1a2433",
+                    "on-tertiary-fixed-variant": "#004883",
+                    "on-surface-variant": "#9ca3af",
+                    "on-primary": "#003918",
+                    "surface-bright": "#1f2937"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "3xl": "64px",
+                    "xs": "4px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "32px",
+                    "2xl": "48px",
+                    "md": "16px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "container-max": "1440px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "headline-sm": ["Geist"],
+                    "code": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "display": ["Geist"],
+                    "body-sm": ["Geist"],
+                    "body-md": ["Geist"],
+                    "headline-lg-mobile": ["Geist"],
+                    "label-md": ["Geist"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "letterSpacing": "0", "fontWeight": "500"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-shadow {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .table-card:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background-color: #1f2937;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hide { display: none; }
+            .visual-layout { display: none; }
+            .list-layout { display: block; }
+        }
+        @media (min-width: 769px) {
+            .list-layout { display: none; }
+            .visual-layout { display: block; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface overflow-hidden">
+<!-- SIDEBAR -->
+<aside class="w-[240px] h-screen fixed left-0 top-0 bg-surface border-r border-outline-variant flex flex-col py-md z-50 transition-transform lg:translate-x-0 -translate-x-full" id="mainSidebar">
+<div class="px-md mb-xl flex justify-between items-center">
+<div>
+<h1 class="text-headline-md font-bold text-primary">Savora POS</h1>
+<p class="text-label-md text-on-surface-variant">Enterprise Admin</p>
+</div>
+<button class="lg:hidden p-xs text-on-surface" onclick="toggleSidebar()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<nav class="flex-1 space-y-1 px-sm overflow-y-auto hide-scrollbar">
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-label-md">Menu</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-primary font-bold bg-primary/10 border-r-4 border-primary transition-all" href="#">
+<span class="material-symbols-outlined">table_restaurant</span>
+<span class="text-label-md">Tables</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="text-label-md">Employees</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-md px-md py-md rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-md mt-auto pt-md border-t border-outline-variant">
+<div class="flex items-center gap-md p-sm rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a restaurant manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApWcAUaskb90voBFLWNxJavfgfeYWcZTNTCIpgz-bTXU_qNnqqE_Gr5gp57GE2o7iISHjLibXehPcCoweF19tFJPZdBAKbmUnnaHXJyo6Y9GpU8fXTyADuRy0O_l9tHQpBvDxKt4qrfYeQQVch-IieXRfpMIp2B1BInu4D35-8gbeAHTSEJhsMlFgk_NbPtw8t1PydLWLSSzPf7hXmDLiLrHStOCIRV2qMLEZ7butUciUasgExU1wYruo7Vu1leN_Stm6XNwUaWKI"/>
+</div>
+<div>
+<p class="text-label-md font-bold">Julian Rossi</p>
+<p class="text-label-md text-on-surface-variant opacity-70">General Manager</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TOP NAVBAR -->
+<header class="fixed top-0 right-0 left-0 lg:left-[240px] h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-md lg:px-xl z-40">
+<div class="flex items-center gap-md flex-1">
+<button class="lg:hidden p-xs text-on-surface" onclick="toggleSidebar()">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative w-full max-w-md mobile-hide lg:block">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-md py-2 bg-surface-container-low border-none rounded-xl text-body-sm text-on-surface placeholder:text-on-surface-variant/50 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search tables, reservations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-sm lg:gap-md">
+<button class="p-base rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="mobile-hide p-base rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-sm mobile-hide lg:block"></div>
+<div class="flex items-center gap-sm bg-primary/10 px-md py-base rounded-full border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(149,213,160,0.6)]"></span>
+<span class="text-label-md font-bold text-primary">LIVE</span>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT -->
+<main class="lg:ml-[240px] mt-16 p-md lg:p-xl h-[calc(100vh-64px)] overflow-y-auto hide-scrollbar flex flex-col xl:flex-row gap-lg lg:gap-xl">
+<div class="flex-1 min-w-0">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg lg:mb-xl">
+<div>
+<h2 class="text-headline-lg font-bold text-on-surface">Restaurant Tables</h2>
+<p class="text-body-md text-on-surface-variant">Manage seating and live table status.</p>
+</div>
+<div class="flex items-center gap-sm">
+<button class="w-full md:w-auto bg-primary text-on-primary px-lg py-md rounded-xl font-bold flex items-center justify-center gap-sm hover:opacity-90 transition-all shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined">add</span>
+<span>Add Table</span>
+</button>
+</div>
+</div>
+<!-- Stats Bar -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-md mb-lg lg:mb-xl">
+<div class="bg-surface-variant p-lg rounded-[18px] border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<p class="text-label-md text-on-surface-variant mb-xs">Available</p>
+<h3 class="text-headline-md text-primary font-bold">14</h3>
+</div>
+<div class="h-8 w-full mt-md">
+<svg class="w-full h-full stroke-primary fill-none stroke-2" viewbox="0 0 100 30">
+<path d="M0,25 Q15,5 30,15 T60,5 T90,20 T100,10"></path>
+</svg>
+</div>
+</div>
+<div class="bg-surface-variant p-lg rounded-[18px] border border-outline-variant/30">
+<p class="text-label-md text-on-surface-variant mb-xs">Occupied</p>
+<h3 class="text-headline-md text-secondary font-bold">28</h3>
+<div class="h-8 w-full mt-md opacity-40">
+<svg class="w-full h-full stroke-secondary fill-none stroke-2" viewbox="0 0 100 30">
+<path d="M0,15 Q25,25 50,15 T100,5"></path>
+</svg>
+</div>
+</div>
+<div class="bg-surface-variant p-lg rounded-[18px] border border-outline-variant/30">
+<p class="text-label-md text-on-surface-variant mb-xs">Reserved</p>
+<h3 class="text-headline-md text-tertiary font-bold">8</h3>
+<div class="h-8 w-full mt-md">
+<svg class="w-full h-full stroke-tertiary opacity-30 fill-none stroke-2" viewbox="0 0 100 30">
+<path d="M0,5 L20,15 L40,10 L60,20 L80,15 L100,25"></path>
+</svg>
+</div>
+</div>
+<div class="bg-surface-variant p-lg rounded-[18px] border border-outline-variant/30">
+<p class="text-label-md text-on-surface-variant mb-xs">Cleaning</p>
+<h3 class="text-headline-md text-tertiary-container font-bold">4</h3>
+<div class="h-8 w-full mt-md">
+<div class="flex gap-1 items-end h-full">
+<div class="bg-tertiary-container/20 w-full h-1/2 rounded-full"></div>
+<div class="bg-tertiary-container/20 w-full h-3/4 rounded-full"></div>
+<div class="bg-tertiary-container/20 w-full h-full rounded-full"></div>
+<div class="bg-tertiary-container/20 w-full h-2/3 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="bg-primary-container p-lg rounded-[18px] border border-primary/20 flex flex-col justify-between">
+<div>
+<p class="text-label-md text-primary-fixed-dim/80 mb-xs font-medium">Occupancy</p>
+<h3 class="text-headline-md text-primary font-bold">78%</h3>
+</div>
+<div class="h-2 w-full bg-white/10 rounded-full mt-md overflow-hidden">
+<div class="h-full bg-primary w-[78%] shadow-[0_0_8px_rgba(149,213,160,0.4)]"></div>
+</div>
+</div>
+</div>
+<!-- Floor & Filters -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-md mb-lg">
+<div class="flex bg-surface-container-low p-xs rounded-2xl border border-outline-variant/30 w-full sm:w-auto overflow-x-auto hide-scrollbar">
+<button class="flex-1 sm:flex-none px-lg py-md rounded-xl text-label-md font-bold transition-all bg-primary/20 text-primary shadow-sm" onclick="switchFloor(this)">Ground</button>
+<button class="flex-1 sm:flex-none px-lg py-md rounded-xl text-label-md font-bold transition-all text-on-surface-variant hover:text-on-surface" onclick="switchFloor(this)">First</button>
+<button class="flex-1 sm:flex-none px-lg py-md rounded-xl text-label-md font-bold transition-all text-on-surface-variant hover:text-on-surface" onclick="switchFloor(this)">Outdoor</button>
+<button class="flex-1 sm:flex-none px-lg py-md rounded-xl text-label-md font-bold transition-all text-on-surface-variant hover:text-on-surface" onclick="switchFloor(this)">VIP</button>
+</div>
+<div class="flex items-center gap-sm w-full sm:w-auto">
+<button class="flex-1 sm:flex-none bg-surface-variant border border-outline-variant/50 px-md py-md rounded-xl text-label-md flex items-center justify-center gap-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+                    Filter
+                </button>
+<button class="flex-1 sm:flex-none bg-surface-variant border border-outline-variant/50 px-md py-md rounded-xl text-label-md flex items-center justify-center gap-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined">sort</span>
+                    Sort
+                </button>
+</div>
+</div>
+<!-- Floor Plan Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-md lg:gap-lg pb-xl" id="floorPlan">
+<!-- Table Card: Occupied -->
+<div class="table-card bg-surface-variant p-lg rounded-[18px] custom-shadow border-l-4 border-l-secondary flex flex-col gap-md cursor-pointer animate-fade-in" onclick="openDrawer('T-12')" style="animation-delay: 0.1s;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-headline-sm font-bold">T-12</span>
+<span class="text-label-md text-on-surface-variant opacity-70">Capacity: 4</span>
+</div>
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-sm py-xs rounded-full text-label-md font-bold">Occupied</span>
+</div>
+<div class="visual-layout flex-1 py-md flex items-center justify-center relative">
+<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-dashed border-outline-variant flex items-center justify-center bg-secondary/5">
+<span class="material-symbols-outlined text-secondary" style="font-size: 32px">group</span>
+</div>
+<!-- Guest Dots -->
+<div class="absolute w-3 h-3 rounded-full bg-secondary top-2 left-1/2 -translate-x-1/2 border-2 border-surface-variant"></div>
+<div class="absolute w-3 h-3 rounded-full bg-secondary bottom-2 left-1/2 -translate-x-1/2 border-2 border-surface-variant"></div>
+<div class="absolute w-3 h-3 rounded-full bg-secondary left-4 top-1/2 -translate-y-1/2 border-2 border-surface-variant"></div>
+<div class="absolute w-3 h-3 rounded-full bg-secondary right-4 top-1/2 -translate-y-1/2 border-2 border-surface-variant"></div>
+</div>
+<div class="list-layout flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary">group</span>
+<span class="text-body-sm text-on-surface-variant">4 guests present</span>
+</div>
+<div class="flex justify-between items-center pt-md border-t border-outline-variant/30">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">schedule</span>
+<span class="text-label-md font-bold">42m</span>
+</div>
+<span class="text-label-md font-bold text-secondary">$124.50</span>
+</div>
+</div>
+<!-- Table Card: Reserved -->
+<div class="table-card bg-surface-variant p-lg rounded-[18px] custom-shadow border-l-4 border-l-tertiary flex flex-col gap-md cursor-pointer animate-fade-in" onclick="openDrawer('T-08')" style="animation-delay: 0.2s;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-headline-sm font-bold">T-08</span>
+<span class="text-label-md text-on-surface-variant opacity-70">Capacity: 2</span>
+</div>
+<span class="bg-tertiary/10 text-tertiary border border-tertiary/20 px-sm py-xs rounded-full text-label-md font-bold">Reserved</span>
+</div>
+<div class="visual-layout flex-1 py-md flex items-center justify-center">
+<div class="w-16 h-16 rounded-xl border-2 border-dashed border-outline-variant flex items-center justify-center bg-tertiary/5">
+<span class="material-symbols-outlined text-tertiary" style="font-size: 32px">event</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-md border-t border-outline-variant/30">
+<span class="text-label-md text-on-surface-variant">Next: 19:30</span>
+<span class="text-label-md font-bold">Smith Party</span>
+</div>
+</div>
+<!-- Table Card: Available -->
+<div class="table-card bg-surface-variant p-lg rounded-[18px] custom-shadow border-l-4 border-l-primary flex flex-col gap-md cursor-pointer animate-fade-in" onclick="openDrawer('T-15')" style="animation-delay: 0.3s;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-headline-sm font-bold">T-15</span>
+<span class="text-label-md text-on-surface-variant opacity-70">Capacity: 6</span>
+</div>
+<span class="bg-primary/10 text-primary border border-primary/20 px-sm py-xs rounded-full text-label-md font-bold">Available</span>
+</div>
+<div class="visual-layout flex-1 py-md flex items-center justify-center">
+<div class="w-32 h-16 rounded-xl border-2 border-dashed border-outline-variant flex items-center justify-center bg-primary/5">
+<span class="material-symbols-outlined text-primary" style="font-size: 32px">check_circle</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-md border-t border-outline-variant/30">
+<span class="text-label-md text-on-surface-variant">Cleaned</span>
+<span class="text-label-md font-bold text-primary">Ready</span>
+</div>
+</div>
+<!-- Table Card: Billing -->
+<div class="table-card bg-surface-variant p-lg rounded-[18px] custom-shadow border-l-4 border-l-tertiary-fixed-dim flex flex-col gap-md cursor-pointer animate-fade-in" onclick="openDrawer('T-04')" style="animation-delay: 0.4s;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-headline-sm font-bold">T-04</span>
+<span class="text-label-md text-on-surface-variant opacity-70">Capacity: 4</span>
+</div>
+<span class="bg-tertiary-fixed-dim/10 text-tertiary-fixed-dim border border-tertiary-fixed-dim/20 px-sm py-xs rounded-full text-label-md font-bold">Billing</span>
+</div>
+<div class="visual-layout flex-1 py-md flex items-center justify-center">
+<div class="w-20 h-20 rounded-xl border-2 border-dashed border-outline-variant flex items-center justify-center bg-tertiary-fixed-dim/5">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-size: 32px">payments</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-md border-t border-outline-variant/30">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">receipt</span>
+</div>
+<span class="text-label-md font-bold text-tertiary-fixed-dim">$382.00</span>
+</div>
+</div>
+<!-- Large Table -->
+<div class="table-card bg-surface-variant p-lg rounded-[18px] custom-shadow border-l-4 border-l-secondary flex flex-col gap-md cursor-pointer animate-fade-in" onclick="openDrawer('L-01')" style="animation-delay: 0.6s;">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="text-headline-sm font-bold">L-01</span>
+<span class="text-label-md text-on-surface-variant opacity-70">Capacity: 10</span>
+</div>
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-sm py-xs rounded-full text-label-md font-bold">Occupied</span>
+</div>
+<div class="visual-layout flex-1 py-md flex items-center justify-center">
+<div class="w-40 h-16 rounded-full border-2 border-dashed border-outline-variant flex items-center justify-center bg-secondary/5">
+<span class="material-symbols-outlined text-secondary" style="font-size: 32px">restaurant</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-md border-t border-outline-variant/30">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">group</span>
+<span class="text-label-md font-bold">8/10</span>
+</div>
+<span class="text-label-md font-bold text-secondary">$640.22</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT QUICK PANEL -->
+<aside class="w-full xl:w-[320px] shrink-0 flex flex-col gap-lg pb-xl lg:pb-0">
+<!-- Today's Occupancy Card -->
+<div class="bg-surface-variant p-lg rounded-[18px] border border-outline-variant/30">
+<div class="flex justify-between items-center mb-md">
+<h4 class="text-headline-sm font-bold">Today's Peak</h4>
+<span class="material-symbols-outlined text-on-surface-variant">trending_up</span>
+</div>
+<div class="relative h-32 w-full flex items-end gap-xs">
+<div class="bg-primary/20 flex-1 h-1/4 rounded-t-sm"></div>
+<div class="bg-primary/20 flex-1 h-1/3 rounded-t-sm"></div>
+<div class="bg-primary/40 flex-1 h-2/3 rounded-t-sm"></div>
+<div class="bg-primary flex-1 h-full rounded-t-sm shadow-[0_0_10px_rgba(149,213,160,0.3)]"></div>
+<div class="bg-primary/40 flex-1 h-3/4 rounded-t-sm"></div>
+<div class="bg-primary/20 flex-1 h-1/2 rounded-t-sm"></div>
+<div class="bg-primary/10 flex-1 h-1/4 rounded-t-sm"></div>
+</div>
+<div class="flex justify-between mt-sm text-label-md text-on-surface-variant opacity-60">
+<span>12pm</span>
+<span>3pm</span>
+<span>8pm</span>
+<span>11pm</span>
+</div>
+</div>
+<!-- Upcoming Reservations -->
+<div class="bg-surface-variant p-lg rounded-[18px] border border-outline-variant/30 flex flex-col overflow-hidden">
+<div class="flex justify-between items-center mb-md">
+<h4 class="text-headline-sm font-bold text-on-surface">Reservations</h4>
+<span class="text-label-md font-bold text-primary cursor-pointer hover:underline">View All</span>
+</div>
+<div class="space-y-md">
+<div class="p-md rounded-xl bg-surface-container-low border border-outline-variant/20 hover:border-primary transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-xs">
+<span class="text-label-md font-bold">Sarah Jenkins</span>
+<span class="text-label-md font-bold text-primary">19:30</span>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant opacity-80">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span class="text-label-md">4 Guests</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">table_restaurant</span>
+<span class="text-label-md">T-12</span>
+</div>
+</div>
+</div>
+<div class="p-md rounded-xl bg-surface-container-low border border-outline-variant/20 hover:border-primary transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-xs">
+<span class="text-label-md font-bold">Michael Chen</span>
+<span class="text-label-md font-bold text-primary">20:15</span>
+</div>
+<div class="flex items-center gap-md text-on-surface-variant opacity-80">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span class="text-label-md">2 Guests</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">table_restaurant</span>
+<span class="text-label-md">T-04</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Cleaning Queue -->
+<div class="bg-tertiary-container/10 p-lg rounded-[18px] border border-tertiary-container/20">
+<div class="flex justify-between items-center mb-md">
+<h4 class="text-label-md font-bold text-tertiary uppercase tracking-widest">Cleaning Queue</h4>
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/30 px-sm py-xs rounded-full text-label-md font-bold">4 Active</span>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between text-body-sm">
+<span class="font-bold">B-02 (Booth)</span>
+<span class="text-on-surface-variant opacity-80">04:12</span>
+</div>
+<div class="flex items-center justify-between text-body-sm opacity-50">
+<span>T-18 (Small)</span>
+<span>Pending</span>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- TABLE DETAILS RIGHT DRAWER -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden transition-opacity duration-300 opacity-0" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="fixed top-0 right-0 h-full w-full max-w-md bg-surface shadow-2xl z-[70] translate-x-full transition-transform duration-300 ease-in-out p-md lg:p-xl flex flex-col border-l border-outline-variant" id="tableDrawer">
+<div class="flex justify-between items-center mb-xl">
+<div class="flex flex-col">
+<h2 class="text-headline-lg font-bold" id="drawerTitle">Table T-12</h2>
+<p class="text-body-md text-on-surface-variant">Floor: Ground · Cap: 4 · Round</p>
+</div>
+<button class="p-md rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant" onclick="closeDrawer()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto space-y-xl hide-scrollbar">
+<!-- Active Status Card -->
+<div class="bg-surface-container-low border border-outline-variant/30 p-lg rounded-2xl">
+<div class="flex justify-between items-center mb-md">
+<span class="text-label-md font-bold text-secondary uppercase tracking-tight">Current Session</span>
+<span class="text-label-md font-bold text-on-surface">42m Active</span>
+</div>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-outline-variant shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Server portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH7Rs50GAyCa0dQvKzLwbfp2lbHWsDGQYNSPbu4t-SOJSkDLI9WLuur9tyWA4812TR_8aNbTSQdO1bRDMORuZj873EFNl-WtIZSGCWiagoLwOloCSakapsjtvibrIjmAHFuzYV1e3rcJuQGGlpOi2zoLF2opPFkq3KfDraWYe3ivwBy3pog3chep6IKvyGvEGJlhYkJMoKGTCIBz4Eex06VwGOhTzhxcj4_eNkF0fJjwF7XGLWaei5FDtFuLv9WBzoIhO_VTT7o-0"/>
+</div>
+<div>
+<p class="text-label-md font-bold">Server: Elena V.</p>
+<p class="text-label-md text-on-surface-variant opacity-70">Assigned 19:12</p>
+</div>
+</div>
+</div>
+<!-- Order Summary -->
+<div>
+<div class="flex justify-between items-center mb-md">
+<h4 class="text-label-md font-bold text-on-surface-variant uppercase tracking-widest">Current Order</h4>
+<span class="text-label-md font-bold text-primary cursor-pointer hover:underline">View Full Order</span>
+</div>
+<div class="space-y-md">
+<div class="flex justify-between">
+<div class="flex flex-col">
+<span class="text-body-md font-bold">Dry-Aged Ribeye</span>
+<span class="text-label-md text-on-surface-variant">Medium Rare, Chimichurri</span>
+</div>
+<span class="text-body-md font-medium">$48.00</span>
+</div>
+<div class="flex justify-between">
+<div class="flex flex-col">
+<span class="text-body-md font-bold">Truffle Risotto</span>
+<span class="text-label-md text-on-surface-variant">Extra Parmesan</span>
+</div>
+<span class="text-body-md font-medium">$32.00</span>
+</div>
+</div>
+<div class="mt-lg pt-lg border-t border-dashed border-outline-variant flex justify-between items-end">
+<span class="text-headline-sm font-bold">Total Bill</span>
+<span class="text-headline-sm font-bold text-primary">$124.50</span>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="grid grid-cols-2 gap-md">
+<button class="flex flex-col items-center justify-center p-md rounded-xl bg-surface-container-low border border-outline-variant/30 hover:bg-surface-container-high transition-all group">
+<span class="material-symbols-outlined text-primary mb-xs group-hover:scale-110 transition-transform">move_item</span>
+<span class="text-label-md">Transfer</span>
+</button>
+<button class="flex flex-col items-center justify-center p-md rounded-xl bg-surface-container-low border border-outline-variant/30 hover:bg-surface-container-high transition-all group">
+<span class="material-symbols-outlined text-primary mb-xs group-hover:scale-110 transition-transform">call_merge</span>
+<span class="text-label-md">Merge</span>
+</button>
+<button class="flex flex-col items-center justify-center p-md rounded-xl bg-surface-container-low border border-outline-variant/30 hover:bg-surface-container-high transition-all group">
+<span class="material-symbols-outlined text-primary mb-xs group-hover:scale-110 transition-transform">print</span>
+<span class="text-label-md">Bill</span>
+</button>
+<button class="flex flex-col items-center justify-center p-md rounded-xl bg-surface-container-low border border-outline-variant/30 hover:bg-surface-container-high transition-all group">
+<span class="material-symbols-outlined text-primary mb-xs group-hover:scale-110 transition-transform">cleaning_services</span>
+<span class="text-label-md">Mark Clean</span>
+</button>
+</div>
+</div>
+<div class="mt-auto pt-xl">
+<button class="w-full bg-primary text-on-primary py-lg rounded-xl font-bold flex items-center justify-center gap-sm hover:opacity-95 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">payments</span>
+            Complete Payment
+        </button>
+</div>
+</div>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('mainSidebar');
+        sidebar.classList.toggle('-translate-x-full');
+    }
+
+    function openDrawer(tableId) {
+        const drawer = document.getElementById('tableDrawer');
+        const overlay = document.getElementById('drawerOverlay');
+        const title = document.getElementById('drawerTitle');
+        
+        title.textContent = `Table ${tableId}`;
+        
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+            overlay.classList.remove('opacity-0');
+            drawer.classList.remove('translate-x-full');
+        }, 10);
+    }
+
+    function closeDrawer() {
+        const drawer = document.getElementById('tableDrawer');
+        const overlay = document.getElementById('drawerOverlay');
+        
+        overlay.classList.add('opacity-0');
+        drawer.classList.add('translate-x-full');
+        
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+        }, 300);
+    }
+
+    function switchFloor(btn) {
+        const container = btn.parentElement;
+        const buttons = container.querySelectorAll('button');
+        
+        buttons.forEach(b => {
+            b.classList.remove('bg-primary/20', 'text-primary', 'shadow-sm');
+            b.classList.add('text-on-surface-variant');
+        });
+        
+        btn.classList.add('bg-primary/20', 'text-primary', 'shadow-sm');
+        btn.classList.remove('text-on-surface-variant');
+
+        const grid = document.getElementById('floorPlan');
+        grid.classList.add('opacity-0');
+        setTimeout(() => {
+            grid.classList.remove('opacity-0');
+        }, 300);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.table-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (window.innerWidth > 1024) card.style.zIndex = '10';
+            });
+            card.addEventListener('mouseleave', () => {
+                if (window.innerWidth > 1024) card.style.zIndex = '1';
+            });
+        });
+    });
+</script>
+</body></html>

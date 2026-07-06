@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Profile - Julian Rossi</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#e7e9e4",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed-variant": "#384d17",
+                    "surface-container": "#edeeea",
+                    "primary-fixed-dim": "#a1d2af",
+                    "on-primary": "#ffffff",
+                    "secondary": "#4f652d",
+                    "surface": "#f9faf5",
+                    "primary-container": "#517e60",
+                    "on-primary-fixed-variant": "#224f35",
+                    "on-primary-container": "#f6fff5",
+                    "surface-variant": "#e2e3df",
+                    "on-surface-variant": "#414942",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#536a30",
+                    "tertiary-fixed": "#ffd9dc",
+                    "surface-container-low": "#f3f4f0",
+                    "inverse-primary": "#a1d2af",
+                    "on-background": "#1a1c1a",
+                    "secondary-container": "#cee9a2",
+                    "inverse-surface": "#2e312e",
+                    "inverse-on-surface": "#f0f1ed",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#121f00",
+                    "surface-bright": "#f9faf5",
+                    "on-tertiary-container": "#fffbff",
+                    "surface-tint": "#3b684b",
+                    "tertiary-fixed-dim": "#fbb4bb",
+                    "on-secondary": "#ffffff",
+                    "background": "#f9faf5",
+                    "tertiary-container": "#a0646b",
+                    "primary-fixed": "#bceeca",
+                    "on-tertiary-fixed-variant": "#6b383e",
+                    "outline": "#717972",
+                    "surface-container-highest": "#e2e3df",
+                    "secondary-fixed-dim": "#b5d08b",
+                    "tertiary": "#834c53",
+                    "on-tertiary-fixed": "#360d15",
+                    "surface-dim": "#d9dad6",
+                    "on-surface": "#1a1c1a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#00210f",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#d1eca5",
+                    "outline-variant": "#c1c9c0",
+                    "primary": "#386549",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "base": "8px",
+                    "md": "16px",
+                    "container-margin": "24px",
+                    "2xl": "48px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "xs": "4px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Geist"],
+                    "headline-xl-mobile": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Geist"],
+                    "headline-md": ["Geist"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F7F4; }
+        .font-geist { font-family: 'Geist', sans-serif; }
+        .glass-header { backdrop-filter: blur(12px); background: rgba(255, 255, 255, 0.7); }
+        .card-shadow { box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04); }
+        .stagger-in { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #386549 !important;
+            box-shadow: 0 0 0 2px rgba(56, 101, 73, 0.1);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Sidebar Layout -->
+<aside class="h-screen w-64 flex-col fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col p-md gap-sm z-50">
+<div class="mb-xl px-sm">
+<h1 class="font-headline-lg text-headline-lg font-black text-primary">Savora</h1>
+<p class="text-label-sm text-on-surface-variant">Downtown Bistro</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-md p-md hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">Floor Map</span>
+</a>
+<a class="flex items-center gap-md p-md hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-md text-label-md">Menu</span>
+</a>
+<a class="flex items-center gap-md p-md hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center gap-md p-md hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Staff</span>
+</a>
+<a class="flex items-center gap-md p-md hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</nav>
+<div class="pt-xl border-t border-outline-variant space-y-1">
+<a class="flex items-center gap-md p-md hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md p-md bg-secondary-container text-on-secondary-container rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- Top Nav Bar -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-lg h-16 w-full bg-surface/80 backdrop-blur-md border-b border-outline-variant card-shadow">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md text-primary font-bold">Profile Settings</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-base rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-base rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">
+                    Save Changes
+                </button>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-xl max-w-7xl mx-auto grid grid-cols-12 gap-xl">
+<!-- Left Column: Profile Overview -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<!-- Profile Card -->
+<section class="bg-surface-container-lowest rounded-xl p-xl card-shadow stagger-in" style="animation-delay: 0.1s;">
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-md">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of Julian Rossi, a middle-aged man with a warm smile and sharp features, wearing a tailored charcoal grey chef's coat. The lighting is soft and cinematic, highlighting his professional yet approachable demeanor. The background is a slightly blurred, high-end bistro kitchen with copper pans and warm ambient light, matching the Savora premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO2jJevbRRQof1TZiaB5ulhXbGmBU-IXqAK5VRFBHf4sOJvLjfSoGH4R86GNs1kv8dujxvvYfuAhA8xNRNiY-iirS_mxdS434lXiASKOXMBr1-glPyojR4JzQ5YcNOk20nxR00IqeJnXG-5M-aE5fdc_uSIBRRIjpz300AmvpDEiGvJq0mjnzgUCiBo299i8zXlcakph7X19UcB924N-YtLbdjs-dL4QYc7xK_RgQvenrRTbidqKTqNfG3CqjOghllzOFQXbdPpYM"/>
+</div>
+<button class="absolute bottom-1 right-1 bg-primary text-on-primary p-xs rounded-full border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+<h2 class="font-headline-md text-headline-md font-bold">Julian Rossi</h2>
+<div class="flex items-center gap-xs mt-xs">
+<span class="bg-secondary-container text-on-secondary-container px-md py-xs rounded-full font-label-sm text-label-sm">Owner</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">ID: SV-88291</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md mt-xl pt-xl border-t border-outline-variant">
+<div class="text-center">
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Orders Managed</p>
+<p class="font-headline-md text-headline-md font-bold text-primary">12,482</p>
+</div>
+<div class="text-center">
+<p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Revenue</p>
+<p class="font-headline-md text-headline-md font-bold text-primary">$412k</p>
+</div>
+</div>
+</section>
+<!-- Activity Timeline -->
+<section class="bg-surface-container-lowest rounded-xl p-xl card-shadow stagger-in" style="animation-delay: 0.2s;">
+<h3 class="font-headline-lg text-headline-lg font-bold mb-xl">Activity Timeline</h3>
+<div class="space-y-xl relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant">
+<div class="relative pl-lg">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center border-4 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[12px] text-white" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+</div>
+<p class="font-label-md text-label-md font-semibold">Updated Dinner Menu</p>
+<p class="text-body-sm text-on-surface-variant">Added 'Braised Short Rib' to specials.</p>
+<p class="text-[11px] text-outline mt-xs uppercase font-bold">2 Hours Ago</p>
+</div>
+<div class="relative pl-lg">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-secondary flex items-center justify-center border-4 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[12px] text-white" style="font-variation-settings: 'FILL' 1;">assessment</span>
+</div>
+<p class="font-label-md text-label-md font-semibold">Generated Q3 Report</p>
+<p class="text-body-sm text-on-surface-variant">Exported labor cost analysis for review.</p>
+<p class="text-[11px] text-outline mt-xs uppercase font-bold">Yesterday, 4:15 PM</p>
+</div>
+<div class="relative pl-lg">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-tertiary flex items-center justify-center border-4 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[12px] text-white" style="font-variation-settings: 'FILL' 1;">person_add</span>
+</div>
+<p class="font-label-md text-label-md font-semibold">Onboarded New Staff</p>
+<p class="text-body-sm text-on-surface-variant">Approved access for 3 new servers.</p>
+<p class="text-[11px] text-outline mt-xs uppercase font-bold">Oct 12, 2023</p>
+</div>
+</div>
+</section>
+<!-- Achievements -->
+<section class="bg-surface-container-lowest rounded-xl p-xl card-shadow stagger-in" style="animation-delay: 0.3s;">
+<h3 class="font-label-md text-label-md font-bold uppercase tracking-widest text-outline mb-md">Achievements</h3>
+<div class="flex flex-wrap gap-md">
+<div class="flex items-center gap-sm bg-surface-container-low px-md py-sm rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-md text-label-md">Top Performer</span>
+</div>
+<div class="flex items-center gap-sm bg-surface-container-low px-md py-sm rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-label-md text-label-md">Fast Service</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Forms & Settings -->
+<div class="col-span-12 lg:col-span-8 space-y-lg">
+<!-- Personal Info Card -->
+<section class="bg-surface-container-lowest rounded-xl overflow-hidden card-shadow stagger-in" style="animation-delay: 0.2s;">
+<div class="p-xl glass-header border-b border-outline-variant">
+<h3 class="font-headline-md text-headline-md font-bold">Personal Information</h3>
+</div>
+<div class="p-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">First Name</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm font-body-md text-body-md" type="text" value="Julian"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Last Name</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm font-body-md text-body-md" type="text" value="Rossi"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Email Address</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm font-body-md text-body-md" type="email" value="j.rossi@savora-bistro.com"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Phone Number</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm font-body-md text-body-md" type="tel" value="+1 (555) 012-3456"/>
+</div>
+<div class="col-span-1 md:col-span-2 space-y-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Bio</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm font-body-md text-body-md" rows="3">Managing Savora with a focus on seasonal excellence and operational efficiency. Over 15 years of culinary management experience.</textarea>
+</div>
+</div>
+</div>
+</section>
+<!-- Security Section -->
+<section class="bg-surface-container-lowest rounded-xl overflow-hidden card-shadow stagger-in" style="animation-delay: 0.3s;">
+<div class="p-xl glass-header border-b border-outline-variant flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md font-bold">Security &amp; Authentication</h3>
+<span class="bg-primary-container text-on-primary-container px-md py-xs rounded-full font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+                            Enhanced Protection Active
+                        </span>
+</div>
+<div class="p-xl space-y-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="space-y-md">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Change Password</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-md py-sm font-body-md text-body-md" id="passInput" placeholder="New Password" type="password"/>
+<!-- Password Strength Meter -->
+<div class="space-y-xs">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span>Security Strength</span>
+<span class="text-primary font-bold" id="strengthText">Strong</span>
+</div>
+<div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden flex gap-xs">
+<div class="h-full bg-primary w-1/4 rounded-full"></div>
+<div class="h-full bg-primary w-1/4 rounded-full"></div>
+<div class="h-full bg-primary w-1/4 rounded-full"></div>
+<div class="h-full bg-surface-variant w-1/4 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center gap-md">
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-xl border border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">phonelink_lock</span>
+<div>
+<p class="font-label-md text-label-md font-bold">Two-Factor Auth</p>
+<p class="text-body-sm text-on-surface-variant">Secure your login</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Active Sessions -->
+<div class="space-y-md pt-lg border-t border-outline-variant">
+<h4 class="font-label-md text-label-md font-bold uppercase tracking-widest text-outline">Active Sessions</h4>
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-md hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">laptop_mac</span>
+<div>
+<p class="font-label-md text-label-md font-semibold">Chrome on macOS Monterey</p>
+<p class="text-body-sm text-on-surface-variant">IP: 192.168.1.14 • Current Session</p>
+</div>
+</div>
+<button class="text-error font-label-sm text-label-sm font-bold hover:underline">Revoke</button>
+</div>
+<div class="flex items-center justify-between p-md hover:bg-surface-container-low rounded-lg transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">tablet_mac</span>
+<div>
+<p class="font-label-md text-label-md font-semibold">Savora POS Terminal #4</p>
+<p class="text-body-sm text-on-surface-variant">IP: 192.168.1.102 • 10 mins ago</p>
+</div>
+</div>
+<button class="text-error font-label-sm text-label-sm font-bold hover:underline">Revoke</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Preferences Card -->
+<section class="bg-surface-container-lowest rounded-xl overflow-hidden card-shadow stagger-in" style="animation-delay: 0.4s;">
+<div class="p-xl glass-header border-b border-outline-variant">
+<h3 class="font-headline-md text-headline-md font-bold">System Preferences</h3>
+</div>
+<div class="p-xl space-y-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md font-bold">Appearance</h4>
+<div class="grid grid-cols-3 gap-md">
+<button class="flex flex-col items-center gap-sm p-sm rounded-lg border-2 border-primary bg-surface-container-low">
+<div class="w-full h-12 bg-white rounded-md border border-outline-variant"></div>
+<span class="text-[11px] font-bold">Light</span>
+</button>
+<button class="flex flex-col items-center gap-sm p-sm rounded-lg border-2 border-transparent hover:border-outline-variant">
+<div class="w-full h-12 bg-gray-800 rounded-md"></div>
+<span class="text-[11px] font-bold">Dark</span>
+</button>
+<button class="flex flex-col items-center gap-sm p-sm rounded-lg border-2 border-transparent hover:border-outline-variant">
+<div class="w-full h-12 bg-gradient-to-br from-white to-gray-800 rounded-md"></div>
+<span class="text-[11px] font-bold">System</span>
+</button>
+</div>
+</div>
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md font-bold">Notifications</h4>
+<div class="space-y-sm">
+<label class="flex items-center gap-md cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Daily Sales Summaries</span>
+</label>
+<label class="flex items-center gap-md cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Inventory Low-Stock Alerts</span>
+</label>
+<label class="flex items-center gap-md cursor-pointer group">
+<input class="w-5 h-5 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">New Staff Applications</span>
+</label>
+</div>
+</div>
+</div>
+<div class="pt-lg border-t border-outline-variant flex justify-end">
+<button class="text-primary font-label-md text-label-md font-bold px-lg py-sm rounded-lg hover:bg-primary-container/10 transition-colors">
+                                Restore Defaults
+                            </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Micro-interactions Script -->
+<script>
+        // Password strength simulation
+        const passInput = document.getElementById('passInput');
+        const strengthText = document.getElementById('strengthText');
+        const meterBars = document.querySelectorAll('.h-full');
+
+        passInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (val.length === 0) {
+                strengthText.innerText = 'None';
+                meterBars.forEach(b => b.className = 'h-full bg-surface-variant w-1/4 rounded-full');
+            } else if (val.length < 6) {
+                strengthText.innerText = 'Weak';
+                strengthText.className = 'text-error font-bold';
+                meterBars[0].className = 'h-full bg-error w-1/4 rounded-full';
+                meterBars[1].className = 'h-full bg-surface-variant w-1/4 rounded-full';
+                meterBars[2].className = 'h-full bg-surface-variant w-1/4 rounded-full';
+            } else if (val.length < 10) {
+                strengthText.innerText = 'Medium';
+                strengthText.className = 'text-secondary font-bold';
+                meterBars[0].className = 'h-full bg-secondary w-1/4 rounded-full';
+                meterBars[1].className = 'h-full bg-secondary w-1/4 rounded-full';
+                meterBars[2].className = 'h-full bg-surface-variant w-1/4 rounded-full';
+            } else {
+                strengthText.innerText = 'Strong';
+                strengthText.className = 'text-primary font-bold';
+                meterBars[0].className = 'h-full bg-primary w-1/4 rounded-full';
+                meterBars[1].className = 'h-full bg-primary w-1/4 rounded-full';
+                meterBars[2].className = 'h-full bg-primary w-1/4 rounded-full';
+            }
+        });
+
+        // Form dirty state simulation
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('change', () => {
+                const saveBtn = document.querySelector('button.bg-primary');
+                saveBtn.classList.add('ring-4', 'ring-primary/20');
+                setTimeout(() => saveBtn.classList.remove('ring-4', 'ring-primary/20'), 1000);
+            });
+        });
+    </script>
+</body></html>

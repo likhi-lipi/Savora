@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Premium Restaurant Operations</title>
+<!-- Google Fonts: Geist & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary-fixed-dim": "#fbb4bb",
+                "on-secondary-fixed": "#121f00",
+                "surface-container-low": "#f3f4f0",
+                "on-tertiary-fixed-variant": "#6b383e",
+                "on-primary-fixed": "#00210f",
+                "secondary-container": "#cee9a2",
+                "secondary": "#4f652d",
+                "error-container": "#ffdad6",
+                "primary-container": "#517e60",
+                "tertiary-container": "#a0646b",
+                "on-secondary-fixed-variant": "#384d17",
+                "surface-container": "#edeeea",
+                "outline-variant": "#c1c9c0",
+                "tertiary": "#834c53",
+                "on-primary-container": "#f6fff5",
+                "surface-variant": "#e2e3df",
+                "on-primary": "#ffffff",
+                "tertiary-fixed": "#ffd9dc",
+                "on-tertiary-fixed": "#360d15",
+                "on-error": "#ffffff",
+                "on-surface-variant": "#414942",
+                "primary-fixed-dim": "#a1d2af",
+                "surface-container-lowest": "#ffffff",
+                "outline": "#717972",
+                "surface-container-high": "#e7e9e4",
+                "on-surface": "#1a1c1a",
+                "error": "#ba1a1a",
+                "on-primary-fixed-variant": "#224f35",
+                "on-tertiary-container": "#fffbff",
+                "on-background": "#1a1c1a",
+                "surface-dim": "#d9dad6",
+                "primary-fixed": "#bceeca",
+                "on-secondary-container": "#536a30",
+                "surface-tint": "#3b684b",
+                "on-secondary": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "on-error-container": "#93000a",
+                "surface-bright": "#f9faf5",
+                "primary": "#386549",
+                "surface": "#f9faf5",
+                "inverse-surface": "#2e312e",
+                "secondary-fixed-dim": "#b5d08b",
+                "background": "#f9faf5",
+                "surface-container-highest": "#e2e3df",
+                "inverse-on-surface": "#f0f1ed",
+                "inverse-primary": "#a1d2af",
+                "secondary-fixed": "#d1eca5"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "xxl": "18px",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-margin": "24px",
+                "md": "16px",
+                "lg": "24px",
+                "gutter": "16px",
+                "2xl": "48px",
+                "xs": "4px",
+                "sm": "8px",
+                "base": "8px",
+                "xl": "32px"
+            },
+            "fontFamily": {
+                "body-sm": ["Inter"],
+                "label-md": ["Geist"],
+                "headline-md": ["Geist"],
+                "headline-xl-mobile": ["Geist"],
+                "headline-xl": ["Geist"],
+                "display-lg": ["Geist"],
+                "body-lg": ["Inter"],
+                "label-sm": ["Geist"],
+                "body-md": ["Inter"],
+                "headline-lg": ["Geist"]
+            },
+            "fontSize": {
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-card {
+            background: rgba(26, 28, 26, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden selection:bg-primary-fixed selection:text-on-primary-fixed">
+<main class="flex min-h-screen">
+<!-- Left Side: Hero Section -->
+<section class="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-2xl overflow-hidden bg-gradient-to-br from-[#5F8D6E] to-[#A4BE7B]">
+<!-- Decorative mesh overlay -->
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-white blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-80 h-80 bg-primary-container blur-[100px] rounded-full"></div>
+</div>
+<div class="relative z-10 animate-fade-in">
+<h1 class="font-headline-lg text-headline-lg font-bold text-white tracking-tight flex items-center gap-sm">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+                    Savora
+                </h1>
+<p class="mt-lg font-display-lg text-display-lg text-white max-w-lg leading-tight">
+                    Smart Dining. Simplified.
+                </p>
+<p class="mt-md font-body-lg text-body-lg text-white/90 max-w-md">
+                    Empowering top-tier hospitality with elegant automation and real-time operational insights.
+                </p>
+</div>
+<!-- Mockup Illustration -->
+<div class="relative z-10 mt-2xl translate-x-12 translate-y-12 animate-fade-in animate-delay-2">
+<div class="glass-card rounded-xl p-md shadow-2xl border-white/30 transform rotate-[-2deg]">
+<img class="w-full h-auto rounded-lg shadow-sm" data-alt="A high-fidelity minimalist dashboard UI for a restaurant management software. The screen displays elegant data visualizations, clean white cards with green accent colors, and a sidebar navigation. The layout is premium SaaS style with soft shadows, organic green hues, and professional typography on a large desktop monitor mockup." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxOLQp-azdEVWbrfRfxSzXU-L3pZHd3syegSGkWzd2cwWmTE3g3wRMTjVI8w8uMe_tbTrGrSQx3hU0MadRQsP9gwNzNnAQ7feUH7ydXgpxhrbJlXTyd3OTlMPh3bqvXPcAKu_1DF6oZ5P_FmBWZ2bVMpptgiCCk49VjmR_ZjCMPkfkozhp-F5ghZsbVmKmbXZb8QtYZUuQ6ic3zorzqfalJSVA7XWzCR24GJ6ytuvE999RSPcJsvQNip3sNNfptmmwjVMc9sfKnUU"/>
+</div>
+<!-- Floating secondary UI element -->
+<div class="absolute -bottom-8 -left-20 glass-card rounded-lg p-sm shadow-xl border-white/20 transform rotate-[3deg] w-64 animate-bounce-slow">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-lg">trending_up</span>
+</div>
+<div>
+<p class="text-xs font-label-sm uppercase tracking-wider text-on-surface-variant">Daily Revenue</p>
+<p class="text-lg font-headline-md text-on-surface">+12.4% <span class="text-sm font-normal text-primary">vs last week</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative z-10 animate-fade-in animate-delay-3">
+<p class="text-white/70 font-body-sm">
+                    © 2024 Savora Systems. Leading the digital culinary revolution.
+                </p>
+</div>
+</section>
+<!-- Right Side: Login Form -->
+<section class="w-full lg:w-1/2 flex items-center justify-center p-md bg-surface-bright dark:bg-surface-dim transition-colors duration-300">
+<div class="w-full max-w-md animate-fade-in">
+<!-- Branding for Mobile only -->
+<div class="lg:hidden mb-xl text-center">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim">
+                        Savora
+                    </h1>
+</div>
+<div class="bg-surface-container-lowest dark:bg-surface-container-low rounded-xxl p-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none border border-outline-variant/30">
+<div class="mb-xl">
+<h2 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Welcome Back</h2>
+<p class="text-on-surface-variant font-body-md mt-xs">Sign in to manage your kitchen.</p>
+</div>
+<form class="space-y-lg" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="space-y-sm">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="email">Email Address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">mail</span>
+<input class="w-full pl-xl pr-md py-md bg-surface-container-high dark:bg-surface-variant/20 border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-outline font-body-md" id="email" placeholder="name@restaurant.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-sm">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
+<a class="text-primary dark:text-primary-fixed-dim font-label-md text-sm hover:underline" href="#">Forgot Password?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full pl-xl pr-2xl py-md bg-surface-container-high dark:bg-surface-variant/20 border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-outline font-body-md" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors focus:outline-none" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined" id="password-toggle-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center gap-sm px-1">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/30 transition-all cursor-pointer" id="remember" type="checkbox"/>
+<label class="text-on-surface-variant font-body-sm cursor-pointer select-none" for="remember">Remember this device for 30 days</label>
+</div>
+<!-- Primary Action -->
+<button class="w-full py-md px-lg bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] flex items-center justify-center gap-sm">
+                            Sign In
+                            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+<div class="relative flex items-center py-sm">
+<div class="flex-grow border-t border-outline-variant"></div>
+<span class="flex-shrink mx-md text-outline font-label-sm uppercase tracking-widest">Or continue with</span>
+<div class="flex-grow border-t border-outline-variant"></div>
+</div>
+<!-- Social Login -->
+<button class="w-full py-md px-lg bg-transparent border border-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant/30 text-on-surface font-label-md text-label-md rounded-xl transition-all flex items-center justify-center gap-sm group">
+<svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                            Google
+                        </button>
+</form>
+<p class="mt-xl text-center font-body-sm text-on-surface-variant">
+                        Don't have an account? 
+                        <a class="text-primary dark:text-primary-fixed-dim font-semibold hover:underline decoration-2 underline-offset-4" href="#">Register</a>
+</p>
+</div>
+<!-- Theme Toggle & Support -->
+<div class="mt-lg flex justify-between items-center px-sm">
+<button class="p-sm rounded-full hover:bg-surface-container transition-colors text-on-surface-variant flex items-center gap-xs" onclick="toggleDarkMode()">
+<span class="material-symbols-outlined text-lg" id="theme-icon">dark_mode</span>
+<span class="font-label-sm">Toggle Theme</span>
+</button>
+<div class="flex gap-md">
+<a class="font-label-sm text-outline hover:text-on-surface-variant transition-colors" href="#">Help Center</a>
+<a class="font-label-sm text-outline hover:text-on-surface-variant transition-colors" href="#">Privacy</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('password-toggle-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = 'visibility';
+            }
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.textContent = 'dark_mode';
+            } else {
+                html.classList.add('dark');
+                themeIcon.textContent = 'light_mode';
+            }
+        }
+
+        // Add subtle interactivity to form fields
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+</body></html>

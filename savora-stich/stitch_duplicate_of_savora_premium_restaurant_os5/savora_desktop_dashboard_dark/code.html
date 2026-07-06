@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora POS | Premium Obsidian Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Scripts -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#6FAE7C",
+                    "on-primary": "#003918",
+                    "primary-container": "#6fae7c",
+                    "on-primary-container": "#00401c",
+                    "background": "#0F1720",
+                    "on-background": "#F3F4F6",
+                    "surface": "#1A2433",
+                    "on-surface": "#F3F4F6",
+                    "surface-variant": "#2D3748",
+                    "on-surface-variant": "#B7C0CC",
+                    "outline": "#2D3748",
+                    "outline-variant": "#2D3748",
+                    "secondary": "#B7C0CC",
+                    "secondary-container": "#2D3748",
+                    "on-secondary-container": "#F3F4F6",
+                    "tertiary": "#a4c9ff",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "on-error": "#690005",
+                    "surface-container-low": "#111827",
+                    "surface-container": "#1A2433",
+                    "surface-container-high": "#222b34",
+                    "surface-container-highest": "#2d363f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "container-margin": "24px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "2xl": "48px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "label-md": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "headline-xl-mobile": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Geist"],
+                    "headline-lg": ["Geist"]
+            },
+            "fontSize": {
+                    "body-lg": ["1.125rem", {"lineHeight": "1.75rem", "fontWeight": "400"}],
+                    "body-md": ["1rem", {"lineHeight": "1.5rem", "fontWeight": "400"}],
+                    "label-sm": ["0.75rem", {"lineHeight": "1rem", "fontWeight": "500"}],
+                    "display-lg": ["clamp(2.5rem, 5vw, 3rem)", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["0.875rem", {"lineHeight": "1.25rem", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-xl": ["clamp(1.75rem, 4vw, 2rem)", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["1.75rem", {"lineHeight": "2.25rem", "fontWeight": "600"}],
+                    "body-sm": ["0.875rem", {"lineHeight": "1.25rem", "fontWeight": "400"}],
+                    "headline-md": ["1.25rem", {"lineHeight": "1.75rem", "fontWeight": "600"}],
+                    "headline-lg": ["1.5rem", {"lineHeight": "2rem", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #0F1720; color: #F3F4F6; min-height: 100vh; }
+        .glass-card {
+            background: rgba(26, 36, 51, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid #2D3748;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2D3748; border-radius: 10px; }
+
+        /* Sidebar transitions */
+        #sidebar { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sidebar-collapsed { width: 80px !important; }
+        .sidebar-collapsed .nav-text, .sidebar-collapsed .logo-subtext { display: none; }
+        .sidebar-collapsed .logo-text { font-size: 1.2rem; }
+        .sidebar-collapsed .nav-link { justify-content: center; padding-left: 0; padding-right: 0; }
+
+        @media (max-width: 1024px) {
+            #sidebar { transform: translateX(-100%); width: 280px !important; }
+            #sidebar.open { transform: translateX(0); }
+            main, header { margin-left: 0 !important; max-width: 100% !important; }
+        }
+
+        canvas { max-width: 100% !important; height: auto !important; }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- MOBILE OVERLAY -->
+<div class="fixed inset-0 bg-black/70 z-[55] hidden lg:hidden" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<!-- SIDEBAR -->
+<aside class="h-screen w-[280px] fixed left-0 top-0 flex flex-col bg-surface-container-low border-r border-outline z-[60]" id="sidebar">
+<div class="flex flex-col gap-stack-sm p-4 lg:p-gutter flex-1 overflow-y-auto">
+<!-- Header/Logo -->
+<div class="px-4 py-8 mb-4 flex items-center justify-between">
+<div>
+<h1 class="logo-text font-display-md text-headline-lg font-bold text-primary whitespace-nowrap">Savora</h1>
+<p class="logo-subtext text-secondary text-sm opacity-70">Enterprise Admin</p>
+</div>
+<button class="hidden lg:flex material-symbols-outlined text-secondary hover:text-primary transition-colors" onclick="toggleSidebarCollapse()">
+                menu_open
+            </button>
+</div>
+<!-- Main Nav -->
+<nav class="space-y-1">
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-primary font-bold bg-primary/10" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="nav-text">Dashboard</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="nav-text">Menu</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">table_restaurant</span>
+<span class="nav-text">Tables</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="nav-text">Orders</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="nav-text">Inventory</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="nav-text">Employees</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="nav-text">Analytics</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="nav-text">Reports</span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="nav-text">Settings</span>
+</a>
+</nav>
+</div>
+<!-- Footer Tab -->
+<div class="p-4 lg:p-gutter border-t border-outline">
+<a class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-secondary hover:bg-surface-variant hover:text-on-surface" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="nav-text">Profile</span>
+</a>
+</div>
+</aside>
+<!-- TOP NAVBAR -->
+<header class="h-16 w-full sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-outline lg:ml-[280px] lg:max-w-[calc(100%-280px)] flex justify-between items-center px-4 md:px-10 transition-all duration-300" id="header">
+<div class="flex items-center gap-4">
+<button class="lg:hidden material-symbols-outlined text-on-surface" onclick="toggleSidebar()">menu</button>
+<div class="hidden md:flex items-center bg-surface rounded-full px-4 py-1.5 w-48 lg:w-96 border border-outline focus-within:border-primary transition-all">
+<span class="material-symbols-outlined text-secondary text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full font-body-md ml-2 text-on-surface placeholder:text-secondary/50" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3 md:gap-6">
+<button class="flex items-center gap-2 bg-primary px-3 md:px-4 py-2 rounded-full text-on-primary font-label-md hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-lg">add</span>
+<span class="hidden sm:inline">Create Order</span>
+</button>
+<div class="flex items-center gap-2 md:gap-4 text-secondary">
+<button class="relative hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0.5 right-0.5 w-2 h-2 bg-error rounded-full border-2 border-background"></span>
+</button>
+<button class="hover:text-primary transition-colors" onclick="document.documentElement.classList.toggle('light'); document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+</div>
+<div class="flex items-center gap-3 pl-2 md:pl-4 border-l border-outline">
+<div class="text-right hidden sm:block">
+<p class="font-label-md text-on-surface text-sm">Alex Savora</p>
+<p class="text-[10px] text-secondary uppercase tracking-tight">Owner</p>
+</div>
+<img alt="Alex Savora Profile" class="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-primary object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6O0Js8OP3WUuemvsvkKGOSA3Zr1k0EbzRC2s2uyEX5a1bbj0u4BQXDpBo0rg1ZhSfYOscEKz6kSJhqQvMKGHGFTZlv1SKEU4j2u1tPbE-ordAqFeFxQZrmAURl9lVBvBunPAMOrY91HKLvw7DxRBEAmDAplMI_l82ZeLSD7J7_fG7o8aXmJmWX5FKDNQa9Tnjt3nxukZK11RXIzhFoik5sZkr91sXrod4nrXRMUkO7qrcSeNXPYPUSWzqttCojWA1Zuud_EZCKn8"/>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT CANVAS -->
+<main class="lg:ml-[280px] p-4 md:p-10 space-y-8 md:space-y-10 transition-all duration-300" id="main-content">
+<!-- Welcome Section -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div class="space-y-1">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Good Morning, Admin 👋</h2>
+<p class="text-secondary font-body-md text-sm md:text-base">Friday, 24 May 2024 • <span class="text-primary font-medium">₹18,450 revenue today</span></p>
+</div>
+<div class="flex gap-2 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-4 py-2 rounded-xl border border-outline text-secondary hover:bg-surface transition-colors flex items-center justify-center gap-2 font-label-md text-xs md:text-sm">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span class="hidden sm:inline">24 Hours</span><span class="sm:hidden">Day</span>
+</button>
+<button class="flex-1 md:flex-none px-4 py-2 rounded-xl border border-outline text-secondary hover:bg-surface transition-colors flex items-center justify-center gap-2 font-label-md text-xs md:text-sm">
+<span class="material-symbols-outlined text-lg">download</span>
+                Export
+            </button>
+</div>
+</section>
+<!-- KPI Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Revenue Card -->
+<div class="bg-surface p-4 lg:p-6 rounded-xl border border-outline hover:border-primary/50 transition-all duration-300 group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary/10 rounded-xl text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-primary font-bold text-sm bg-primary/20 px-2 py-1 rounded-lg">+12%</span>
+</div>
+<p class="text-secondary text-xs font-medium uppercase tracking-wider">Revenue</p>
+<h3 class="font-headline-lg text-headline-lg mt-1 text-on-surface">₹18,450</h3>
+<p class="text-[10px] text-secondary/60 mt-2">vs. ₹16,200 yesterday</p>
+</div>
+<!-- Orders Card -->
+<div class="bg-surface p-4 lg:p-6 rounded-xl border border-outline hover:border-primary/50 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary/10 rounded-xl text-secondary">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<span class="text-secondary font-bold text-sm bg-secondary/20 px-2 py-1 rounded-lg">+8%</span>
+</div>
+<p class="text-secondary text-xs font-medium uppercase tracking-wider">Orders</p>
+<h3 class="font-headline-lg text-headline-lg mt-1 text-on-surface">126</h3>
+<p class="text-[10px] text-secondary/60 mt-2">18 ongoing now</p>
+</div>
+<!-- Customers Card -->
+<div class="bg-surface p-4 lg:p-6 rounded-xl border border-outline hover:border-primary/50 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary/10 rounded-xl text-tertiary">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="text-tertiary font-bold text-sm bg-tertiary/20 px-2 py-1 rounded-lg">+5%</span>
+</div>
+<p class="text-secondary text-xs font-medium uppercase tracking-wider">Customers</p>
+<h3 class="font-headline-lg text-headline-lg mt-1 text-on-surface">84</h3>
+<p class="text-[10px] text-secondary/60 mt-2">24 new memberships</p>
+</div>
+<!-- Occupancy Card -->
+<div class="bg-surface p-4 lg:p-6 rounded-xl border border-outline hover:border-primary/50 transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary/10 rounded-xl text-secondary">
+<span class="material-symbols-outlined">deck</span>
+</div>
+<span class="text-secondary font-bold text-sm bg-secondary/20 px-2 py-1 rounded-lg">Steady</span>
+</div>
+<p class="text-secondary text-xs font-medium uppercase tracking-wider">Occupancy</p>
+<h3 class="font-headline-lg text-headline-lg mt-1 text-on-surface">60%</h3>
+<div class="w-full bg-background h-1.5 rounded-full mt-3 overflow-hidden">
+<div class="bg-primary h-full w-[60%]"></div>
+</div>
+</div>
+</section>
+<!-- Analytics Row -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Revenue Analytics -->
+<div class="lg:col-span-2 bg-surface p-4 md:p-xl rounded-xl border border-outline">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Revenue Analytics</h4>
+<p class="text-xs md:text-sm text-secondary">Trend: +4.2% projected</p>
+</div>
+<div class="flex bg-background rounded-lg p-1 w-full md:w-auto border border-outline">
+<button class="flex-1 md:px-4 py-1.5 text-xs md:text-sm font-label-md rounded-md transition-all text-secondary">Daily</button>
+<button class="flex-1 md:px-4 py-1.5 text-xs md:text-sm font-label-md rounded-md bg-surface border border-outline text-primary shadow-sm transition-all">Weekly</button>
+<button class="flex-1 md:px-4 py-1.5 text-xs md:text-sm font-label-md rounded-md transition-all text-secondary">Monthly</button>
+</div>
+</div>
+<div class="h-[250px] md:h-[300px] w-full">
+<canvas id="revenueChart"></canvas>
+</div>
+</div>
+<!-- Best Selling -->
+<div class="bg-surface p-4 md:p-xl rounded-xl border border-outline">
+<h4 class="font-headline-md text-headline-md mb-6 text-on-surface">Best Sellers</h4>
+<div class="h-[200px] md:h-[240px] w-full flex items-center justify-center relative">
+<canvas id="donutChart"></canvas>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="text-[10px] text-secondary uppercase font-bold tracking-widest">Total</span>
+<span class="text-lg font-bold text-on-surface">1.2k</span>
+</div>
+</div>
+<div class="mt-6 space-y-3">
+<div class="flex justify-between items-center text-xs md:text-sm">
+<span class="flex items-center gap-2 text-secondary"><span class="w-2.5 h-2.5 rounded-full bg-[#6FAE7C]"></span> Butter Chicken</span>
+<span class="font-bold text-on-surface">42%</span>
+</div>
+<div class="flex justify-between items-center text-xs md:text-sm">
+<span class="flex items-center gap-2 text-secondary"><span class="w-2.5 h-2.5 rounded-full bg-[#3D5266]"></span> Paneer Tikka</span>
+<span class="font-bold text-on-surface">28%</span>
+</div>
+<div class="flex justify-between items-center text-xs md:text-sm">
+<span class="flex items-center gap-2 text-secondary"><span class="w-2.5 h-2.5 rounded-full bg-[#2D3748]"></span> Pizza Margherita</span>
+<span class="font-bold text-on-surface">20%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Row -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Sales by Hour -->
+<div class="bg-surface p-4 md:p-xl rounded-xl border border-outline">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-headline-md text-on-surface">Sales by Hour</h4>
+<span class="material-symbols-outlined text-secondary cursor-pointer hover:text-primary">more_horiz</span>
+</div>
+<div class="h-[250px] md:h-[300px]">
+<canvas id="hourChart"></canvas>
+</div>
+</div>
+<!-- Recent Orders -->
+<div class="bg-surface rounded-xl border border-outline flex flex-col overflow-hidden">
+<div class="p-4 md:p-xl border-b border-outline flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-on-surface">Recent Orders</h4>
+<a class="text-primary text-xs md:text-sm font-label-md hover:underline" href="#">View All</a>
+</div>
+<div class="flex-1 overflow-x-auto">
+<table class="hidden md:table w-full text-left border-collapse">
+<thead>
+<tr class="text-[10px] text-secondary uppercase tracking-widest bg-background">
+<th class="p-4 font-semibold">ID</th>
+<th class="p-4 font-semibold">Table</th>
+<th class="p-4 font-semibold">Status</th>
+<th class="p-4 font-semibold">Amount</th>
+<th class="p-4 font-semibold">Time</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline">
+<tr class="hover:bg-background/50 transition-colors">
+<td class="p-4 font-medium text-sm text-on-surface">#ORD-2841</td>
+<td class="p-4 text-sm text-secondary">Table 04</td>
+<td class="p-4"><span class="px-3 py-1 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container">PREPARING</span></td>
+<td class="p-4 font-bold text-sm text-primary">₹1,240</td>
+<td class="p-4 text-[10px] text-secondary">12:45 PM</td>
+</tr>
+<tr class="hover:bg-background/50 transition-colors">
+<td class="p-4 font-medium text-sm text-on-surface">#ORD-2840</td>
+<td class="p-4 text-sm text-secondary">Takeaway</td>
+<td class="p-4"><span class="px-3 py-1 rounded-full text-[10px] font-bold bg-primary/20 text-primary">SERVED</span></td>
+<td class="p-4 font-bold text-sm text-primary">₹450</td>
+<td class="p-4 text-[10px] text-secondary">12:38 PM</td>
+</tr>
+<tr class="hover:bg-background/50 transition-colors">
+<td class="p-4 font-medium text-sm text-on-surface">#ORD-2839</td>
+<td class="p-4 text-sm text-secondary">Table 12</td>
+<td class="p-4"><span class="px-3 py-1 rounded-full text-[10px] font-bold bg-error-container text-error">PENDING</span></td>
+<td class="p-4 font-bold text-sm text-primary">₹2,890</td>
+<td class="p-4 text-[10px] text-secondary">12:30 PM</td>
+</tr>
+</tbody>
+</table>
+<div class="md:hidden divide-y divide-outline">
+<div class="p-4 space-y-2">
+<div class="flex justify-between">
+<span class="font-bold text-sm text-on-surface">#ORD-2841</span>
+<span class="text-[10px] text-secondary">12:45 PM</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">Table 04 • ₹1,240</span>
+<span class="px-3 py-0.5 rounded-full text-[10px] font-bold bg-secondary-container text-on-secondary-container">PREPARING</span>
+</div>
+</div>
+<div class="p-4 space-y-2">
+<div class="flex justify-between">
+<span class="font-bold text-sm text-on-surface">#ORD-2840</span>
+<span class="text-[10px] text-secondary">12:38 PM</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-secondary">Takeaway • ₹450</span>
+<span class="px-3 py-0.5 rounded-full text-[10px] font-bold bg-primary/20 text-primary">SERVED</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Row -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-gutter">
+<!-- Tables Overview -->
+<div class="xl:col-span-5 bg-surface p-4 md:p-xl rounded-xl border border-outline">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-headline-md text-headline-md text-on-surface">Tables Overview</h4>
+<div class="flex gap-2">
+<div class="flex items-center gap-1 text-[10px] uppercase tracking-tighter text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Avail
+                    </div>
+<div class="flex items-center gap-1 text-[10px] uppercase tracking-tighter text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Occu
+                    </div>
+</div>
+</div>
+<div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 xl:grid-cols-5 gap-2 md:gap-3">
+<div class="aspect-square bg-primary/20 rounded-lg md:rounded-xl border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">01</div>
+<div class="aspect-square bg-secondary/10 rounded-lg md:rounded-xl border border-outline flex items-center justify-center text-xs font-bold text-secondary">02</div>
+<div class="aspect-square bg-primary/20 rounded-lg md:rounded-xl border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">03</div>
+<div class="aspect-square bg-tertiary/10 rounded-lg md:rounded-xl border border-tertiary/30 flex items-center justify-center text-xs font-bold text-tertiary">04</div>
+<div class="aspect-square bg-background rounded-lg md:rounded-xl border border-outline flex items-center justify-center opacity-30"></div>
+<div class="aspect-square bg-primary/10 rounded-lg md:rounded-xl border border-primary/20 flex items-center justify-center"></div>
+<div class="aspect-square bg-secondary/10 rounded-lg md:rounded-xl border border-outline flex items-center justify-center"></div>
+<div class="aspect-square bg-secondary/10 rounded-lg md:rounded-xl border border-outline flex items-center justify-center"></div>
+<div class="aspect-square bg-primary/10 rounded-lg md:rounded-xl border border-primary/20 flex items-center justify-center"></div>
+<div class="aspect-square bg-primary/10 rounded-lg md:rounded-xl border border-primary/20 flex items-center justify-center"></div>
+</div>
+</div>
+<!-- AI & Inventory -->
+<div class="xl:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- AI Insights -->
+<div class="glass-card p-4 md:p-xl rounded-xl relative overflow-hidden">
+<div class="absolute -top-4 -right-4 w-20 h-20 bg-primary/10 rounded-full blur-2xl"></div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h4 class="font-label-md uppercase tracking-widest text-primary text-xs md:text-sm">AI Insights</h4>
+</div>
+<div class="space-y-3">
+<div class="p-3 bg-background/50 rounded-xl border border-outline text-xs md:text-sm text-on-surface">
+<p>Burger sales <span class="text-primary">+18%</span>. Recommend dinner combo.</p>
+</div>
+<div class="p-3 bg-background/50 rounded-xl border border-outline text-xs md:text-sm text-on-surface">
+<p>High wait times at T4 &amp; T12 (&gt;15m).</p>
+</div>
+</div>
+<button class="mt-6 w-full py-2 bg-primary text-on-primary rounded-lg font-label-md text-xs hover:opacity-90 transition-colors uppercase tracking-wider">Action Plan</button>
+</div>
+<!-- Inventory Alerts -->
+<div class="bg-surface p-4 md:p-xl rounded-xl border border-outline">
+<h4 class="font-headline-md text-headline-md mb-6 text-on-surface">Inventory Alerts</h4>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 md:gap-3">
+<div class="w-8 h-8 md:w-10 md:h-10 bg-error/10 rounded-lg flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-base md:text-xl">warning</span>
+</div>
+<div><p class="text-xs md:text-sm font-bold text-on-surface">Avocados</p><p class="text-[10px] text-secondary">2 units</p></div>
+</div>
+<span class="text-[9px] font-bold text-error bg-error/10 px-2 py-0.5 rounded uppercase border border-error/20">Critical</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 md:gap-3">
+<div class="w-8 h-8 md:w-10 md:h-10 bg-tertiary/10 rounded-lg flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-base md:text-xl">shopping_cart</span>
+</div>
+<div><p class="text-xs md:text-sm font-bold text-on-surface">Heavy Cream</p><p class="text-[10px] text-secondary">Low (5L)</p></div>
+</div>
+<span class="text-[9px] font-bold text-tertiary bg-tertiary/10 px-2 py-0.5 rounded uppercase border border-tertiary/20">Low</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FLOATING QUICK ACTIONS -->
+<div class="fixed bottom-6 right-4 md:top-20 md:right-6 md:bottom-auto w-14 md:w-72 space-y-gutter z-40" id="quick-actions">
+<div class="hidden md:block bg-surface/90 backdrop-blur-md p-4 lg:p-6 rounded-2xl shadow-2xl border border-outline transition-all hover:border-primary/30">
+<h5 class="font-label-md mb-4 text-on-surface text-sm">Quick Actions</h5>
+<div class="grid grid-cols-2 gap-2">
+<button class="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-primary text-on-primary hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-xl">add_circle</span>
+<span class="text-[9px] font-bold uppercase tracking-tighter">New Order</span>
+</button>
+<button class="flex flex-col items-center gap-1.5 p-3 rounded-xl border border-outline text-on-surface bg-background hover:bg-surface transition-all">
+<span class="material-symbols-outlined text-xl text-primary">payments</span>
+<span class="text-[9px] font-bold uppercase tracking-tighter">Settlement</span>
+</button>
+</div>
+</div>
+<button class="md:hidden w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center border-4 border-background" onclick="toggleQuickActions()">
+<span class="material-symbols-outlined">bolt</span>
+</button>
+</div>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('hidden');
+    }
+
+    function toggleSidebarCollapse() {
+        const sidebar = document.getElementById('sidebar');
+        const main = document.getElementById('main-content');
+        const header = document.getElementById('header');
+        sidebar.classList.toggle('sidebar-collapsed');
+        
+        if (sidebar.classList.contains('sidebar-collapsed')) {
+            main.style.marginLeft = '80px';
+            header.style.marginLeft = '80px';
+            header.style.maxWidth = 'calc(100% - 80px)';
+        } else {
+            main.style.marginLeft = '280px';
+            header.style.marginLeft = '280px';
+            header.style.maxWidth = 'calc(100% - 280px)';
+        }
+    }
+
+    function toggleQuickActions() {
+        alert("Quick Actions: New Order, Settlement, Inventory Check");
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const chartConfig = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+        };
+
+        const gridStyles = {
+            y: { display: false },
+            x: { 
+                grid: { display: false }, 
+                ticks: { color: '#B7C0CC', font: { size: 10, family: 'Inter' } } 
+            }
+        };
+
+        // Revenue Chart
+        const revCtx = document.getElementById('revenueChart').getContext('2d');
+        const gradient = revCtx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(110, 174, 124, 0.4)');
+        gradient.addColorStop(1, 'rgba(110, 174, 124, 0)');
+
+        new Chart(revCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [12000, 15000, 11000, 18450, 22000, 28000, 24000],
+                    borderColor: '#6FAE7C',
+                    backgroundColor: gradient,
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#6FAE7C'
+                }]
+            },
+            options: { ...chartConfig, scales: gridStyles }
+        });
+
+        // Donut Chart
+        const donutCtx = document.getElementById('donutChart').getContext('2d');
+        new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Butter Chicken', 'Paneer Tikka', 'Pizza'],
+                datasets: [{
+                    data: [42, 28, 30],
+                    backgroundColor: ['#6FAE7C', '#3D5266', '#2D3748'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: { cutout: '80%', plugins: { legend: { display: false } } }
+        });
+
+        // Hour Sales Chart
+        const hourCtx = document.getElementById('hourChart').getContext('2d');
+        new Chart(hourCtx, {
+            type: 'bar',
+            data: {
+                labels: ['11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p'],
+                datasets: [{
+                    data: [12, 45, 88, 65, 30, 25, 40, 75, 120, 145],
+                    backgroundColor: '#6FAE7C',
+                    hoverBackgroundColor: '#8BC34A',
+                    borderRadius: 6
+                }]
+            },
+            options: { ...chartConfig, scales: gridStyles }
+        });
+    });
+</script>
+</body></html>

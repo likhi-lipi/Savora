@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Premium Restaurant Management</title>
+<!-- Google Fonts: Geist & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Framer Motion -->
+<script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar for sidebar navigation */
+        .nav-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .nav-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .nav-scroll::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+        
+        /* Smooth transition for sidebar layout shifts */
+        .sidebar-transition {
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Hide text when sidebar is collapsed */
+        .sidebar-collapsed .nav-label,
+        .sidebar-collapsed .logo-text,
+        .sidebar-collapsed .sidebar-footer-text {
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f9faf5",
+                        "surface-container": "#edeeea",
+                        "on-tertiary-fixed": "#360d15",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#00210f",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2e312e",
+                        "tertiary": "#834c53",
+                        "on-tertiary-fixed-variant": "#6b383e",
+                        "surface": "#f9faf5",
+                        "inverse-primary": "#a1d2af",
+                        "tertiary-container": "#a0646b",
+                        "secondary-container": "#cee9a2",
+                        "secondary-fixed-dim": "#b5d08b",
+                        "primary-container": "#517e60",
+                        "surface-container-high": "#e7e9e4",
+                        "secondary": "#4f652d",
+                        "on-primary-container": "#f6fff5",
+                        "outline-variant": "#c1c9c0",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e2e3df",
+                        "outline": "#717972",
+                        "surface-dim": "#d9dad6",
+                        "primary-fixed": "#bceeca",
+                        "surface-container-highest": "#e2e3df",
+                        "on-primary-fixed-variant": "#224f35",
+                        "inverse-on-surface": "#f0f1ed",
+                        "on-surface-variant": "#414942",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#3b684b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#384d17",
+                        "tertiary-fixed": "#ffd9dc",
+                        "surface-container-low": "#f3f4f0",
+                        "secondary-fixed": "#d1eca5",
+                        "on-secondary-fixed": "#121f00",
+                        "on-background": "#1a1c1a",
+                        "tertiary-fixed-dim": "#fbb4bb",
+                        "primary-fixed-dim": "#a1d2af",
+                        "primary": "#386549",
+                        "on-tertiary-container": "#fffbff",
+                        "on-secondary-container": "#536a30",
+                        "on-primary": "#ffffff",
+                        "background": "#f9faf5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-margin": "24px",
+                        "base": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "2xl": "48px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "headline-xl-mobile": ["Geist"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface-bright font-body-md text-on-surface antialiased overflow-x-hidden">
+<!-- Sidebar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] z-50 bg-surface-container dark:bg-surface-container-high border-r border-outline-variant shadow-sm flex flex-col py-6 space-y-2 sidebar-transition group/sidebar overflow-hidden" id="sidebar">
+<!-- Logo & Branding -->
+<div class="px-6 pb-6 border-b border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="w-10 h-10 min-w-[40px] rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-lg group-hover/sidebar:shadow-primary/20 transition-shadow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div class="logo-text transition-all duration-300">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed leading-tight whitespace-nowrap">Savora</h1>
+<p class="text-[11px] font-label-md text-on-surface-variant/70 uppercase tracking-widest whitespace-nowrap">Premium Management</p>
+</div>
+</div>
+<button class="p-1.5 rounded-lg hover:bg-surface-variant/50 transition-colors" id="sidebarToggle">
+<span class="material-symbols-outlined text-on-surface-variant">menu_open</span>
+</button>
+</div>
+<!-- Navigation Links (Scrollable Container) -->
+<nav class="flex-1 overflow-y-auto px-2 space-y-1 nav-scroll py-4 relative">
+<!-- Active Indicator (Sliding Background) -->
+<div class="absolute left-4 w-[calc(100%-32px)] h-10 bg-secondary-container dark:bg-secondary-fixed-dim rounded-lg transition-all duration-300 ease-out z-0 opacity-0 pointer-events-none" id="active-indicator"></div>
+<!-- Navigation Items -->
+<div class="space-y-1" id="nav-items-container">
+<a class="nav-item relative z-10 text-on-secondary-container dark:text-on-secondary-fixed rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" data-active="true" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">Dashboard</span>
+</a>
+<a class="nav-item relative z-10 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110">restaurant_menu</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">Menu</span>
+</a>
+<a class="nav-item relative z-10 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110">receipt_long</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">Orders</span>
+</a>
+<a class="nav-item relative z-10 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110">table_restaurant</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">Tables</span>
+</a>
+<a class="nav-item relative z-10 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110">soup_kitchen</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">Kitchen</span>
+</a>
+<div class="mx-6 my-4 border-t border-outline-variant/30 pt-4 logo-text">
+<span class="text-[10px] uppercase tracking-wider font-bold text-on-surface-variant/50">Insights</span>
+</div>
+<a class="nav-item relative z-10 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110">analytics</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">Analytics</span>
+</a>
+<a class="nav-item relative z-10 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110">description</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">Reports</span>
+</a>
+<a class="nav-item relative z-10 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg mx-2 px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[2px] active:scale-95 group/nav" href="#">
+<span class="material-symbols-outlined transition-transform group-hover/nav:scale-110 text-primary">psychology</span>
+<span class="font-label-md text-label-md nav-label transition-opacity duration-300 whitespace-nowrap">AI Insights</span>
+</a>
+</div>
+</nav>
+<!-- Sidebar Footer -->
+<div class="px-4 mt-auto pt-6 space-y-1">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-lg px-4 py-2 flex items-center gap-3 transition-all hover:-translate-y-[1px]" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md sidebar-footer-text transition-opacity duration-300">Settings</span>
+</a>
+<div class="mt-4 p-4 bg-primary rounded-xl text-on-primary shadow-lg overflow-hidden relative group/plan">
+<div class="relative z-10">
+<p class="font-label-md text-xs opacity-90 sidebar-footer-text transition-opacity duration-300">Currently on Professional</p>
+<button class="mt-2 w-full bg-white/20 hover:bg-white/30 transition-all py-2 rounded-lg font-label-md text-sm backdrop-blur-sm active:scale-95">Upgrade Plan</button>
+</div>
+<div class="absolute -right-4 -bottom-4 w-20 h-20 bg-white/10 rounded-full blur-2xl group-hover/plan:scale-150 transition-transform duration-700"></div>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Shell -->
+<header class="flex justify-between items-center px-6 h-16 w-full lg:pl-[304px] sticky top-0 z-40 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant shadow-sm transition-all duration-400" id="topbar">
+<!-- Search & Context Switcher -->
+<div class="flex items-center gap-6">
+<div class="relative group" id="search-container">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors z-10">search</span>
+<input class="w-72 lg:w-96 pl-10 pr-4 py-2 bg-surface-container-low border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl font-body-sm text-on-surface transition-all duration-300" id="global-search" placeholder="Search orders, tables, or menu..." type="text"/>
+</div>
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-variant/30 hover:bg-surface-variant/50 cursor-pointer transition-all border border-outline-variant/30 hover:shadow-sm">
+<span class="material-symbols-outlined text-primary text-sm">storefront</span>
+<span class="font-label-md text-sm text-on-surface">Main Dining Room</span>
+<span class="material-symbols-outlined text-xs">keyboard_arrow_down</span>
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<div class="hidden xl:flex flex-col items-end mr-4 animate-fade-in">
+<span class="font-label-md text-sm text-on-surface leading-tight">October 24, 2023</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Tuesday, 10:42 AM</span>
+</div>
+<div class="flex items-center gap-1">
+<!-- Notifications Dropdown -->
+<div class="relative dropdown-container">
+<button class="hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-full p-2 transition-all relative active:scale-90" id="notifyBtn">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<!-- Floating Dropdown (hidden) -->
+<div class="absolute right-0 mt-2 w-64 bg-white dark:bg-surface-container-high rounded-2xl shadow-xl border border-outline-variant/30 p-4 opacity-0 scale-95 pointer-events-none transition-all duration-200 origin-top-right z-50" id="notifyDropdown">
+<p class="font-label-md text-sm border-b pb-2 mb-2">Notifications</p>
+<div class="space-y-2">
+<div class="text-xs p-2 hover:bg-surface-variant/20 rounded-lg cursor-pointer">Table 4 requested check</div>
+<div class="text-xs p-2 hover:bg-surface-variant/20 rounded-lg cursor-pointer">Low inventory: Truffle Oil</div>
+</div>
+</div>
+</div>
+<button class="hover:bg-surface-variant/50 dark:hover:bg-surface-variant/20 rounded-full p-2 transition-all active:scale-90">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant/50 mx-2"></div>
+<!-- Profile Dropdown -->
+<div class="relative dropdown-container">
+<div class="flex items-center gap-3 pl-2 group cursor-pointer active:scale-95 transition-transform" id="profileBtn">
+<div class="w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary/20 group-hover:ring-primary transition-all">
+<img alt="Elena Rossi" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Pn0bk-zrDoDs82Jx-vywf7nH8Oukwn4sVA0GlSK25futaUw0T4SdrcD5mtIo1sZD3EkSLKYR6NlC7adVZMbndr2ltEIvqv1c8FfJI_ETaTLfzMmQEMfUDa9T3HJm3hrranWwn69sQf_JQ2i21V_lPDwQBV1a6PZfJCbJU9CaETaukzWMkygGurTT-_qxnWz3ONbbX_5W_SIn4mndFZketIsFNd3jCjOSvyjTOtamjFT7k4icCQQhD6OdUPR63kjagY8AZ1UN15Y"/>
+</div>
+<div class="hidden sm:block">
+<p class="font-label-md text-sm text-on-surface leading-none group-hover:text-primary transition-colors">Elena Rossi</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">General Manager</p>
+</div>
+</div>
+<!-- Profile Menu (hidden) -->
+<div class="absolute right-0 mt-2 w-48 bg-white dark:bg-surface-container-high rounded-2xl shadow-xl border border-outline-variant/30 py-2 opacity-0 scale-95 pointer-events-none transition-all duration-200 origin-top-right z-50" id="profileDropdown">
+<a class="block px-4 py-2 text-sm hover:bg-surface-variant/20" href="#">Your Profile</a>
+<a class="block px-4 py-2 text-sm hover:bg-surface-variant/20 text-error" href="#">Logout</a>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="lg:pl-[280px] min-h-screen pt-4 pb-12 bg-surface-bright transition-all duration-400" id="main-content">
+<!-- Global Page Transition Wrapper -->
+<div class="opacity-0 translate-y-5 transition-all duration-700 ease-out" id="page-wrapper">
+<div class="px-gutter md:px-lg lg:px-xl py-6">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-4 text-on-surface-variant/60 font-label-md text-xs uppercase tracking-widest">
+<span>Savora</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary font-bold">Dashboard</span>
+</nav>
+<header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface tracking-tight">Dashboard</h2>
+<p class="font-body-md text-on-surface-variant mt-1">Welcome back, Elena. Here's what's happening at the Dining Room today.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-outline-variant hover:bg-surface-variant/20 hover:-translate-y-1 transition-all font-label-md text-on-surface active:scale-95">
+<span class="material-symbols-outlined">calendar_today</span>
+<span>Today</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container hover:-translate-y-1 transition-all shadow-md font-label-md active:scale-95">
+<span class="material-symbols-outlined">add</span>
+<span>New Booking</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content (Bento Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-gutter">
+<!-- Stat Cards with hover lift -->
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30 transition-all hover:-translate-y-1 hover:shadow-xl group/card">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/30 flex items-center justify-center text-secondary transition-colors group-hover/card:bg-secondary group-hover/card:text-white">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<span class="text-xs font-label-md text-primary">+12.4%</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Daily Revenue</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">$4,285.50</h3>
+</div>
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30 transition-all hover:-translate-y-1 hover:shadow-xl group/card">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed/30 flex items-center justify-center text-tertiary transition-colors group-hover/card:bg-tertiary group-hover/card:text-white">
+<span class="material-symbols-outlined">event_seat</span>
+</div>
+<span class="text-xs font-label-md text-on-surface-variant">85% Full</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Active Tables</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">32 / 38</h3>
+</div>
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30 transition-all hover:-translate-y-1 hover:shadow-xl group/card">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary transition-colors group-hover/card:bg-primary group-hover/card:text-white">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<span class="text-xs font-label-md text-error">-2m</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Avg. Table Turn</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">54 mins</h3>
+</div>
+<div class="white-card p-6 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] bg-white border border-outline-variant/30 transition-all hover:-translate-y-1 hover:shadow-xl group/card">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-lg bg-outline-variant/30 flex items-center justify-center text-on-surface-variant transition-colors group-hover/card:bg-on-surface-variant group-hover/card:text-white">
+<span class="material-symbols-outlined">star</span>
+</div>
+<span class="text-xs font-label-md text-primary">Excellent</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-xs uppercase tracking-wider">Guest Rating</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mt-1">4.9 / 5.0</h3>
+</div>
+</div>
+<!-- Main Content Area - Large Glass Card -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Kitchen Monitor -->
+<div class="lg:col-span-2 bg-white rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30 overflow-hidden transition-all hover:shadow-lg">
+<div class="glass-card px-6 py-4 border-b border-outline-variant/30 flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-on-surface">Kitchen Monitor</h4>
+<button class="text-primary font-label-md hover:underline transition-all active:scale-95">View All Orders</button>
+</div>
+<div class="p-6">
+<div class="space-y-4">
+<div class="flex gap-4 p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/20 hover:border-primary/30 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container animate-pulse"></div>
+<div class="flex-1 space-y-2">
+<div class="h-4 w-3/4 bg-surface-container animate-pulse rounded"></div>
+<div class="h-3 w-1/2 bg-surface-container animate-pulse rounded"></div>
+</div>
+<div class="w-20 h-6 bg-secondary-container rounded-full animate-pulse"></div>
+</div>
+<div class="flex gap-4 p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/20 hover:border-primary/30 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container animate-pulse"></div>
+<div class="flex-1 space-y-2">
+<div class="h-4 w-2/3 bg-surface-container animate-pulse rounded"></div>
+<div class="h-3 w-1/4 bg-surface-container animate-pulse rounded"></div>
+</div>
+<div class="w-20 h-6 bg-error-container rounded-full animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Insights Side Panel -->
+<div class="bg-surface-container-low rounded-2xl border border-outline-variant/30 p-6 flex flex-col transition-all hover:shadow-lg">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary animate-bounce-slow" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<h4 class="font-headline-md text-headline-md text-on-surface">AI Insights</h4>
+</div>
+<div class="space-y-4 flex-1">
+<div class="p-4 rounded-xl bg-primary-container text-on-primary-container hover:-translate-y-1 transition-all cursor-default">
+<p class="font-label-md text-sm mb-1">Peak Demand Prediction</p>
+<p class="font-body-sm opacity-90">Expect a 20% surge in demand between 7:30 PM and 8:45 PM. Consider preparing 15 extra signature steaks.</p>
+</div>
+<div class="p-4 rounded-xl bg-white border border-outline-variant/20 shadow-sm hover:-translate-y-1 transition-all cursor-default">
+<p class="font-label-md text-sm text-primary mb-1">Inventory Alert</p>
+<p class="font-body-sm text-on-surface-variant">Truffle oil supply is low. Order auto-drafted based on weekend forecasts.</p>
+</div>
+<div class="p-4 rounded-xl bg-white border border-outline-variant/20 shadow-sm hover:-translate-y-1 transition-all cursor-default">
+<p class="font-label-md text-sm text-tertiary mb-1">Staffing Suggestion</p>
+<p class="font-body-sm text-on-surface-variant">Shift coverage for Patio A is tight. One additional server recommended for the 6 PM block.</p>
+</div>
+</div>
+<button class="mt-6 w-full py-3 rounded-xl border-2 border-primary/20 text-primary hover:bg-primary/5 transition-all font-label-md flex items-center justify-center gap-2 active:scale-95 group/btn">
+                            View Detailed Analysis
+                            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const topbar = document.getElementById('topbar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const activeIndicator = document.getElementById('active-indicator');
+            const navItems = document.querySelectorAll('.nav-item');
+            const pageWrapper = document.getElementById('page-wrapper');
+            const globalSearch = document.getElementById('global-search');
+            
+            // 1. Initial Page Entrance Animation
+            setTimeout(() => {
+                pageWrapper.style.opacity = '1';
+                pageWrapper.style.transform = 'translateY(0)';
+            }, 100);
+
+            // 2. Sidebar Collapse/Expand Logic
+            let isSidebarCollapsed = false;
+            sidebarToggle.addEventListener('click', () => {
+                isSidebarCollapsed = !isSidebarCollapsed;
+                if (isSidebarCollapsed) {
+                    sidebar.classList.add('sidebar-collapsed');
+                    sidebar.style.width = '84px';
+                    mainContent.style.paddingLeft = '84px';
+                    topbar.style.paddingLeft = '100px';
+                    sidebarToggle.querySelector('.material-symbols-outlined').textContent = 'menu';
+                } else {
+                    sidebar.classList.remove('sidebar-collapsed');
+                    sidebar.style.width = '280px';
+                    mainContent.style.paddingLeft = '280px';
+                    topbar.style.paddingLeft = '304px';
+                    sidebarToggle.querySelector('.material-symbols-outlined').textContent = 'menu_open';
+                }
+                updateActiveIndicator();
+            });
+
+            // 3. Staggered Menu Item Animation simulation
+            navItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-10px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 100 + (index * 40));
+            });
+
+            // 4. Active Indicator Sliding Logic
+            function updateActiveIndicator() {
+                const activeItem = document.querySelector('.nav-item[data-active="true"]');
+                if (activeItem) {
+                    activeIndicator.style.opacity = '1';
+                    activeIndicator.style.top = `${activeItem.offsetTop}px`;
+                    activeIndicator.style.height = `${activeItem.offsetHeight}px`;
+                }
+            }
+
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navItems.forEach(i => {
+                        i.removeAttribute('data-active');
+                        i.classList.remove('text-on-secondary-container', 'dark:text-on-secondary-fixed');
+                        i.classList.add('text-on-surface-variant', 'dark:text-on-surface-variant');
+                        const icon = i.querySelector('.material-symbols-outlined');
+                        if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+                    });
+
+                    item.setAttribute('data-active', 'true');
+                    item.classList.remove('text-on-surface-variant', 'dark:text-on-surface-variant');
+                    item.classList.add('text-on-secondary-container', 'dark:text-on-secondary-fixed');
+                    const activeIcon = item.querySelector('.material-symbols-outlined');
+                    if (activeIcon) activeIcon.style.fontVariationSettings = "'FILL' 1";
+                    
+                    updateActiveIndicator();
+                });
+            });
+
+            // Initialize indicator position
+            setTimeout(updateActiveIndicator, 500);
+
+            // 5. Search Bar Expansion
+            globalSearch.addEventListener('focus', () => {
+                if (window.innerWidth >= 1024) {
+                    globalSearch.style.width = '120%';
+                }
+            });
+            globalSearch.addEventListener('blur', () => {
+                if (window.innerWidth >= 1024) {
+                    globalSearch.style.width = '384px'; // 96rem equivalent
+                }
+            });
+
+            // 6. Dropdown Toggles (Notification & Profile)
+            function setupDropdown(btnId, dropdownId) {
+                const btn = document.getElementById(btnId);
+                const dropdown = document.getElementById(dropdownId);
+                
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = !dropdown.classList.contains('pointer-events-none');
+                    
+                    // Close others
+                    document.querySelectorAll('.dropdown-container > div').forEach(d => {
+                        d.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                    });
+
+                    if (!isOpen) {
+                        dropdown.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                    }
+                });
+            }
+
+            setupDropdown('notifyBtn', 'notifyDropdown');
+            setupDropdown('profileBtn', 'profileDropdown');
+
+            window.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-container > div').forEach(d => {
+                    d.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                });
+            });
+        });
+
+        // Bounce Animation Helper
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes bounce-slow {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-3px); }
+            }
+            .animate-bounce-slow {
+                animation: bounce-slow 2s ease-in-out infinite;
+            }
+            @keyframes fade-in {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            .animate-fade-in {
+                animation: fade-in 0.6s ease-out forwards;
+            }
+        `;
+        document.head.append(style);
+    </script>
+</body></html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora POS - Design System Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#fffbff",
+                        "primary-container": "#517e60",
+                        "surface-container": "#e6eeff",
+                        "surface-variant": "#d9e3f6",
+                        "primary-fixed": "#bceeca",
+                        "on-tertiary-fixed": "#360d15",
+                        "tertiary-fixed-dim": "#fbb4bb",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#121c2a",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#414942",
+                        "on-primary-fixed": "#00210f",
+                        "tertiary-container": "#a0646b",
+                        "secondary": "#38684a",
+                        "surface-container-high": "#dee9fc",
+                        "on-secondary-container": "#3e6e4f",
+                        "inverse-primary": "#a1d2af",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#00210f",
+                        "surface-tint": "#3b684b",
+                        "primary": "#386549",
+                        "secondary-fixed-dim": "#9ed3ad",
+                        "inverse-surface": "#27313f",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed": "#b9efc8",
+                        "tertiary-fixed": "#ffd9dc",
+                        "secondary-container": "#b9efc8",
+                        "outline-variant": "#c1c9c0",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#121c2a",
+                        "surface-dim": "#d0dbed",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#a1d2af",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary-fixed-variant": "#224f35",
+                        "on-primary-container": "#f6fff5",
+                        "tertiary": "#834c53",
+                        "on-secondary-fixed-variant": "#1f5033",
+                        "outline": "#717972",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed-variant": "#6b383e",
+                        "surface-container-highest": "#d9e3f6",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "unit": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "container-margin": "24px",
+                        "2xl": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "headline-sm": ["Geist"],
+                        "display-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["11px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "label-md": ["13px", {"lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-sm": ["18px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Geist', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-item-active {
+            @apply text-primary font-bold border-r-4 border-primary bg-secondary-container/10;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar -->
+<nav class="w-[240px] h-screen fixed left-0 top-0 border-r border-outline-variant bg-surface flex flex-col py-md z-50">
+<div class="px-md mb-xl">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Savora POS</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">Design System v1.0</p>
+</div>
+<div class="flex-1 overflow-y-auto px-sm space-y-unit">
+<a class="flex items-center gap-sm p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#typography">
+<span class="material-symbols-outlined">text_fields</span>
+<span class="text-label-md font-label-md">Typography &amp; Colors</span>
+</a>
+<a class="flex items-center gap-sm p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#buttons">
+<span class="material-symbols-outlined">smart_button</span>
+<span class="text-label-md font-label-md">Buttons &amp; Actions</span>
+</a>
+<a class="flex items-center gap-sm p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#forms">
+<span class="material-symbols-outlined">input</span>
+<span class="text-label-md font-label-md">Form Elements</span>
+</a>
+<a class="flex items-center gap-sm p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#data">
+<span class="material-symbols-outlined">dashboard_customize</span>
+<span class="text-label-md font-label-md">Data Display</span>
+</a>
+<a class="flex items-center gap-sm p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#navigation">
+<span class="material-symbols-outlined">segment</span>
+<span class="text-label-md font-label-md">Navigation</span>
+</a>
+<a class="flex items-center gap-sm p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#feedback">
+<span class="material-symbols-outlined">notification_important</span>
+<span class="text-label-md font-label-md">Feedback &amp; Overlays</span>
+</a>
+<a class="flex items-center gap-sm p-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#charts">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-label-md font-label-md">Charts &amp; Analytics</span>
+</a>
+</div>
+<div class="px-md mt-auto pt-md border-t border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a high-end restaurant manager in a minimalist black uniform, set against a soft grey background with professional three-point lighting that emphasizes clarity and authority, maintaining the clean Savora POS brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvTBYFU_r2brvRlCq1XdlohJQggG4WIM9hQoCy3K6o48DX1jt0_nXfsLMBv7NdD71TbR9Ox5FZQwB6G2Vxix9Ibsxgp3KVIGSEx2tt9gUUwH3LAioXmxdMX8knghRx0S2iHSMM7C061h8eysOWrmZ-Ji8fBdSfy2JpsaB2QhOyiEzF4BrON2MFbXOlnaa1SMrAL_7MbGT0-4VWL5j0UhKkaRVCwCrBt5Fc_oS2sfm1zmuEjfFHmYx1sXao1ovKew7MWZHBkpwszHE"/>
+</div>
+<div>
+<p class="text-label-md font-label-md font-bold">Admin User</p>
+<p class="text-label-sm font-label-sm opacity-70">Enterprise</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="flex justify-between items-center h-16 px-xl ml-[240px] w-[calc(100%-240px)] sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-md bg-surface-container-low px-md py-xs rounded-full border border-outline-variant w-96">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full" placeholder="Search components..." type="text"/>
+<span class="text-[10px] font-mono text-outline border border-outline-variant px-1 rounded">⌘K</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors relative">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[240px] p-xl max-w-7xl">
+<!-- Header Section -->
+<section class="mb-2xl">
+<h2 class="text-display-lg font-display-lg text-on-background mb-sm">Component Library</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl">
+                The visual foundation for the Savora ecosystem. Built with precision, focused on clarity, and designed for high-performance hospitality environments.
+            </p>
+</section>
+<!-- Typography & Colors -->
+<section class="mb-2xl scroll-mt-24" id="typography">
+<div class="flex items-center gap-md mb-lg">
+<h3 class="text-headline-md font-headline-md">Typography &amp; Colors</h3>
+<div class="h-px flex-1 bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-xl">
+<!-- Typography Scale -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant">
+<div class="space-y-lg">
+<div>
+<p class="text-label-sm font-label-sm text-outline mb-xs">Display Large (Geist 48/1.1)</p>
+<h4 class="text-display-lg font-display-lg">The Savora Experience</h4>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-outline mb-xs">Headline Medium (Geist 24/1.3)</p>
+<h4 class="text-headline-md font-headline-md">Operational Excellence</h4>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-outline mb-xs">Body Large (Geist 16/1.6)</p>
+<p class="text-body-lg font-body-lg">Modern POS systems require clarity and speed above all else.</p>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-outline mb-xs">Label Medium (Inter 13/1.0)</p>
+<p class="text-label-md font-label-md">ACTIVE ORDER QUEUE</p>
+</div>
+</div>
+</div>
+<!-- Color Palette -->
+<div class="grid grid-cols-2 gap-md">
+<div class="space-y-sm">
+<p class="text-label-md font-label-md mb-xs">Primary Branding</p>
+<div class="h-16 rounded-lg bg-primary flex items-end p-sm"><span class="text-white text-label-sm">Primary</span></div>
+<div class="h-16 rounded-lg bg-secondary flex items-end p-sm"><span class="text-white text-label-sm">Secondary</span></div>
+<div class="h-16 rounded-lg bg-primary-container flex items-end p-sm"><span class="text-white text-label-sm">Primary Container</span></div>
+</div>
+<div class="space-y-sm">
+<p class="text-label-md font-label-md mb-xs">Semantic &amp; Neutral</p>
+<div class="h-16 rounded-lg bg-error flex items-end p-sm"><span class="text-white text-label-sm">Error</span></div>
+<div class="h-16 rounded-lg bg-tertiary flex items-end p-sm"><span class="text-white text-label-sm">Tertiary</span></div>
+<div class="h-16 rounded-lg bg-surface-container-highest flex items-end p-sm"><span class="text-on-surface text-label-sm">Surface High</span></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Buttons & Actions -->
+<section class="mb-2xl scroll-mt-24" id="buttons">
+<div class="flex items-center gap-md mb-lg">
+<h3 class="text-headline-md font-headline-md">Buttons &amp; Actions</h3>
+<div class="h-px flex-1 bg-outline-variant"></div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-label-md font-label-md text-outline uppercase tracking-wider">
+<th class="pb-md">Style</th>
+<th class="pb-md">Default</th>
+<th class="pb-md">Hover</th>
+<th class="pb-md">Active / Loading</th>
+<th class="pb-md">Disabled</th>
+</tr>
+</thead>
+<tbody class="space-y-lg">
+<tr class="border-t border-outline-variant">
+<td class="py-md text-label-md font-label-md">Primary</td>
+<td><button class="bg-primary text-white px-lg py-sm rounded shadow-sm hover:opacity-90 transition-all font-body-md">Primary Action</button></td>
+<td><button class="bg-primary text-white px-lg py-sm rounded shadow-md opacity-90 transition-all font-body-md">Hover State</button></td>
+<td>
+<button class="bg-primary text-white px-lg py-sm rounded opacity-80 flex items-center gap-sm font-body-md">
+<span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                    Loading
+                                </button>
+</td>
+<td><button class="bg-outline-variant text-on-surface-variant/50 px-lg py-sm rounded cursor-not-allowed font-body-md" disabled="">Disabled</button></td>
+</tr>
+<tr class="border-t border-outline-variant">
+<td class="py-md text-label-md font-label-md">Secondary</td>
+<td><button class="border border-primary text-primary px-lg py-sm rounded hover:bg-secondary-container/10 transition-all font-body-md">Secondary</button></td>
+<td><button class="border border-primary text-primary px-lg py-sm rounded bg-secondary-container/20 transition-all font-body-md">Hover State</button></td>
+<td><button class="border border-primary text-primary px-lg py-sm rounded bg-secondary-container/30 transition-all font-body-md">Clicked</button></td>
+<td><button class="border border-outline-variant text-outline-variant px-lg py-sm rounded cursor-not-allowed font-body-md" disabled="">Disabled</button></td>
+</tr>
+<tr class="border-t border-outline-variant">
+<td class="py-md text-label-md font-label-md">Ghost / Icon</td>
+<td><button class="text-primary hover:bg-surface-container px-md py-sm rounded-lg transition-all flex items-center gap-xs font-body-md"><span class="material-symbols-outlined">add</span> Ghost</button></td>
+<td><button class="text-primary bg-surface-container px-md py-sm rounded-lg transition-all flex items-center gap-xs font-body-md"><span class="material-symbols-outlined">add</span> Hover</button></td>
+<td><button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white"><span class="material-symbols-outlined">send</span></button></td>
+<td><button class="text-outline-variant flex items-center gap-xs font-body-md" disabled=""><span class="material-symbols-outlined">block</span> Disabled</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Form Elements -->
+<section class="mb-2xl scroll-mt-24" id="forms">
+<div class="flex items-center gap-md mb-lg">
+<h3 class="text-headline-md font-headline-md">Form Elements</h3>
+<div class="h-px flex-1 bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<div class="space-y-lg bg-surface-container-lowest p-lg rounded-xl border border-outline-variant">
+<h4 class="text-label-md font-label-md text-outline uppercase">Text Inputs</h4>
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-on-surface">Standard Input</label>
+<input class="w-full px-md py-sm rounded border border-outline-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-body-md" placeholder="Enter value..." type="text"/>
+</div>
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-on-surface">With Icon &amp; Prefix</label>
+<div class="relative flex items-center">
+<span class="absolute left-md text-outline material-symbols-outlined">attach_money</span>
+<input class="w-full pl-xl pr-md py-sm rounded border border-outline-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-body-md" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-error">Error State</label>
+<input class="w-full px-md py-sm rounded border border-error focus:ring-2 focus:ring-error/20 outline-none text-body-md" type="text" value="Invalid entry"/>
+<p class="text-label-sm font-label-sm text-error">This field is required for validation.</p>
+</div>
+</div>
+<div class="space-y-lg bg-surface-container-lowest p-lg rounded-xl border border-outline-variant">
+<h4 class="text-label-md font-label-md text-outline uppercase">Selection Controls</h4>
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-md">
+<input checked="" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-body-md">Checkbox Active</span>
+</div>
+<div class="flex items-center gap-md">
+<input checked="" class="w-5 h-5 border-outline-variant text-primary focus:ring-primary/20" name="system-radio" type="radio"/>
+<span class="text-body-md">Radio Active</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-md bg-surface-container-low rounded-lg">
+<span class="text-body-md">System Notifications</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="space-y-sm">
+<label class="text-label-md font-label-md text-on-surface">Dropdown Select</label>
+<select class="w-full px-md py-sm rounded border border-outline-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-body-md bg-white">
+<option>Main Dining Room</option>
+<option>Bar Area</option>
+<option>Patio Seating</option>
+</select>
+</div>
+</div>
+</div>
+</section>
+<!-- Data Display -->
+<section class="mb-2xl scroll-mt-24" id="data">
+<div class="flex items-center gap-md mb-lg">
+<h3 class="text-headline-md font-headline-md">Data Display</h3>
+<div class="h-px flex-1 bg-outline-variant"></div>
+</div>
+<div class="bento-grid">
+<!-- Data Card -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 bg-secondary-container/30 text-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<span class="px-sm py-1 bg-primary/10 text-primary text-label-sm rounded-full font-bold">+12.5%</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-outline">Net Revenue</p>
+<h4 class="text-headline-lg font-headline-lg">$12,480.00</h4>
+</div>
+<div class="pt-md border-t border-outline-variant flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline">Updated 5m ago</span>
+<button class="text-primary text-label-md font-bold">View Report</button>
+</div>
+</div>
+<!-- Status Chips & Badges -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant flex flex-col gap-lg">
+<h4 class="text-label-md font-label-md text-outline uppercase">Status &amp; Labels</h4>
+<div class="flex flex-wrap gap-sm">
+<div class="flex items-center gap-xs px-sm py-1 bg-primary/10 text-primary text-label-md rounded-lg font-bold border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Ready
+                        </div>
+<div class="flex items-center gap-xs px-sm py-1 bg-tertiary/10 text-tertiary text-label-md rounded-lg font-bold border border-tertiary/20">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> In Progress
+                        </div>
+<div class="flex items-center gap-xs px-sm py-1 bg-error/10 text-error text-label-md rounded-lg font-bold border border-error/20">
+<span class="w-2 h-2 rounded-full bg-error"></span> Delayed
+                        </div>
+</div>
+<div class="flex gap-md items-center">
+<span class="relative inline-flex items-center p-2 text-on-surface-variant bg-surface-container rounded-full">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-error text-[10px] font-bold text-white">4</span>
+</span>
+<span class="px-md py-1 bg-outline-variant/20 text-on-surface-variant text-label-sm rounded-full">BETA</span>
+</div>
+</div>
+<!-- Table Preview -->
+<div class="md:col-span-2 lg:col-span-1 bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden">
+<div class="px-lg py-md border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h4 class="text-label-md font-label-md font-bold">Recent Orders</h4>
+<button class="text-primary text-label-sm"><span class="material-symbols-outlined align-sub">filter_list</span> Filter</button>
+</div>
+<table class="w-full text-left text-body-md">
+<tbody><tr class="border-b border-outline-variant hover:bg-surface-container transition-colors">
+<td class="p-md font-medium">#1024</td>
+<td class="p-md">Table 04</td>
+<td class="p-md text-primary font-bold">$42.50</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container transition-colors">
+<td class="p-md font-medium">#1025</td>
+<td class="p-md">Bar 02</td>
+<td class="p-md text-primary font-bold">$18.00</td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="p-md font-medium">#1026</td>
+<td class="p-md">Table 11</td>
+<td class="p-md text-primary font-bold">$104.20</td>
+</tr>
+</tbody></table>
+<div class="p-md border-t border-outline-variant flex justify-between items-center text-label-sm text-outline">
+<span>Showing 3 of 150</span>
+<div class="flex gap-xs">
+<button class="w-6 h-6 border border-outline-variant rounded flex items-center justify-center hover:bg-surface-container"><span class="material-symbols-outlined text-[16px]">chevron_left</span></button>
+<button class="w-6 h-6 border border-outline-variant rounded flex items-center justify-center hover:bg-surface-container"><span class="material-symbols-outlined text-[16px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Navigation -->
+<section class="mb-2xl scroll-mt-24" id="navigation">
+<div class="flex items-center gap-md mb-lg">
+<h3 class="text-headline-md font-headline-md">Navigation</h3>
+<div class="h-px flex-1 bg-outline-variant"></div>
+</div>
+<div class="space-y-xl">
+<!-- Tabs and Breadcrumbs -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant space-y-lg">
+<h4 class="text-label-md font-label-md text-outline uppercase">Breadcrumbs</h4>
+<nav class="flex items-center gap-xs text-label-md font-label-md">
+<a class="text-primary" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-outline text-[16px]">chevron_right</span>
+<a class="text-primary" href="#">Inventory</a>
+<span class="material-symbols-outlined text-outline text-[16px]">chevron_right</span>
+<span class="text-on-surface-variant">Stock Adjustment</span>
+</nav>
+<h4 class="text-label-md font-label-md text-outline uppercase mt-xl">Pill Navigation</h4>
+<div class="flex gap-xs bg-surface-container-low p-1 rounded-lg">
+<button class="flex-1 py-1.5 px-md rounded-md bg-white shadow-sm text-primary font-bold text-label-md">Daily</button>
+<button class="flex-1 py-1.5 px-md rounded-md text-on-surface-variant text-label-md hover:bg-surface-container-high transition-colors">Weekly</button>
+<button class="flex-1 py-1.5 px-md rounded-md text-on-surface-variant text-label-md hover:bg-surface-container-high transition-colors">Monthly</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant space-y-lg">
+<h4 class="text-label-md font-label-md text-outline uppercase">Underline Tabs</h4>
+<div class="flex border-b border-outline-variant">
+<button class="px-md py-sm border-b-2 border-primary text-primary font-bold text-label-md">Active Tab</button>
+<button class="px-md py-sm text-on-surface-variant text-label-md hover:text-primary transition-colors">Inactive Tab</button>
+<button class="px-md py-sm text-on-surface-variant text-label-md hover:text-primary transition-colors">Settings</button>
+</div>
+<h4 class="text-label-md font-label-md text-outline uppercase mt-xl">Accordion</h4>
+<div class="border border-outline-variant rounded-lg overflow-hidden">
+<button class="w-full flex justify-between items-center p-md bg-surface-container-low hover:bg-surface-container transition-colors">
+<span class="font-bold text-body-md">System Specifications</span>
+<span class="material-symbols-outlined">expand_less</span>
+</button>
+<div class="p-md text-body-md text-on-surface-variant border-t border-outline-variant">
+                                Details about the Savora POS architecture and hardware requirements for peak efficiency in kitchen environments.
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Feedback & Overlays -->
+<section class="mb-2xl scroll-mt-24" id="feedback">
+<div class="flex items-center gap-md mb-lg">
+<h3 class="text-headline-md font-headline-md">Feedback &amp; Overlays</h3>
+<div class="h-px flex-1 bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<!-- Toast Preview -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant relative h-64 overflow-hidden">
+<h4 class="text-label-md font-label-md text-outline uppercase mb-lg">Toast Notifications</h4>
+<div class="absolute bottom-md right-md left-md bg-inverse-surface text-inverse-on-surface p-md rounded-lg shadow-xl flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary-fixed">check_circle</span>
+<span class="text-label-md">Order #1204 synced successfully</span>
+</div>
+<button class="text-label-sm font-bold text-primary-fixed">UNDO</button>
+</div>
+</div>
+<!-- Skeleton States -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant space-y-md">
+<h4 class="text-label-md font-label-md text-outline uppercase mb-lg">Loading States</h4>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full skeleton"></div>
+<div class="flex-1 space-y-2">
+<div class="h-4 w-3/4 rounded skeleton"></div>
+<div class="h-3 w-1/2 rounded skeleton opacity-50"></div>
+</div>
+</div>
+<div class="h-24 w-full rounded-lg skeleton"></div>
+</div>
+<!-- Empty State -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant flex flex-col items-center justify-center text-center py-xl">
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-outline text-[40px]">query_stats</span>
+</div>
+<h5 class="font-bold text-body-lg">No data available</h5>
+<p class="text-label-md text-outline px-md mt-xs">Select a date range to view your analytics performance metrics.</p>
+</div>
+</div>
+</section>
+<!-- Charts -->
+<section class="mb-2xl scroll-mt-24" id="charts">
+<div class="flex items-center gap-md mb-lg">
+<h3 class="text-headline-md font-headline-md">Charts &amp; Analytics Style</h3>
+<div class="h-px flex-1 bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-xl">
+<!-- Bar Chart Preview -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-xl">
+<h4 class="text-label-md font-label-md font-bold uppercase">Weekly Revenue</h4>
+<span class="text-label-sm font-label-sm text-outline">Aug 14 - Aug 21</span>
+</div>
+<div class="h-48 flex items-end justify-between gap-md px-md">
+<div class="w-full bg-primary-container/20 rounded-t-sm h-[40%] transition-all hover:bg-primary-container relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">$4.2k</div>
+</div>
+<div class="w-full bg-primary-container/20 rounded-t-sm h-[65%] transition-all hover:bg-primary-container"></div>
+<div class="w-full bg-primary rounded-t-sm h-[85%] transition-all hover:opacity-80"></div>
+<div class="w-full bg-primary-container/20 rounded-t-sm h-[55%] transition-all hover:bg-primary-container"></div>
+<div class="w-full bg-primary-container/20 rounded-t-sm h-[70%] transition-all hover:bg-primary-container"></div>
+<div class="w-full bg-primary-container/20 rounded-t-sm h-[95%] transition-all hover:bg-primary-container"></div>
+<div class="w-full bg-primary-container/20 rounded-t-sm h-[45%] transition-all hover:bg-primary-container"></div>
+</div>
+<div class="flex justify-between mt-sm px-md text-label-sm text-outline font-mono">
+<span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+</div>
+</div>
+<!-- Detailed Analytics Card -->
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-lg">
+<h4 class="text-label-md font-label-md font-bold uppercase">System Health</h4>
+<div class="flex gap-sm">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+</div>
+</div>
+<div class="space-y-lg">
+<div class="flex justify-between items-center">
+<div class="space-y-1">
+<p class="text-label-sm text-outline">Sync Latency</p>
+<p class="text-headline-sm font-headline-sm">42ms</p>
+</div>
+<div class="h-10 w-24 overflow-hidden">
+<svg class="w-full h-full" viewbox="0 0 100 30">
+<path d="M0,25 Q10,10 20,20 T40,15 T60,25 T80,5 T100,20" fill="none" stroke="#386549" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<div class="flex justify-between items-center border-t border-outline-variant pt-lg">
+<div class="space-y-1">
+<p class="text-label-sm text-outline">Active Terminals</p>
+<p class="text-headline-sm font-headline-sm">18 / 20</p>
+</div>
+<div class="h-10 w-24 overflow-hidden">
+<svg class="w-full h-full" viewbox="0 0 100 30">
+<path d="M0,20 Q20,20 40,20 T60,20 T80,20 T100,20" fill="none" stroke="#834c53" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Modal Trigger Preview (Invisible trigger for logic demonstration) -->
+<div class="fixed inset-0 z-[100] bg-on-surface/40 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="modal-backdrop">
+<div class="bg-surface-container-lowest w-full max-w-md rounded-xl shadow-2xl overflow-hidden scale-95 transition-transform duration-300" id="modal-content">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm">Update Confirmation</h3>
+<button class="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center" onclick="toggleModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-lg text-body-md text-on-surface-variant">
+                Are you sure you want to deploy these changes to the production environment? This will affect all active terminals in the restaurant.
+            </div>
+<div class="p-lg bg-surface-container-low flex justify-end gap-md">
+<button class="px-lg py-sm text-on-surface-variant font-bold" onclick="toggleModal()">Cancel</button>
+<button class="px-lg py-sm bg-primary text-white rounded font-bold shadow-sm">Confirm Deployment</button>
+</div>
+</div>
+</div>
+<!-- Floating Action Button for Modal Demo -->
+<button class="fixed bottom-xl right-xl w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform z-50" onclick="toggleModal()">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+<script>
+        function toggleModal() {
+            const backdrop = document.getElementById('modal-backdrop');
+            const content = document.getElementById('modal-content');
+            
+            if (backdrop.classList.contains('opacity-0')) {
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+                backdrop.classList.add('opacity-100');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            } else {
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+                backdrop.classList.remove('opacity-100');
+                content.classList.add('scale-95');
+                content.classList.remove('scale-100');
+            }
+        }
+
+        // Sidebar active state logic
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('nav a').forEach(l => l.classList.remove('bg-secondary-container/10', 'text-primary', 'font-bold', 'border-r-4', 'border-primary'));
+                this.classList.add('bg-secondary-container/10', 'text-primary', 'font-bold', 'border-r-4', 'border-primary');
+            });
+        });
+
+        // Initialize first link as active
+        document.querySelector('nav a').classList.add('bg-secondary-container/10', 'text-primary', 'font-bold', 'border-r-4', 'border-primary');
+    </script>
+</body></html>

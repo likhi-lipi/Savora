@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Audience Segments CRM</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#00210f",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#546256",
+                    "on-secondary-container": "#58665b",
+                    "on-background": "#151c27",
+                    "tertiary-fixed": "#dbe5d6",
+                    "primary-fixed-dim": "#a1d2af",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#517e60",
+                    "primary-fixed": "#bceeca",
+                    "secondary-fixed": "#d7e6d8",
+                    "surface-container": "#e7eefe",
+                    "on-tertiary-container": "#f7fff1",
+                    "surface-bright": "#f9f9ff",
+                    "background": "#f9f9ff",
+                    "on-tertiary-fixed-variant": "#40493e",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3d4a3f",
+                    "surface-container-high": "#e2e8f8",
+                    "surface": "#f9f9ff",
+                    "surface-variant": "#dce2f3",
+                    "tertiary": "#555f53",
+                    "outline-variant": "#c1c9c0",
+                    "surface-container-highest": "#dce2f3",
+                    "on-surface": "#151c27",
+                    "primary": "#386549",
+                    "surface-tint": "#3b684b",
+                    "outline": "#717972",
+                    "inverse-primary": "#a1d2af",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#d3daea",
+                    "on-secondary-fixed": "#121e15",
+                    "tertiary-container": "#6e776b",
+                    "inverse-on-surface": "#ebf1ff",
+                    "on-tertiary-fixed": "#151e14",
+                    "inverse-surface": "#2a313d",
+                    "surface-container-low": "#f0f3ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#bbcabc",
+                    "tertiary-fixed-dim": "#bfc9bb",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#f6fff5",
+                    "on-primary-fixed-variant": "#224f35",
+                    "secondary-container": "#d5e4d5",
+                    "on-surface-variant": "#414942"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "element-gap": "12px",
+                    "container-padding": "32px",
+                    "message-inset": "16px",
+                    "sidebar-width": "280px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display": ["Inter"],
+                    "mono-label": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "mono-label": ["11px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAF5; /* Per Style Guidance Level 0 */
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar (Authority: JSON & Style Guidance) -->
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-bright border-r border-outline-variant flex flex-col py-6 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">restaurant_menu</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Marketing Hub</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Premium SaaS</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-200" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span class="font-label-sm text-label-sm">Campaigns</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-sm text-label-sm">Automations</span>
+</a>
+<!-- Active State Logic (JSON Mapping: Segments) -->
+<a class="flex items-center gap-3 px-6 py-3 text-primary bg-primary-container/10 border-r-4 border-primary font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-sm text-label-sm">Segments</span>
+</a>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-label-sm text-label-sm font-semibold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Campaign
+            </button>
+<div class="pt-6 border-t border-outline-variant">
+<a class="flex items-center gap-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-sm text-label-sm">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-sidebar-width min-h-screen">
+<!-- TopAppBar (Authority: JSON & Design System) -->
+<header class="fixed top-0 right-0 left-sidebar-width h-16 bg-surface px-container-padding flex justify-between items-center z-40 border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md focus:ring-1 focus:ring-primary transition-all" placeholder="Search customers or segments..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">help</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3 cursor-pointer">
+<img class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/20" data-alt="A professional headshot of a restaurant manager with a friendly expression, set against a blurred background of a modern, high-end bistro with sage green accents. The lighting is soft and professional, emphasizing a clean and efficient aesthetic consistent with a premium SaaS marketing hub." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzwo9W1RV8mgrv5fnIOvq9aRaNMmLpu8ACABhsctF4R5iyMNvxqEA67tipYgae10UL97KDM2HZRbQWreICOuvz2giwunUWhBCdel-AoPF51QwixfQHURGt_6rE8gv-BrgoRCNE671sEPAtQGGqJv85Qw_lj2at6pAu-0BvUnN5gRbXU0IacMcFyB2KTO45YriTwyWbtX1gpw0vAAiyCowgt8FKjRzdJS-6nSASSNvbtNLWUCFSHVY8gdGD5hI6iMAAxprr-UJBasg"/>
+<div class="hidden lg:block">
+<p class="font-label-sm text-label-sm font-bold">Alex Savora</p>
+<p class="text-[10px] text-on-surface-variant">Manager</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="pt-24 pb-12 px-container-padding">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-display text-display text-on-background mb-2">Audience Segments</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Organize your customers by dining behavior and engagement to drive targeted marketing campaigns.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-sm text-label-sm font-semibold flex items-center gap-2 hover:opacity-90 shadow-lg shadow-primary/10 transition-all" onclick="document.getElementById('filter-modal').classList.toggle('hidden')">
+<span class="material-symbols-outlined">add_circle</span>
+                    Create New Segment
+                </button>
+</div>
+<!-- Dashboard Stats Summary -->
+<div class="grid grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant">
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase mb-2">Total Reach</p>
+<p class="font-display text-display text-primary">12,482</p>
+<div class="mt-4 flex items-center gap-2 text-primary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>+14% vs last month</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant">
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase mb-2">Active Segments</p>
+<p class="font-display text-display text-primary">24</p>
+<div class="mt-4 flex items-center gap-2 text-on-secondary-container font-label-sm">
+<span class="material-symbols-outlined text-[16px]">task_alt</span>
+<span>8 running campaigns</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant">
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase mb-2">Avg. Engagement</p>
+<p class="font-display text-display text-primary">64.2%</p>
+<div class="mt-4 flex items-center gap-2 text-primary font-label-sm">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>+5.1% increase</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant">
+<p class="font-mono-label text-mono-label text-on-surface-variant uppercase mb-2">Unsubscribed</p>
+<p class="font-display text-display text-error">1.2%</p>
+<div class="mt-4 flex items-center gap-2 text-on-surface-variant font-label-sm">
+<span class="material-symbols-outlined text-[16px]">remove_circle</span>
+<span>Below industry average</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Segments -->
+<div class="bento-grid">
+<!-- Main Segment Card: VIP Diners -->
+<div class="col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-8 hover:shadow-md transition-shadow group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">star</span>
+</div>
+<div class="flex justify-between items-start relative z-10">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="font-mono-label text-mono-label text-primary uppercase">Elite Tier</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg mb-2">VIP Diners</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Customers with more than 10 visits in the last 12 months and a total spend exceeding $1,500.</p>
+</div>
+<div class="text-right">
+<p class="font-display text-[48px] leading-tight text-primary">1,240</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Active Customers</p>
+</div>
+</div>
+<div class="mt-12 grid grid-cols-3 gap-8 pt-8 border-t border-outline-variant/50">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Engagement Rate</p>
+<div class="flex items-center gap-3">
+<span class="font-headline-md text-headline-md">88.4%</span>
+<div class="h-1.5 w-24 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[88%]"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Last Campaign</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span class="font-body-md text-body-md">Holiday Exclusive (SMS)</span>
+</div>
+</div>
+<div class="flex justify-end gap-3">
+<button class="px-4 py-2 rounded-lg border border-outline text-label-sm font-semibold hover:bg-surface-container transition-colors">Edit Logic</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary text-label-sm font-semibold hover:opacity-90">Target Now</button>
+</div>
+</div>
+</div>
+<!-- Secondary Card: Weekend Brunchers -->
+<div class="col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="font-mono-label text-mono-label text-secondary uppercase">Behavioral</span>
+</div>
+<h3 class="font-headline-md text-headline-md">Weekend Brunchers</h3>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</div>
+<div class="mb-8">
+<p class="text-[32px] font-semibold text-on-background">4,821</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Size of segment</p>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-label-sm">
+<span class="text-on-surface-variant">Engagement</span>
+<span class="font-bold">52.1%</span>
+</div>
+<div class="flex justify-between items-center text-label-sm">
+<span class="text-on-surface-variant">Last Active</span>
+<span class="font-bold">2 days ago</span>
+</div>
+</div>
+<button class="w-full mt-8 py-3 border border-primary text-primary font-semibold rounded-xl hover:bg-primary/5 transition-colors">View Members</button>
+</div>
+<!-- Table Content: Segment List -->
+<div class="col-span-12 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden mt-2">
+<div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md">All Segments</h4>
+<div class="flex items-center gap-4">
+<div class="flex border border-outline-variant rounded-lg overflow-hidden">
+<button class="px-3 py-1.5 bg-surface-container text-primary text-label-sm font-semibold border-r border-outline-variant">Grid</button>
+<button class="px-3 py-1.5 bg-surface-bright text-on-surface-variant text-label-sm">Table</button>
+</div>
+<span class="material-symbols-outlined cursor-pointer text-on-surface-variant">filter_list</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low/30 border-b border-outline-variant">
+<th class="px-6 py-4 font-mono-label text-mono-label uppercase tracking-wider text-on-surface-variant">Segment Name</th>
+<th class="px-6 py-4 font-mono-label text-mono-label uppercase tracking-wider text-on-surface-variant">Status</th>
+<th class="px-6 py-4 font-mono-label text-mono-label uppercase tracking-wider text-on-surface-variant text-right">Size</th>
+<th class="px-6 py-4 font-mono-label text-mono-label uppercase tracking-wider text-on-surface-variant text-right">Open Rate</th>
+<th class="px-6 py-4 font-mono-label text-mono-label uppercase tracking-wider text-on-surface-variant">Growth</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">history</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-semibold">Lapsed Customers</p>
+<p class="text-[11px] text-on-surface-variant">No visits in 60+ days</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error-container/20 text-error text-[10px] font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Critical
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right font-body-md font-medium">3,105</td>
+<td class="px-6 py-5 text-right font-body-md">24.5%</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1 text-error text-[12px]">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+                                            2.4%
+                                        </div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary font-bold text-label-sm">Analyze</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">restaurant</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-semibold">Weekday Lunchers</p>
+<p class="text-[11px] text-on-surface-variant">Visits Mon-Fri, 11am-2pm</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary text-[10px] font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Healthy
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right font-body-md font-medium">1,890</td>
+<td class="px-6 py-5 text-right font-body-md">41.8%</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1 text-primary text-[12px]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                            1.1%
+                                        </div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary font-bold text-label-sm">Analyze</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">wine_bar</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-semibold">Happy Hour Fans</p>
+<p class="text-[11px] text-on-surface-variant">Avg. beverage spend &gt; $40</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container/20 text-primary text-[10px] font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Healthy
+                                        </span>
+</td>
+<td class="px-6 py-5 text-right font-body-md font-medium">942</td>
+<td class="px-6 py-5 text-right font-body-md">58.0%</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-1 text-primary text-[12px]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                                            6.7%
+                                        </div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary font-bold text-label-sm">Analyze</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-outline-variant flex justify-between items-center text-on-surface-variant">
+<p class="text-label-sm">Showing 1-10 of 24 segments</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded border border-outline-variant disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Create New Segment Modal (Filter Logic) -->
+<div class="hidden fixed inset-0 z-[60] flex items-center justify-center p-6 bg-inverse-surface/40 backdrop-blur-sm" id="filter-modal">
+<div class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl border border-outline-variant overflow-hidden animate-in fade-in zoom-in duration-300">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-lg text-headline-lg">Create Audience Segment</h3>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors" onclick="document.getElementById('filter-modal').classList.add('hidden')">close</button>
+</div>
+<div class="p-8">
+<div class="space-y-6">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2">Segment Name</label>
+<input class="w-full px-4 py-3 rounded-xl border border-outline focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-body-lg" placeholder="e.g. High-Value Wine Enthusiasts" type="text"/>
+</div>
+<div class="space-y-4">
+<label class="block font-label-sm text-label-sm text-on-surface-variant">Defining Conditions</label>
+<!-- Filter Rule Row -->
+<div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant flex gap-4 items-center">
+<select class="bg-transparent border-none font-semibold text-primary text-body-md focus:ring-0">
+<option>Total Lifetime Spend</option>
+<option>Visit Frequency</option>
+<option>Last Visit Date</option>
+<option>Favorite Item</option>
+</select>
+<span class="text-on-surface-variant font-label-sm">is greater than</span>
+<div class="relative flex-1">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">$</span>
+<input class="w-full pl-7 pr-4 py-2 bg-white rounded-lg border border-outline-variant focus:ring-1 focus:ring-primary outline-none text-body-md" type="number" value="500"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-error">delete</button>
+</div>
+<!-- Add Rule Trigger -->
+<button class="flex items-center gap-2 text-primary font-semibold text-label-sm py-2 px-4 rounded-lg hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                            Add additional condition
+                        </button>
+</div>
+<div class="pt-6 border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined">analytics</span>
+<div>
+<p class="text-label-sm font-bold text-on-surface">~ 1,142 members</p>
+<p class="text-[10px]">Estimated reach with current logic</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-xl border border-outline text-label-sm font-semibold hover:bg-surface-container transition-colors" onclick="document.getElementById('filter-modal').classList.add('hidden')">Cancel</button>
+<button class="px-8 py-2.5 rounded-xl bg-primary text-on-primary text-label-sm font-semibold shadow-lg shadow-primary/20">Save Segment</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple hover effects and modal management logic
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('filter-modal').classList.add('hidden');
+            }
+        });
+
+        // Dynamic greeting based on time of day (Atmospheric effect)
+        const updateGreeting = () => {
+            const now = new Date();
+            const hour = now.getHours();
+            const heading = document.querySelector('h2.font-display');
+            let greet = "Audience Segments";
+            if (hour < 12) greet = "Morning Audiences";
+            else if (hour < 18) greet = "Afternoon Segments";
+            else greet = "Evening Marketing";
+            // Not overriding user intent, just adding atmospheric touch if needed
+        }
+    </script>
+</body></html>

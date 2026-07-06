@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Menu Management</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1a1c1a",
+                        "on-primary-fixed": "#00210f",
+                        "primary-fixed": "#bceeca",
+                        "outline-variant": "#c1c9c0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f9faf5",
+                        "inverse-surface": "#2e312e",
+                        "surface-container-high": "#e7e9e4",
+                        "surface-container-highest": "#e2e3df",
+                        "on-primary-container": "#f6fff5",
+                        "background": "#f9faf5",
+                        "surface-variant": "#e2e3df",
+                        "tertiary-fixed": "#ffd9dc",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9dad6",
+                        "secondary-fixed": "#d1eca5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#224f35",
+                        "tertiary-fixed-dim": "#fbb4bb",
+                        "secondary-container": "#cee9a2",
+                        "on-error-container": "#93000a",
+                        "primary": "#386549",
+                        "tertiary": "#834c53",
+                        "inverse-on-surface": "#f0f1ed",
+                        "tertiary-container": "#a0646b",
+                        "surface-tint": "#3b684b",
+                        "on-tertiary-fixed": "#360d15",
+                        "surface": "#f9faf5",
+                        "on-secondary-container": "#536a30",
+                        "on-surface-variant": "#414942",
+                        "error-container": "#ffdad6",
+                        "secondary": "#4f652d",
+                        "primary-container": "#517e60",
+                        "on-surface": "#1a1c1a",
+                        "on-tertiary-fixed-variant": "#6b383e",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "surface-container": "#edeeea",
+                        "surface-container-low": "#f3f4f0",
+                        "on-primary": "#ffffff",
+                        "outline": "#717972",
+                        "inverse-primary": "#a1d2af",
+                        "secondary-fixed-dim": "#b5d08b",
+                        "primary-fixed-dim": "#a1d2af",
+                        "on-secondary-fixed-variant": "#384d17",
+                        "on-secondary-fixed": "#121f00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "2xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "2xl": "48px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "container-margin": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist"],
+                        "headline-xl-mobile": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "body-sm": ["Inter"],
+                        "headline-xl": ["Geist"],
+                        "label-md": ["Geist"],
+                        "headline-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-02em", "fontWeight": "700" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    },
+                    "screens": {
+                        "uw": "1800px"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #F8F7F4;
+            color: #1a1c1a;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .custom-shadow {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d9dad6;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #717972;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        /* Mobile drawer specific styles */
+        @media (max-width: 1023px) {
+            .mobile-filter-collapsed {
+                display: none;
+            }
+            .mobile-filter-expanded {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- Sidebar Shell - Responsive behavior -->
+<aside class="bg-surface-container-low dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col p-md z-50 transition-transform -translate-x-full lg:translate-x-0" id="sidebar">
+<div class="mb-xl px-sm flex justify-between items-center">
+<div>
+<h1 class="font-display-lg text-headline-md font-bold text-primary dark:text-primary-fixed">Savora POS</h1>
+<p class="text-label-sm text-on-surface-variant">Enterprise Admin</p>
+</div>
+<button class="lg:hidden p-2" onclick="toggleSidebar()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-sm py-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-md">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center px-sm py-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-md">restaurant_menu</span>
+<span class="font-label-md">Live Orders</span>
+</a>
+<a class="flex items-center px-sm py-md bg-primary-container text-on-primary-container font-bold rounded-lg group shadow-sm" href="#">
+<span class="material-symbols-outlined mr-md">menu_book</span>
+<span class="font-label-md">Menu Manager</span>
+</a>
+<a class="flex items-center px-sm py-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-md">inventory_2</span>
+<span class="font-label-md">Inventory</span>
+</a>
+<a class="flex items-center px-sm py-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-md">groups</span>
+<span class="font-label-md">Staff</span>
+</a>
+<a class="flex items-center px-sm py-md text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-md">monitoring</span>
+<span class="font-label-md">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1 pt-md border-t border-outline-variant">
+<a class="flex items-center px-sm py-md text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined mr-md">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+<a class="flex items-center px-sm py-md text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined mr-md">help</span>
+<span class="font-label-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Overlay for mobile sidebar -->
+<div class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<!-- Main Content Area -->
+<main class="lg:ml-64 min-h-screen transition-all duration-300">
+<!-- TopNavBar Shell -->
+<header class="sticky top-0 w-full z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant shadow-sm flex justify-between items-center px-container-margin py-sm">
+<div class="flex items-center gap-md w-1/2 lg:w-2/3">
+<button class="lg:hidden p-2 -ml-2 mr-2 hover:bg-surface-container-high rounded-full" onclick="toggleSidebar()">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative w-full max-w-md hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-body-md">search</span>
+<input class="w-full bg-surface-container-lowest border-outline-variant rounded-full pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary border text-body-sm transition-all outline-none" placeholder="Search menu, tags, or orders..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 hover:bg-surface-container-highest/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-sm ml-sm pl-md border-l border-outline-variant">
+<div class="text-right hidden sm:block">
+<p class="font-label-md text-on-surface">Alex Rivera</p>
+<p class="text-label-sm text-on-surface-variant">General Manager</p>
+</div>
+<div class="h-10 w-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Manager headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDc9BGVhdQs8SSi2B4kDGBnPpGPhbvzPOdVnKXCnzuoPA2A0ACtk3R8YIZ9qefP35qN0FZaMbyrc9SvnhUn1-eLqBJnorMjxcLn62B17C9BQ3WZy8SAjVDzs8x2m3xi3rzwWIW0i7-0YDU3YVpJr9mYOCCyPwufRzqvxetn6g0AdqJzpEy13PRRr2LKSH1BwtBQNLhQ-_qv1lYl0UJOHWZZtdaHqqUssYy3KZY7CpZvTgMZZ27JypEi6D7S3fpVUFyFsv16niA0_A"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-base md:p-lg max-w-[1920px] mx-auto space-y-md md:space-y-lg">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md">
+<div>
+<h2 class="text-headline-lg md:text-headline-xl text-on-surface">Menu Management</h2>
+<p class="text-body-sm md:text-body-md text-on-surface-variant">Manage your restaurant's food and beverage offerings</p>
+</div>
+<button class="w-full sm:w-auto bg-primary text-on-primary px-lg py-3 rounded-xl font-label-md flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-95 shadow-sm" onclick="toggleModal('add-modal')">
+<span class="material-symbols-outlined">add</span>
+<span>Add Menu Item</span>
+</button>
+</div>
+<!-- Summary Section -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-sm md:gap-md">
+<div class="bg-surface-container-lowest p-md md:p-lg rounded-2xl custom-shadow border border-outline-variant/30 flex flex-col gap-xs">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+</div>
+<span class="text-secondary font-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                            +4%
+                        </span>
+</div>
+<p class="text-label-sm text-on-surface-variant">Total Menu Items</p>
+<h3 class="text-headline-md md:text-headline-lg font-bold">124</h3>
+</div>
+<div class="bg-surface-container-lowest p-md md:p-lg rounded-2xl custom-shadow border border-outline-variant/30 flex flex-col gap-xs">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-secondary-container/30 rounded-lg text-on-secondary-container">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="text-on-surface-variant font-label-md flex items-center gap-1">Stable</span>
+</div>
+<p class="text-label-sm text-on-surface-variant">Available</p>
+<h3 class="text-headline-md md:text-headline-lg font-bold text-primary">118</h3>
+</div>
+<div class="bg-surface-container-lowest p-md md:p-lg rounded-2xl custom-shadow border border-outline-variant/30 flex flex-col gap-xs">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-error-container/30 rounded-lg text-on-error-container">
+<span class="material-symbols-outlined">error</span>
+</div>
+<span class="text-error font-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+                            2 new
+                        </span>
+</div>
+<p class="text-label-sm text-on-surface-variant">Out of Stock</p>
+<h3 class="text-headline-md md:text-headline-lg font-bold text-error">6</h3>
+</div>
+<div class="bg-surface-container-lowest p-md md:p-lg rounded-2xl custom-shadow border border-outline-variant/30 flex flex-col gap-xs">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-tertiary-container/30 rounded-lg text-on-tertiary-container">
+<span class="material-symbols-outlined">category</span>
+</div>
+<span class="text-on-surface-variant font-label-md">Active</span>
+</div>
+<p class="text-label-sm text-on-surface-variant">Categories</p>
+<h3 class="text-headline-md md:text-headline-lg font-bold">12</h3>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="bg-surface-container-lowest p-md rounded-2xl custom-shadow border border-outline-variant/30 space-y-md">
+<div class="flex flex-col lg:flex-row gap-md items-center">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl pl-12 pr-4 py-3 focus:ring-2 focus:ring-primary/20 text-body-md transition-all outline-none" placeholder="Search food, drinks or categories..." type="text"/>
+</div>
+<div class="flex gap-sm items-center w-full lg:w-auto">
+<select class="flex-1 lg:flex-none bg-surface-container-low border-none rounded-xl px-4 py-3 text-label-md focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer min-w-[120px]">
+<option>Categories</option>
+<option>Main Course</option>
+<option>Appetizers</option>
+<option>Desserts</option>
+</select>
+<select class="flex-1 lg:flex-none bg-surface-container-low border-none rounded-xl px-4 py-3 text-label-md focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer min-w-[120px]">
+<option>Availability</option>
+<option>In Stock</option>
+<option>Out of Stock</option>
+</select>
+<button class="p-3 bg-surface-container-low rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors lg:hidden" onclick="toggleMobileFilters()">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+<!-- Desktop Filters / Mobile Collapsible -->
+<div class="hidden lg:flex flex-wrap items-center justify-between gap-md pt-sm border-t border-outline-variant/30" id="extra-filters">
+<div class="flex flex-col sm:flex-row lg:items-center gap-md lg:gap-xl w-full lg:w-auto">
+<div class="flex items-center justify-between sm:justify-start gap-sm">
+<span class="text-label-sm text-on-surface-variant">Veg Only</span>
+<button aria-checked="false" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-surface-container-highest" role="switch">
+<span class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center gap-2">
+<span class="text-label-sm text-on-surface-variant">Price Range</span>
+<input class="accent-primary w-full sm:w-32 lg:w-48" type="range"/>
+</div>
+</div>
+<div class="flex items-center justify-between lg:justify-end gap-sm w-full lg:w-auto pt-sm lg:pt-0 border-t border-outline-variant/30 lg:border-none">
+<span class="text-label-sm text-on-surface-variant">Sort by:</span>
+<select class="bg-transparent border-none text-label-md font-bold text-primary focus:ring-0 appearance-none cursor-pointer">
+<option>Newest</option>
+<option>Price (High-Low)</option>
+<option>Price (Low-High)</option>
+<option>Most Popular</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Menu Grid -->
+<!-- Configured to scale from 1 on mobile to 5 on ultra-wide screens -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 uw:grid-cols-5 gap-md md:gap-lg">
+<!-- Menu Card 1 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 custom-shadow transition-all hover:-translate-y-1 hover:shadow-lg animate-fade-in" style="animation-delay: 0.1s;">
+<div class="relative aspect-[4/3] w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Truffle Risotto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMeBfkvBzBiBe0Li3bF4qa7G_oyvahv58Lt5zNghrby2biHNjGQxhv5Ptqcfll4ODbHHPo9aXxA_BLVtz3y2jwdvKII7FEP2CeVleKO0-L6QJnvkp7fqL1cCy4PFsxO2PmKBbaFHYiZENaaEADcm_7seA_O2To52djhh8yUA8iN1VRKbPESXhzrOEsWme4stGWrrZXDHeyri_tz3VdRahIYDxgJEesaUZQx--QFoi4GVvOuyECNWMu4yaL6oLK06gOG5vUaw8dccY"/>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface">Main Course</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<div class="p-md md:p-lg space-y-sm">
+<div class="flex justify-between items-start gap-2">
+<h4 class="font-headline-md text-on-surface truncate">Truffle Risotto</h4>
+<span class="text-primary font-bold flex-shrink-0">$24.00</span>
+</div>
+<p class="text-body-sm text-on-surface-variant line-clamp-2">Arborio rice, black truffle paste, parmigiano reggiano, and wild mushrooms.</p>
+<div class="flex items-center justify-between pt-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.8</span>
+<span class="text-label-sm text-on-surface-variant ml-1">(120)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-label-sm text-primary font-medium">Available</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Menu Card 2 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 custom-shadow transition-all hover:-translate-y-1 hover:shadow-lg animate-fade-in" style="animation-delay: 0.2s;">
+<div class="relative aspect-[4/3] w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Seared Scallops" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO6TKSF9MLB4mvHvBxzetIaFC4NOQ_csjnFI0Qpj-xGi0SUha1mIWnGziJiY6BaipRc25Fogv1gasF0WRc-He1pJ3Y33XFmN-TI2wgk773mTamG3GOk58n9AkLrAw4bs480U7voaVlYvmAbGHzIjGpddu8M-dX6eSDhs0pXD6vSit7HxWbcae4ur6AT1NLyEFEjK3cbx3dGMmWaROaGn0qw0WQvIxGNGwPGZ9IzmO-CeLLFccYM6BUJkbiQ8Di-2eOMnaOckYbUos"/>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface">Appetizers</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<div class="p-md md:p-lg space-y-sm">
+<div class="flex justify-between items-start gap-2">
+<h4 class="font-headline-md text-on-surface truncate">Seared Scallops</h4>
+<span class="text-primary font-bold flex-shrink-0">$18.50</span>
+</div>
+<p class="text-body-sm text-on-surface-variant line-clamp-2">Pan-seared scallops served with pea purée and crispy pancetta.</p>
+<div class="flex items-center justify-between pt-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.9</span>
+<span class="text-label-sm text-on-surface-variant ml-1">(85)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-label-sm text-primary font-medium">Available</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Menu Card 3 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 custom-shadow transition-all hover:-translate-y-1 hover:shadow-lg animate-fade-in opacity-90" style="animation-delay: 0.3s;">
+<div class="relative aspect-[4/3] w-full overflow-hidden bg-surface-container">
+<div class="absolute inset-0 bg-on-background/20 z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 filter grayscale-[0.5]" data-alt="Wagyu Burger" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLaSSM5T4DpkFzrmb6Q22gSxPHdBx5zmJvu8DxzUO_Yir0Uh-utNtOaNCMXzvOf__e7Ml95SU_zUhEJZWH23-tK5Xv40DMzBSfNEuZjDRjExdbAD7N1s9S6LL1Php8VmjAVmuMSstqfNDFxTbBjvTTKLSAzicRpeTReKKMhLVvta2csqf3AQdG9i047mCAOqVJkmPtkmzR7Rn0rxOIjJu2xQjlhU3E--LZKvwMIA2SpubvuYalwmQ3SzKALhU54-XJpseNsJcG14"/>
+<div class="absolute top-3 left-3 flex gap-2 z-20">
+<span class="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface">Burgers</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center z-20">
+<span class="bg-error text-white px-4 py-1 rounded-lg font-bold text-label-md shadow-lg">OUT OF STOCK</span>
+</div>
+</div>
+<div class="p-md md:p-lg space-y-sm">
+<div class="flex justify-between items-start gap-2">
+<h4 class="font-headline-md text-on-surface truncate">Wagyu Burger</h4>
+<span class="text-on-surface-variant font-bold flex-shrink-0">$28.00</span>
+</div>
+<p class="text-body-sm text-on-surface-variant line-clamp-2">A5 Wagyu beef patty, gruyère, caramelized onions, and truffle aioli.</p>
+<div class="flex items-center justify-between pt-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.7</span>
+<span class="text-label-sm text-on-surface-variant ml-1">(210)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="text-label-sm text-error font-medium">Sold Out</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Menu Card 4 -->
+<div class="group bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/30 custom-shadow transition-all hover:-translate-y-1 hover:shadow-lg animate-fade-in" style="animation-delay: 0.4s;">
+<div class="relative aspect-[4/3] w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Lava Cake" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4ks7fy_Dxz-LwpK7RKKCU4_hostQtVlVSQvF0AvIQ4UeDkMbmweeh-ZxB__K0ycZqxtvlQJ-JW8RV1oqZxx2rHOsZNvFqY1GPx533lax0Qjy2L59j85tVx7F0uzSQfwIc9ffcpCJ6lMSg4piIMHqUWQiR0i0twTrmeKwZQ1aLS09vMOpiYS74B5NDcITK6tgEC8vzltTe743YW--Rofoo-Mq3iync3iyEAgtj7Jr7IUIkDKJLdpCD2kFKb2_oOWh9UffLk0JRwiU"/>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface">Desserts</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-md rounded-full text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<div class="p-md md:p-lg space-y-sm">
+<div class="flex justify-between items-start gap-2">
+<h4 class="font-headline-md text-on-surface truncate">Lava Cake</h4>
+<span class="text-primary font-bold flex-shrink-0">$12.00</span>
+</div>
+<p class="text-body-sm text-on-surface-variant line-clamp-2">Valrhona dark chocolate cake with a molten center and vanilla gelato.</p>
+<div class="flex items-center justify-between pt-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-md font-bold">4.9</span>
+<span class="text-label-sm text-on-surface-variant ml-1">(54)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-label-sm text-primary font-medium">Available</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center pt-xl">
+<button class="bg-surface-container-low text-on-surface-variant px-lg py-3 rounded-xl font-label-md hover:bg-surface-container-high transition-colors">Load More Items</button>
+</div>
+</div>
+</main>
+<!-- Modal: Add Menu Item - Full screen on mobile -->
+<div class="hidden fixed inset-0 z-[60] flex items-center justify-center lg:p-md overflow-y-auto" id="add-modal">
+<div class="fixed inset-0 bg-on-background/40 backdrop-blur-sm hidden lg:block" onclick="toggleModal('add-modal')"></div>
+<div class="relative bg-surface-container-lowest w-full h-full lg:h-auto lg:max-w-4xl lg:rounded-2xl shadow-2xl overflow-hidden animate-fade-in flex flex-col lg:max-h-[921px]">
+<!-- Modal Header -->
+<div class="px-lg lg:px-xl py-lg border-b border-outline-variant flex justify-between items-center bg-white sticky top-0 z-10">
+<div>
+<h3 class="text-headline-md lg:text-headline-lg font-bold">Add New Menu Item</h3>
+<p class="text-body-sm text-on-surface-variant">Create a new offering for your customers.</p>
+</div>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors" onclick="toggleModal('add-modal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Content -->
+<div class="p-lg lg:p-xl overflow-y-auto flex-1 bg-[#FDFCFB]">
+<form class="grid grid-cols-1 md:grid-cols-2 gap-lg lg:gap-xl">
+<!-- Left Column -->
+<div class="space-y-md lg:space-y-lg">
+<div>
+<label class="block text-label-md font-bold text-on-surface mb-sm">Menu Image</label>
+<div class="aspect-video w-full rounded-2xl border-2 border-dashed border-outline-variant bg-surface-container-low flex flex-col items-center justify-center cursor-pointer hover:border-primary/50 transition-colors group p-4 text-center">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary mb-2">add_photo_alternate</span>
+<p class="text-label-sm text-on-surface-variant">Click to upload or drag and drop</p>
+<p class="text-[10px] text-outline mt-1">Recommended: 1200x800px</p>
+</div>
+</div>
+<div>
+<label class="block text-label-md font-bold text-on-surface mb-sm">Item Name</label>
+<input class="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 lg:py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="e.g. Herb Roasted Chicken" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+<div>
+<label class="block text-label-md font-bold text-on-surface mb-sm">Category</label>
+<select class="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 lg:py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none">
+<option>Select...</option>
+<option>Main Course</option>
+<option>Drinks</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md font-bold text-on-surface mb-sm">Price ($)</label>
+<input class="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 lg:py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+</div>
+<!-- Right Column -->
+<div class="space-y-md lg:space-y-lg">
+<div>
+<label class="block text-label-md font-bold text-on-surface mb-sm">Description</label>
+<textarea class="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 lg:py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Briefly describe the ingredients..." rows="4"></textarea>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+<div>
+<label class="block text-label-md font-bold text-on-surface mb-sm">Prep Time (Min)</label>
+<input class="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 lg:py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="15" type="number"/>
+</div>
+<div>
+<label class="block text-label-md font-bold text-on-surface mb-sm">Spice Level</label>
+<select class="w-full bg-white border border-outline-variant rounded-xl px-4 py-4 lg:py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none">
+<option>Mild</option>
+<option>Medium</option>
+<option>Hot</option>
+</select>
+</div>
+</div>
+<!-- Toggles -->
+<div class="bg-surface-container-low p-md rounded-2xl border border-outline-variant/30 grid grid-cols-1 sm:grid-cols-2 gap-md">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-medium">Vegetarian</span>
+<input class="h-6 w-6 rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-medium">Featured</span>
+<input class="h-6 w-6 rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-medium">Special</span>
+<input class="h-6 w-6 rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-medium">Available</span>
+<input checked="" class="h-6 w-6 rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+</div>
+</div>
+</form>
+</div>
+<!-- Modal Footer -->
+<div class="px-lg lg:px-xl py-lg border-t border-outline-variant flex flex-col sm:flex-row justify-end gap-md bg-white">
+<button class="order-2 sm:order-1 px-lg py-4 lg:py-3 text-on-surface-variant font-label-md hover:bg-surface-container-high rounded-xl transition-colors" onclick="toggleModal('add-modal')">Cancel</button>
+<button class="order-1 sm:order-2 bg-primary text-on-primary px-xl py-4 lg:py-3 rounded-xl font-label-md hover:bg-primary/90 transition-all shadow-sm" onclick="toggleModal('add-modal')">Save Menu Item</button>
+</div>
+</div>
+</div>
+<script>
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function toggleMobileFilters() {
+            const filters = document.getElementById('extra-filters');
+            if (filters.classList.contains('hidden')) {
+                filters.classList.remove('hidden');
+                filters.classList.add('flex');
+            } else {
+                filters.classList.add('hidden');
+                filters.classList.remove('flex');
+            }
+        }
+
+        // Quick micro-interactions for the sidebar and card hovers
+        document.querySelectorAll('a, button:not([role="switch"])').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.98)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = '';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = '';
+            });
+        });
+
+        // Initialize state
+        console.log('Savora Menu Manager initialized.');
+    </script>
+</body></html>

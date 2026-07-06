@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Create Your Premium Restaurant Account</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#fbb4bb",
+                    "on-secondary-fixed": "#121f00",
+                    "surface-container-low": "#f3f4f0",
+                    "on-tertiary-fixed-variant": "#6b383e",
+                    "on-primary-fixed": "#00210f",
+                    "secondary-container": "#cee9a2",
+                    "secondary": "#4f652d",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#517e60",
+                    "tertiary-container": "#a0646b",
+                    "on-secondary-fixed-variant": "#384d17",
+                    "surface-container": "#edeeea",
+                    "outline-variant": "#c1c9c0",
+                    "tertiary": "#834c53",
+                    "on-primary-container": "#f6fff5",
+                    "surface-variant": "#e2e3df",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffd9dc",
+                    "on-tertiary-fixed": "#360d15",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#414942",
+                    "primary-fixed-dim": "#a1d2af",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#717972",
+                    "surface-container-high": "#e7e9e4",
+                    "on-surface": "#1a1c1a",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#224f35",
+                    "on-tertiary-container": "#fffbff",
+                    "on-background": "#1a1c1a",
+                    "surface-dim": "#d9dad6",
+                    "primary-fixed": "#bceeca",
+                    "on-secondary-container": "#536a30",
+                    "surface-tint": "#3b684b",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f9faf5",
+                    "primary": "#386549",
+                    "surface": "#f9faf5",
+                    "inverse-surface": "#2e312e",
+                    "secondary-fixed-dim": "#b5d08b",
+                    "background": "#f9faf5",
+                    "surface-container-highest": "#e2e3df",
+                    "inverse-on-surface": "#f0f1ed",
+                    "inverse-primary": "#a1d2af",
+                    "secondary-fixed": "#d1eca5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "24px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "gutter": "16px",
+                    "2xl": "48px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "base": "8px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Inter"],
+                    "label-md": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "headline-xl-mobile": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Geist"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Geist"]
+            },
+            "fontSize": {
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .dark .glass-card {
+            background: rgba(46, 49, 46, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .animate-in {
+            animation: fadeInTranslate 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInTranslate {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .strength-bar {
+            height: 4px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md transition-colors duration-300">
+<main class="min-h-screen flex flex-col md:flex-row">
+<!-- Left Side: Marketing Hero -->
+<section class="relative hidden md:flex md:w-5/12 lg:w-1/2 flex-col justify-between p-xl overflow-hidden bg-primary overflow-hidden">
+<!-- Animated Background Shader Placeholder -->
+
+<div class="relative z-10">
+<h1 class="font-headline-lg text-headline-lg text-on-primary font-bold tracking-tight">Savora</h1>
+</div>
+<div class="relative z-10 max-w-lg space-y-md animate-in">
+<span class="inline-block px-sm py-xs bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-full">New Era of Hospitality</span>
+<h2 class="font-display-lg text-display-lg text-on-primary leading-none">Elevate your restaurant operations to excellence.</h2>
+<p class="font-body-lg text-body-lg text-primary-fixed max-w-md opacity-90">
+                    Join thousands of elite hospitality leaders who use Savora to streamline workflows and deliver unforgettable dining experiences.
+                </p>
+<div class="pt-lg flex items-center gap-md">
+<div class="flex -space-x-4">
+<div class="w-12 h-12 rounded-full border-4 border-primary overflow-hidden" data-alt="Close-up portrait of a professional female chef wearing a white toque, smiling warmly in a bright, modern kitchen with soft green and cream tones, emphasizing a professional yet approachable aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXv5dVxs63CzL-S5BErAVfQbNDH4TrUENpfyL1FdXaRdJ-zPdSTFYo0TkY2CAb0yba8NN8hkh1Z-qDkssSIidFYNtOa0c5sGYfHLleSi-3-LeAip2YwObwEq0hnb29cxniw8UctmCRWz60XzdDCn5eHmtjcAOcJoryIkNav24UdqT58j453GmbV9PNTrXlFBII7fVo2DK_Y4Rw-_NEl_j9mr9VS7NaHFYcAL1P2v2W6XKR1V8uPqlfZwyt-FVSRvkQxy3__ygy3RQ')"></div>
+<div class="w-12 h-12 rounded-full border-4 border-primary overflow-hidden" data-alt="Portrait of a young male restaurant manager in a stylish, dark grey vest and white shirt, looking confident and focused against a blurred background of a sophisticated, high-end dining room." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNSk-cmN5hIX_qceTQAmDko5AW66gJXmZMCPBWSAH2Yi0GCKP_9hkE7Q-EFNk-czHGhp0tVlkSZIIcUdaFWyuZdrzujs6IA6GpGP621qfY9qqp8A5BnWfhAT2oxeL4NZBzmEp2bxu4KTgFDcyiNbhP248NJ5DhvckcliHyZUEbHSciS6tKzdP4HsAxbcPpIjmdPhI1BgJRFP3OKo41PSQIug33F_NtLPUmWEDLaemsxVGOInR_XxwGts0AA0Ynwy69f7mssxMqvxA')"></div>
+<div class="w-12 h-12 rounded-full border-4 border-primary overflow-hidden" data-alt="Detailed close-up of a pastry chef's hands delicately placing a garnish on a gourmet dessert, showcasing precision and artistry in a high-end restaurant setting with elegant lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCtuLDi_V0bysFmK0Tr4OLbeKByVC_pYWm10EcIYXoqDQd0kGIvhS39u2Pf5HgnORPoGgoSzCVoTU9iEBjUQ7SpNN0ccry9lQqUxWc_8uHKrjzvnPq-aGsMTECKA3qBn3IcbU-u2N_6aWun25M8sOjzy34J_W-E5UVjhUfknJ8q17hcpmFX74QW4rnT4lMCIIstPO0vkB6KnXj5aJKj68V2xhW7ZjQGCMjPDFcT1oFPmG9XpYbMxWr9ZUXTiTf9hRCJ_dinfl-nxvo')"></div>
+</div>
+<p class="font-label-md text-label-md text-on-primary">Trusted by 500+ Top Michelin-starred Kitchens</p>
+</div>
+</div>
+<div class="relative z-10 text-primary-fixed opacity-60 font-label-sm text-label-sm">
+                © 2024 Savora Systems. Premium Hospitality Intelligence.
+            </div>
+</section>
+<!-- Right Side: Registration Form -->
+<section class="flex-1 flex flex-col justify-center items-center p-md md:p-xl bg-surface-container-lowest dark:bg-inverse-surface">
+<!-- Mobile Brand Logo -->
+<div class="md:hidden mb-xl">
+<h1 class="font-headline-lg text-headline-lg text-primary font-bold">Savora</h1>
+</div>
+<div class="w-full max-w-[520px] bg-white dark:bg-surface-container p-lg md:p-xl rounded-xl shadow-xl animate-in" style="animation-delay: 0.1s;">
+<header class="mb-xl">
+<h3 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Create your account</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Experience the future of restaurant management.</p>
+</header>
+<form class="space-y-md" id="registration-form">
+<!-- Dual Grid for Name -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="restaurant-name">Restaurant Name</label>
+<input class="w-full px-md py-sm bg-surface-container-low dark:bg-surface-variant border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-on-surface" id="restaurant-name" placeholder="La Maison" type="text"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="owner-name">Owner Name</label>
+<input class="w-full px-md py-sm bg-surface-container-low dark:bg-surface-variant border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-on-surface" id="owner-name" placeholder="Julianne Smith" type="text"/>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="email">Work Email</label>
+<input class="w-full px-md py-sm bg-surface-container-low dark:bg-surface-variant border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-on-surface" id="email" placeholder="owner@yourrestaurant.com" type="email"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="country">Country</label>
+<select class="w-full px-md py-sm bg-surface-container-low dark:bg-surface-variant border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-on-surface appearance-none" id="country">
+<option value="us">United States</option>
+<option value="uk">United Kingdom</option>
+<option value="fr">France</option>
+<option value="it">Italy</option>
+<option value="jp">Japan</option>
+</select>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="phone">Phone Number</label>
+<input class="w-full px-md py-sm bg-surface-container-low dark:bg-surface-variant border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-on-surface" id="phone" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
+<div class="relative">
+<input class="w-full px-md py-sm bg-surface-container-low dark:bg-surface-variant border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-on-surface" id="password" placeholder="••••••••" type="password"/>
+<div class="absolute -bottom-2 left-0 w-full h-1 bg-surface-container-highest rounded-full overflow-hidden" id="password-strength-container">
+<div class="strength-bar w-0 bg-error" id="password-strength-bar"></div>
+</div>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="confirm-password">Confirm Password</label>
+<input class="w-full px-md py-sm bg-surface-container-low dark:bg-surface-variant border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-on-surface" id="confirm-password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="flex items-center gap-sm pt-xs">
+<input class="w-5 h-5 rounded-md border-outline-variant text-primary focus:ring-primary" id="terms" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface-variant" for="terms">
+                            I accept the <a class="text-primary hover:underline font-semibold" href="#">Terms of Service</a> and <a class="text-primary hover:underline font-semibold" href="#">Privacy Policy</a>
+</label>
+</div>
+<button class="w-full py-md bg-primary text-on-primary font-label-md text-label-md rounded-xl hover:bg-primary-container active:scale-[0.98] transition-all shadow-md mt-md" type="button">
+                        Create Account
+                    </button>
+<div class="relative py-md flex items-center">
+<div class="flex-grow border-t border-outline-variant"></div>
+<span class="flex-shrink mx-md font-label-sm text-label-sm text-outline uppercase tracking-widest">or</span>
+<div class="flex-grow border-t border-outline-variant"></div>
+</div>
+<button class="w-full py-md flex items-center justify-center gap-md border border-outline-variant bg-surface-container-lowest dark:bg-surface-container text-on-surface font-label-md text-label-md rounded-xl hover:bg-surface-container-low transition-all" type="button">
+<img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDySukUyyB9tOzUEGfC-UiLcq7y9_jwUKQZl3Nthv-BTL7EkK06Nb5lu0n7RScty0sgmNFIkv0LBqqCq6uCAppMfHCyoIwJkY1RqK8wcFKbK-rYxK1EDqqQgcbQkOOl9Y6mhr17gDxRedDxlTDlShUeR9sm9VKmxvhE6mlvXCQhQwMvMEUPq2xpb1XLkWTgCkfeqM9mD46JXCDSirq7XHwWbXPvHOX68jTpfesHHIcE7R4zcSS1H0auHwwESyWOYxtHi-AkeD5hYLI"/>
+                        Continue with Google
+                    </button>
+</form>
+<footer class="mt-xl text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Already have an account? 
+                        <a class="text-primary font-bold hover:underline ml-xs" href="#">Login</a>
+</p>
+</footer>
+</div>
+<!-- Accessibility/Theme Toggle -->
+<div class="fixed bottom-lg right-lg flex gap-md">
+<button class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-on-surface shadow-lg hover:scale-110 transition-transform" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+</div>
+</section>
+</main>
+<script>
+        // Password Strength Indicator Logic
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.getElementById('password-strength-bar');
+
+        passwordInput.addEventListener('input', () => {
+            const val = passwordInput.value;
+            let strength = 0;
+            
+            if (val.length > 5) strength += 20;
+            if (val.length > 8) strength += 20;
+            if (/[A-Z]/.test(val)) strength += 20;
+            if (/[0-9]/.test(val)) strength += 20;
+            if (/[^A-Za-z0-9]/.test(val)) strength += 20;
+
+            strengthBar.style.width = strength + '%';
+            
+            if (strength <= 40) {
+                strengthBar.style.backgroundColor = '#ba1a1a'; // error
+            } else if (strength <= 80) {
+                strengthBar.style.backgroundColor = '#834c53'; // tertiary/warning
+            } else {
+                strengthBar.style.backgroundColor = '#386549'; // primary/success
+            }
+        });
+
+        // Simple Smooth Entrance for form fields
+        const inputs = document.querySelectorAll('input, select, button');
+        inputs.forEach((input, index) => {
+            input.style.opacity = '0';
+            input.style.transform = 'translateY(10px)';
+            input.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+            setTimeout(() => {
+                input.style.opacity = '1';
+                input.style.transform = 'translateY(0)';
+            }, 200 + (index * 50));
+        });
+    </script>
+</body></html>

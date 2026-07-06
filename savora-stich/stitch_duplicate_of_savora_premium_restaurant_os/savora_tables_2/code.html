@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora - Table Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-card:active {
+            transform: scale(0.98);
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#536a30",
+                        "surface-tint": "#3b684b",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e7e9e4",
+                        "on-surface": "#1a1c1a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#fffbff",
+                        "on-background": "#1a1c1a",
+                        "surface-dim": "#d9dad6",
+                        "primary-fixed": "#bceeca",
+                        "on-primary-fixed-variant": "#224f35",
+                        "inverse-primary": "#a1d2af",
+                        "secondary-fixed": "#d1eca5",
+                        "surface": "#f9faf5",
+                        "inverse-surface": "#2e312e",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f9faf5",
+                        "primary": "#386549",
+                        "inverse-on-surface": "#f0f1ed",
+                        "secondary-fixed-dim": "#b5d08b",
+                        "background": "#f9faf5",
+                        "surface-container-highest": "#e2e3df",
+                        "tertiary": "#834c53",
+                        "tertiary-container": "#a0646b",
+                        "on-secondary-fixed-variant": "#384d17",
+                        "surface-container": "#edeeea",
+                        "outline-variant": "#c1c9c0",
+                        "surface-variant": "#e2e3df",
+                        "on-primary-container": "#f6fff5",
+                        "on-tertiary-fixed-variant": "#6b383e",
+                        "on-primary-fixed": "#00210f",
+                        "tertiary-fixed-dim": "#fbb4bb",
+                        "on-secondary-fixed": "#121f00",
+                        "surface-container-low": "#f3f4f0",
+                        "primary-container": "#517e60",
+                        "secondary-container": "#cee9a2",
+                        "secondary": "#4f652d",
+                        "error-container": "#ffdad6",
+                        "outline": "#717972",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffd9dc",
+                        "on-tertiary-fixed": "#360d15",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#414942",
+                        "primary-fixed-dim": "#a1d2af",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "base": "8px",
+                        "2xl": "48px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "gutter": "16px",
+                        "container-margin": "24px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-xl-mobile": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "label-md": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- TopAppBar from COMPONENTS_6 -->
+<header class="flex justify-between items-center px-container-margin py-md w-full sticky top-0 z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant shadow-sm">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-2 rounded-lg active:opacity-70">menu</button>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile font-bold text-primary">Savora</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-2 rounded-lg active:opacity-70">notifications</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Admin Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMDzvOJxWtwNehsq2OfrT2Bw_1rAYd7VUiv71WARNbz6t1dlSYSVC-yiKYQ5tiYhQ2l_zkLt9eBjt1meUtb5tdQXi7ayLTOEmGDuKn6KjqSaWEtQ22DmC-20utlnQm8ECUTBA3qer98AyDD3ozHlk7Jf1uWacR3hsDB2JVJP-ZoCdGFB48teZDNdxIeRn26S7FFUFB7s2wUnN_sHLISAQGmtyz3-TOX2OJZtiYuZnWfOiUDPpc360_K6C1fieoO6XLK5sorAT3nKX6"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="px-container-margin py-xl max-w-screen-xl mx-auto">
+<!-- Search and Filter Section -->
+<section class="mb-lg flex flex-col gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Floor Management</h2>
+<p class="text-on-surface-variant font-body-sm">Main Dining Hall • 20 Tables Total</p>
+</div>
+<div class="flex items-center gap-sm">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none text-body-sm transition-all" placeholder="Search tables..." type="text"/>
+</div>
+<button class="bg-surface-container-high p-3 rounded-xl text-primary material-symbols-outlined active:scale-95 transition-transform">tune</button>
+</div>
+</section>
+<!-- Legend (Status Filter Chips) -->
+<div class="flex flex-wrap gap-sm mb-lg overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-4 py-2 rounded-full bg-primary text-on-primary font-label-md flex items-center gap-2 whitespace-nowrap active:opacity-70 transition-opacity">
+<span class="w-2 h-2 rounded-full bg-on-primary"></span> All Tables (20)
+            </button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md flex items-center gap-2 whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Available (12)
+            </button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md flex items-center gap-2 whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+<span class="w-2 h-2 rounded-full bg-[#EAB308]"></span> Occupied (5)
+            </button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md flex items-center gap-2 whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+<span class="w-2 h-2 rounded-full bg-error"></span> Reserved (2)
+            </button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-md flex items-center gap-2 whitespace-nowrap hover:bg-surface-container-highest transition-colors">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Cleaning (1)
+            </button>
+</div>
+<!-- Table Grid Layout -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-md">
+<!-- Table Card: Available -->
+<div class="bento-card bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md hover:border-primary cursor-pointer relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-primary-fixed flex items-center justify-center rounded-lg text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">table_restaurant</span>
+</div>
+<span class="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-md uppercase">Available</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs text-on-surface">Table 01</h3>
+<div class="flex items-center gap-xs text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span>4 Seats</span>
+</div>
+<div class="mt-lg pt-md border-t border-outline-variant flex justify-between items-center">
+<span class="text-label-sm text-outline">No current order</span>
+<span class="material-symbols-outlined text-primary">add_circle</span>
+</div>
+</div>
+<!-- Table Card: Occupied -->
+<div class="bento-card bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md cursor-pointer relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-[#EAB308]"></div>
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-yellow-100 flex items-center justify-center rounded-lg text-[#EAB308]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">table_restaurant</span>
+</div>
+<span class="text-xs font-bold px-2 py-1 bg-yellow-50 text-[#EAB308] rounded-md uppercase font-label-md">Occupied</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs text-on-surface">Table 02</h3>
+<div class="flex items-center gap-xs text-on-surface-variant text-label-sm mb-sm">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span>2/2 Seats</span>
+</div>
+<div class="flex items-center gap-xs text-secondary font-label-sm bg-secondary-container px-2 py-1 rounded-md w-fit">
+<span class="material-symbols-outlined text-[16px]">timer</span>
+<span>42 mins</span>
+</div>
+<div class="mt-md pt-md border-t border-outline-variant flex justify-between items-center">
+<span class="text-label-sm font-bold text-on-surface">Order #4201</span>
+<span class="text-primary font-bold">₹1,240</span>
+</div>
+</div>
+<!-- Table Card: Reserved -->
+<div class="bento-card bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md cursor-pointer relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-error-container flex items-center justify-center rounded-lg text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event</span>
+</div>
+<span class="text-xs font-bold px-2 py-1 bg-error-container text-error rounded-md uppercase">Reserved</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs text-on-surface">Table 03</h3>
+<div class="flex items-center gap-xs text-on-surface-variant text-label-sm mb-sm">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span>6 Seats</span>
+</div>
+<div class="bg-surface-container-low p-2 rounded-lg border border-outline-variant">
+<p class="text-label-sm font-bold text-on-surface">Reservation @ 7:30 PM</p>
+<p class="text-[10px] text-on-surface-variant">Mr. Anderson (4 guests)</p>
+</div>
+</div>
+<!-- Table Card: Cleaning -->
+<div class="bento-card bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md cursor-pointer relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-secondary-container flex items-center justify-center rounded-lg text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">cleaning_services</span>
+</div>
+<span class="text-xs font-bold px-2 py-1 bg-secondary-container/30 text-secondary rounded-md uppercase">Cleaning</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs text-on-surface">Table 04</h3>
+<div class="flex items-center gap-xs text-on-surface-variant text-label-sm mb-lg">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span>4 Seats</span>
+</div>
+<div class="mt-md pt-md border-t border-outline-variant flex items-center justify-center text-secondary gap-2">
+<span class="material-symbols-outlined animate-spin text-[20px]">autorenew</span>
+<span class="text-label-sm font-bold">In Progress</span>
+</div>
+</div>
+<!-- More Tables (Simplified) -->
+<div class="bento-card bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md cursor-pointer relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-md">
+<div class="w-12 h-12 bg-primary-fixed flex items-center justify-center rounded-lg text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">table_restaurant</span>
+</div>
+<span class="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-md uppercase">Available</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs text-on-surface">Table 05</h3>
+<div class="flex items-center gap-xs text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[16px]">group</span>
+<span>2 Seats</span>
+</div>
+<div class="mt-lg pt-md border-t border-outline-variant flex justify-between items-center">
+<span class="text-label-sm text-outline">Ready for guests</span>
+<span class="material-symbols-outlined text-primary">add_circle</span>
+</div>
+</div>
+<!-- Add Table Placeholder -->
+<div class="flex flex-col items-center justify-center border-2 border-dashed border-outline-variant rounded-xl p-lg bg-surface-container-low hover:bg-surface-container hover:border-primary transition-all group cursor-pointer h-full min-h-[180px]">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-outline group-hover:bg-primary group-hover:text-on-primary transition-all mb-sm">
+<span class="material-symbols-outlined">add</span>
+</div>
+<span class="font-label-md text-outline group-hover:text-on-surface">Add Table</span>
+</div>
+</div>
+</main>
+<!-- Floating Action Buttons -->
+<div class="fixed right-6 bottom-32 flex flex-col gap-4 z-40">
+<button class="bg-primary text-on-primary p-4 rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-label-md">Visual Map</span>
+</button>
+<button class="bg-secondary text-on-secondary p-4 rounded-full shadow-2xl hover:scale-110 active:scale-90 transition-all self-end" title="Add Reservation">
+<span class="material-symbols-outlined">add_task</span>
+</button>
+</div>
+<!-- BottomNavBar from COMPONENTS_6 -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-6 bg-surface-container-lowest/90 backdrop-blur-xl border-t border-outline-variant shadow-lg md:hidden rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-active:scale-95 duration-150">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-active:scale-95 duration-150">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary font-bold bg-primary-container/20 rounded-xl px-3 py-1 cursor-pointer group">
+<span class="material-symbols-outlined group-active:scale-95 duration-150" style="font-variation-settings: 'FILL' 1;">table_restaurant</span>
+<span class="font-label-sm text-label-sm">Tables</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-active:scale-95 duration-150">restaurant_menu</span>
+<span class="font-label-sm text-label-sm">Menu</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all cursor-pointer group">
+<span class="material-symbols-outlined group-active:scale-95 duration-150">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</div>
+</nav>
+<!-- Interactive Toast Layer -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2" id="toast-container"></div>
+<script>
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const titleEl = card.querySelector('h3');
+                if (titleEl) {
+                    const tableName = titleEl.innerText;
+                    showToast(`Selecting ${tableName}...`);
+                }
+            });
+        });
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full shadow-2xl font-label-md flex items-center gap-2 animate-bounce';
+            toast.innerHTML = `<span class="material-symbols-outlined text-sm">info</span> ${message}`;
+            const container = document.getElementById('toast-container');
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+    </script>
+</body></html>

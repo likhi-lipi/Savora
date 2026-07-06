@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora POS - Employee Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E5E7EB;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary/20">
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f4f0",
+                        "outline": "#717972",
+                        "on-surface-variant": "#414942",
+                        "surface-bright": "#f9faf5",
+                        "primary-fixed-dim": "#a1d2af",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#a1d2af",
+                        "surface-container": "#edeeea",
+                        "on-primary-fixed-variant": "#224f35",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#121f00",
+                        "primary-container": "#517e60",
+                        "surface-variant": "#e2e3df",
+                        "on-primary-fixed": "#00210f",
+                        "tertiary-fixed": "#ffd9dc",
+                        "on-background": "#1a1c1a",
+                        "outline-variant": "#c1c9c0",
+                        "error": "#ba1a1a",
+                        "background": "#f9faf5",
+                        "surface-container-highest": "#e2e3df",
+                        "primary": "#386549",
+                        "on-secondary-fixed-variant": "#384d17",
+                        "tertiary": "#834c53",
+                        "surface-tint": "#3b684b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6b383e",
+                        "surface-container-high": "#e7e9e4",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#a0646b",
+                        "on-primary-container": "#f6fff5",
+                        "on-tertiary-fixed": "#360d15",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#fbb4bb",
+                        "on-surface": "#1a1c1a",
+                        "on-secondary-container": "#536a30",
+                        "secondary-fixed-dim": "#b5d08b",
+                        "secondary": "#4f652d",
+                        "primary-fixed": "#bceeca",
+                        "inverse-surface": "#2e312e",
+                        "secondary-fixed": "#d1eca5",
+                        "inverse-on-surface": "#f0f1ed",
+                        "surface-dim": "#d9dad6",
+                        "secondary-container": "#cee9a2",
+                        "surface": "#f9faf5",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-container": "#fffbff",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "16px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xl": "32px",
+                        "base": "8px",
+                        "container-margin": "24px",
+                        "2xl": "48px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "gutter": "16px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "headline-xl-mobile": ["Geist"],
+                        "label-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Geist"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<!-- Side Navigation Shell -->
+<aside class="w-[240px] h-screen fixed left-0 top-0 flex flex-col py-md bg-surface border-r border-outline-variant z-50">
+<div class="px-lg mb-xl">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Savora POS</h1>
+<p class="text-label-sm font-label-sm text-outline">Enterprise Admin</p>
+</div>
+<nav class="flex-1 space-y-1 px-sm">
+<!-- Active Tab: Employees -->
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-label-md font-label-md">Menu</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-label-md font-label-md">Orders</span>
+</a>
+<div class="text-primary font-bold border-r-4 border-primary bg-secondary-container/10 flex items-center gap-md px-md py-sm rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">badge</span>
+<span class="text-label-md font-label-md">Employees</span>
+</div>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-label-md font-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-label-md font-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-lg mt-auto border-t border-outline-variant pt-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold">JD</div>
+<div>
+<p class="text-label-md font-label-md font-bold">Julianne Dea</p>
+<p class="text-label-sm font-label-sm text-outline">General Manager</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[240px] min-h-screen">
+<!-- Top Bar -->
+<header class="h-16 px-xl flex justify-between items-center sticky top-0 bg-surface/80 backdrop-blur-md z-40 border-b border-outline-variant">
+<div class="flex items-center gap-xl flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-body-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search employees, shifts, or roles..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-xl space-y-xl max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-lg">
+<div>
+<h2 class="text-headline-xl font-headline-xl text-on-surface">Employee Management</h2>
+<p class="text-body-md text-on-surface-variant mt-1">Manage restaurant staff, roles, shifts, attendance and performance.</p>
+</div>
+<div class="flex gap-md">
+<button class="flex items-center gap-sm px-lg py-3 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-low transition-colors font-label-md">
+<span class="material-symbols-outlined">file_download</span> Export
+                    </button>
+<button class="flex items-center gap-sm px-lg py-3 rounded-xl bg-primary text-on-primary hover:opacity-90 transition-opacity font-label-md shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined">add</span> Add Employee
+                    </button>
+</div>
+</div>
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Total Employees</p>
+<h3 class="text-headline-lg font-headline-lg mt-1">42</h3>
+</div>
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">groups</span>
+</div>
+</div>
+<div class="mt-lg flex items-center gap-sm text-label-sm">
+<span class="text-primary font-bold flex items-center">+4 <span class="material-symbols-outlined text-[16px]">trending_up</span></span>
+<span class="text-outline">vs last month</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Present Today</p>
+<h3 class="text-headline-lg font-headline-lg mt-1">36</h3>
+</div>
+<div class="p-2 bg-secondary/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined">how_to_reg</span>
+</div>
+</div>
+<div class="mt-lg flex items-center gap-sm text-label-sm">
+<div class="flex-1 h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%] rounded-full"></div>
+</div>
+<span class="text-outline">85% attendance</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">On Leave</p>
+<h3 class="text-headline-lg font-headline-lg mt-1">04</h3>
+</div>
+<div class="p-2 bg-tertiary/10 rounded-lg text-tertiary">
+<span class="material-symbols-outlined">event_busy</span>
+</div>
+</div>
+<div class="mt-lg flex items-center gap-sm text-label-sm">
+<span class="text-tertiary font-bold">2 medical</span>
+<span class="text-outline">· 2 vacation</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Avg Performance</p>
+<h3 class="text-headline-lg font-headline-lg mt-1">4.8<span class="text-body-sm text-outline">/5.0</span></h3>
+</div>
+<div class="p-2 bg-primary-fixed-dim/30 rounded-lg text-primary">
+<span class="material-symbols-outlined">grade</span>
+</div>
+</div>
+<div class="mt-lg flex items-center gap-sm text-label-sm">
+<span class="text-primary font-bold flex items-center">+0.2 <span class="material-symbols-outlined text-[16px]">trending_up</span></span>
+<span class="text-outline">from Q3 avg</span>
+</div>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-12 gap-xl">
+<!-- Left Column: Directory & Schedule -->
+<div class="col-span-12 lg:col-span-8 space-y-xl">
+<!-- Filters & Search -->
+<div class="flex flex-wrap items-center gap-md">
+<div class="flex items-center gap-sm bg-surface-container-lowest border border-outline-variant rounded-full px-4 py-2">
+<span class="text-label-sm text-outline">Role:</span>
+<select class="bg-transparent border-none text-label-sm font-bold focus:ring-0 p-0 cursor-pointer">
+<option>All Roles</option>
+<option>Manager</option>
+<option>Executive Chef</option>
+<option>Waiter</option>
+<option>Bartender</option>
+</select>
+</div>
+<div class="flex items-center gap-sm bg-surface-container-lowest border border-outline-variant rounded-full px-4 py-2">
+<span class="text-label-sm text-outline">Shift:</span>
+<select class="bg-transparent border-none text-label-sm font-bold focus:ring-0 p-0 cursor-pointer">
+<option>Today</option>
+<option>Tomorrow</option>
+<option>This Week</option>
+</select>
+</div>
+<div class="flex items-center gap-sm bg-surface-container-lowest border border-outline-variant rounded-full px-4 py-2">
+<span class="text-label-sm text-outline">Status:</span>
+<select class="bg-transparent border-none text-label-sm font-bold focus:ring-0 p-0 cursor-pointer">
+<option>Active</option>
+<option>On Leave</option>
+<option>Off Duty</option>
+</select>
+</div>
+</div>
+<!-- Employee Directory Grid -->
+<section>
+<div class="flex items-center justify-between mb-lg">
+<h4 class="text-headline-md font-headline-md">Employee Directory</h4>
+<button class="text-primary font-label-md hover:underline">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Employee Card 1 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30 flex items-start gap-lg hover:shadow-md transition-shadow group">
+<div class="relative">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a head chef wearing a crisp white double-breasted jacket and a classic chef's toque. He is standing in a brightly lit, modern kitchen with stainless steel appliances blurred in the background. The lighting is warm and cinematic, emphasizing his friendly yet authoritative expression. The image has a clean, premium light-mode aesthetic with soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLig3CXjQ8ssuq1fgAY9AOg5TT4dek3VaUPy0bO7dnQxAfJ6ZCkp4rEu6BUp_fyPG7-N2mH7UI6kCsMCmr9MCYBG_hR9lMsoAxExG_WHMcbRKUfTgwyOIk0my-bKd6E6t4TInT0M4fXsaP9NgfWJCtTWBAmz5Om-aoWq_Pza7SEW9RDtqEYKIvuuSRapF2yNQAdR1Cbeb73JWUXq_y5RMSTdCHIA7SvJ12bQS2s6FL2Jk0jSiaDjXdBWY42JxCbciBUFcq_dMlfhY"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-primary border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="text-body-lg font-bold">Marcus Sterling</h5>
+<span class="inline-block px-3 py-1 mt-1 rounded-full text-label-sm font-label-sm bg-primary/10 text-primary">Executive Chef</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-md space-y-1">
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">mail</span> marcus.s@savora.com
+                                        </div>
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">call</span> +1 (555) 234-5678
+                                        </div>
+</div>
+<div class="mt-lg flex gap-sm">
+<button class="flex-1 bg-surface-container-high py-2 rounded-lg text-label-sm font-bold hover:bg-outline-variant/20 transition-colors">Shift Details</button>
+<button class="flex-1 border border-primary text-primary py-2 rounded-lg text-label-sm font-bold hover:bg-primary/5 transition-colors">Assign</button>
+</div>
+</div>
+</div>
+<!-- Employee Card 2 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30 flex items-start gap-lg hover:shadow-md transition-shadow group">
+<div class="relative">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful, young female waitress in her mid-20s. She is wearing a modern, dark green apron over a light gray linen shirt, reflecting the Savora brand aesthetic. Her hair is neatly styled, and she is smiling warmly at the camera in a sunlit, upscale restaurant patio setting. Soft bokeh effects on the greenery in the background create a fresh and organic feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYs41-89Mz3JXP3yn8q-OG_wvOGelYH_GZM4r-9yXMLhPsKg6HSHxhwrEY5nPpIndRTSK_-zq2xw07cf-ty94f9J42eat_ClKro3qANv3aZB3O86AON8yQRKoekvrRu47MrEryYB56UaRj3BqlrmvwafPLA41GAMy47nT3Laga-druk8L1pxDNVNfYq0GCwQoioHGQ5z99mAsgHfscUDnHTsw8PyY_LuV5hBWbCDAiKfmPqUWA1yeWfkOHpP_trLC1s1e3j_cG5-k"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-primary border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="text-body-lg font-bold">Elena Rodriguez</h5>
+<span class="inline-block px-3 py-1 mt-1 rounded-full text-label-sm font-label-sm bg-secondary/10 text-secondary">Senior Waiter</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-md space-y-1">
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">mail</span> elena.r@savora.com
+                                        </div>
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">call</span> +1 (555) 876-5432
+                                        </div>
+</div>
+<div class="mt-lg flex gap-sm">
+<button class="flex-1 bg-surface-container-high py-2 rounded-lg text-label-sm font-bold hover:bg-outline-variant/20 transition-colors">Shift Details</button>
+<button class="flex-1 border border-primary text-primary py-2 rounded-lg text-label-sm font-bold hover:bg-primary/5 transition-colors">Assign</button>
+</div>
+</div>
+</div>
+<!-- Employee Card 3 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30 flex items-start gap-lg hover:shadow-md transition-shadow group">
+<div class="relative">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A focused male bartender with a short beard and a stylish vest, meticulously garnishing a cocktail behind a high-end, dark wood bar. The background features glowing shelves of premium spirits. The lighting is moody but bright enough to highlight the clean lines of the barware. The image conveys a sense of expertise and sophisticated hospitality in line with a luxury restaurant brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM9KP7Z_BVYFNi2GFDqGtdh_SszqkVtHbHnM8W6Ry3SWkXmXShLys-nbre20IeWxoYPpaTLAW8sa_uj_6HHZI9kzTejvs-iu5yU8la135TzxP9YlSArG19MHroMsf5twQzLalH_MGGpS-vw3KdSsI4uCA71Hq5kP1etRbx_4VRHC3X7qsBWMcuxRK1nOsAmRSKWm7VFAFa6B4a-KgqVSiPKUoifSqfKkz-EqovhyEyGTJMbwSLh3cJe1H8wE02VVMMW_a3SuyTrn4"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-outline-variant border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="text-body-lg font-bold">Jameson Wu</h5>
+<span class="inline-block px-3 py-1 mt-1 rounded-full text-label-sm font-label-sm bg-tertiary/10 text-tertiary">Bartender</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-md space-y-1">
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">mail</span> j.wu@savora.com
+                                        </div>
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">call</span> +1 (555) 443-2211
+                                        </div>
+</div>
+<div class="mt-lg flex gap-sm">
+<button class="flex-1 bg-surface-container-high py-2 rounded-lg text-label-sm font-bold hover:bg-outline-variant/20 transition-colors">Shift Details</button>
+<button class="flex-1 border border-primary text-primary py-2 rounded-lg text-label-sm font-bold hover:bg-primary/5 transition-colors">Assign</button>
+</div>
+</div>
+</div>
+<!-- Employee Card 4 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30 flex items-start gap-lg hover:shadow-md transition-shadow group">
+<div class="relative">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A portrait of a serene female pastry chef wearing a light cream chef's uniform. She is delicately finishing a plated dessert with tweezers in a brightly lit pastry kitchen. The atmosphere is calm and focused, with soft natural light streaming in. The color palette is composed of neutrals and earthy greens, embodying a premium, organic restaurant brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJD5MZpqpqKhYeL7dMOF9Jyc0cmzO0y08tvMFV1HYEryMvtVtVdUJDoQF_BTjRM8PTWtoIjKxB-DP5KTJDcSmCBHOYXzTddAv3rCgz6yxJpmgv6ucSezd3Ip9U7QlCfblEDetiQX0qdLnAhQ6URt63jThXqxFbGsd0RbA-WMiq0l3oBnt8ryeNqrvMog1uEc1A5oPeOQaacYuT70n_5Phng6be7hGHEOpRfBW8RtmYjxrityOD_QDsvZQq2xa7a7Sa4QbcWNioPoU"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-5 h-5 bg-primary border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h5 class="text-body-lg font-bold">Sophia Chen</h5>
+<span class="inline-block px-3 py-1 mt-1 rounded-full text-label-sm font-label-sm bg-primary-fixed-dim/30 text-on-primary-fixed-variant">Pastry Chef</span>
+</div>
+<button class="text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-md space-y-1">
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">mail</span> s.chen@savora.com
+                                        </div>
+<div class="flex items-center gap-sm text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">call</span> +1 (555) 909-1212
+                                        </div>
+</div>
+<div class="mt-lg flex gap-sm">
+<button class="flex-1 bg-surface-container-high py-2 rounded-lg text-label-sm font-bold hover:bg-outline-variant/20 transition-colors">Shift Details</button>
+<button class="flex-1 border border-primary text-primary py-2 rounded-lg text-label-sm font-bold hover:bg-primary/5 transition-colors">Assign</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Today's Schedule & Attendance -->
+<section class="bg-surface-container-lowest p-xl rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30">
+<div class="flex items-center justify-between mb-xl">
+<div>
+<h4 class="text-headline-md font-headline-md">Today's Schedule</h4>
+<p class="text-label-sm text-outline mt-1">Wednesday, Oct 25, 2023</p>
+</div>
+<div class="flex bg-surface-container-high p-1 rounded-lg">
+<button class="px-4 py-1.5 bg-surface-container-lowest rounded-md text-label-sm font-bold shadow-sm">Morning</button>
+<button class="px-4 py-1.5 text-label-sm text-on-surface-variant">Evening</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<!-- Morning Shift Card -->
+<div class="p-lg bg-surface-container-low rounded-xl border border-outline-variant/20">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary">wb_sunny</span>
+<span class="text-label-md font-bold">Front of House</span>
+</div>
+<div class="space-y-sm">
+<p class="text-label-sm text-outline">8 Staff Assigned</p>
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-primary-container text-on-primary-container text-[10px] flex items-center justify-center font-bold">AB</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-secondary-container text-on-secondary-container text-[10px] flex items-center justify-center font-bold">ER</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-tertiary-container text-on-tertiary-container text-[10px] flex items-center justify-center font-bold">JW</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-outline-variant text-[10px] flex items-center justify-center font-bold">+5</div>
+</div>
+</div>
+</div>
+<!-- Kitchen Shift Card -->
+<div class="p-lg bg-surface-container-low rounded-xl border border-outline-variant/20">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary">restaurant</span>
+<span class="text-label-md font-bold">Kitchen Ops</span>
+</div>
+<div class="space-y-sm">
+<p class="text-label-sm text-outline">12 Staff Assigned</p>
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-primary-container text-on-primary-container text-[10px] flex items-center justify-center font-bold">MS</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-secondary-container text-on-secondary-container text-[10px] flex items-center justify-center font-bold">SC</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-tertiary-container text-on-tertiary-container text-[10px] flex items-center justify-center font-bold">KD</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-outline-variant text-[10px] flex items-center justify-center font-bold">+9</div>
+</div>
+</div>
+</div>
+<!-- Bar Shift Card -->
+<div class="p-lg bg-surface-container-low rounded-xl border border-outline-variant/20">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary">local_bar</span>
+<span class="text-label-md font-bold">Bar &amp; Beverage</span>
+</div>
+<div class="space-y-sm">
+<p class="text-label-sm text-outline">4 Staff Assigned</p>
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-primary-container text-on-primary-container text-[10px] flex items-center justify-center font-bold">RB</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-secondary-container text-on-secondary-container text-[10px] flex items-center justify-center font-bold">LH</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-outline-variant text-[10px] flex items-center justify-center font-bold">+2</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Attendance Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-outline-variant/30 text-label-sm text-outline font-bold">
+<tr>
+<th class="pb-md">Employee</th>
+<th class="pb-md">Check In</th>
+<th class="pb-md">Check Out</th>
+<th class="pb-md">Break Time</th>
+<th class="pb-md">Status</th>
+<th class="pb-md"></th>
+</tr>
+</thead>
+<tbody class="text-body-sm divide-y divide-outline-variant/10">
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-md flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-[10px] font-bold">MS</div>
+<span class="font-bold">Marcus Sterling</span>
+</td>
+<td class="py-md">08:52 AM</td>
+<td class="py-md">--:--</td>
+<td class="py-md">45 mins</td>
+<td class="py-md">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[12px] font-bold">In Progress</span>
+</td>
+<td class="py-md text-right">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-md flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-[10px] font-bold">ER</div>
+<span class="font-bold">Elena Rodriguez</span>
+</td>
+<td class="py-md">09:05 AM</td>
+<td class="py-md">--:--</td>
+<td class="py-md">30 mins</td>
+<td class="py-md">
+<span class="px-3 py-1 bg-tertiary/10 text-tertiary rounded-full text-[12px] font-bold">Late (15m)</span>
+</td>
+<td class="py-md text-right">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-md flex items-center gap-md">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center text-[10px] font-bold">JW</div>
+<span class="font-bold">Jameson Wu</span>
+</td>
+<td class="py-md">08:45 AM</td>
+<td class="py-md">--:--</td>
+<td class="py-md">15 mins</td>
+<td class="py-md">
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[12px] font-bold">In Progress</span>
+</td>
+<td class="py-md text-right">
+<button class="p-1 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Right Column: Analytics & Feed -->
+<div class="col-span-12 lg:col-span-4 space-y-xl">
+<!-- Performance Trends Card -->
+<div class="bg-surface-container-lowest p-xl rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30">
+<h4 class="text-headline-md font-headline-md mb-xl">Performance Trends</h4>
+<div class="h-48 relative flex items-end justify-between gap-2 px-4">
+<!-- Simulating a bar chart with glass bars -->
+<div class="w-full bg-primary/20 rounded-t-lg h-[40%]" title="Mon"></div>
+<div class="w-full bg-primary/40 rounded-t-lg h-[65%]" title="Tue"></div>
+<div class="w-full bg-primary/60 rounded-t-lg h-[85%]" title="Wed"></div>
+<div class="w-full bg-primary/80 rounded-t-lg h-[60%]" title="Thu"></div>
+<div class="w-full bg-primary rounded-t-lg h-[95%]" title="Fri"></div>
+<div class="w-full bg-primary/50 rounded-t-lg h-[70%]" title="Sat"></div>
+<div class="w-full bg-primary/30 rounded-t-lg h-[45%]" title="Sun"></div>
+</div>
+<div class="flex justify-between mt-md px-2 text-label-sm text-outline font-bold">
+<span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+</div>
+<div class="mt-xl space-y-md">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Attendance Reliability</span>
+<span class="font-bold">94.2%</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Shift Swap Rate</span>
+<span class="font-bold">2.4%</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Staff Retention</span>
+<span class="font-bold">98%</span>
+</div>
+</div>
+</div>
+<!-- Recent Activities Feed -->
+<div class="bg-surface-container-lowest p-xl rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30">
+<div class="flex items-center justify-between mb-xl">
+<h4 class="text-headline-md font-headline-md">Staff Feed</h4>
+<span class="material-symbols-outlined text-outline">history</span>
+</div>
+<div class="space-y-lg relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container-high">
+<!-- Activity Item 1 -->
+<div class="flex gap-lg relative">
+<div class="w-6 h-6 rounded-full bg-primary border-4 border-surface-container-lowest z-10"></div>
+<div class="flex-1">
+<p class="text-body-sm font-bold">Shift Swap Approved</p>
+<p class="text-label-sm text-on-surface-variant mt-1">Elena Rodriguez swapped 'Evening' shift with Jameson Wu.</p>
+<p class="text-[12px] text-outline mt-2 italic">15 minutes ago</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-lg relative">
+<div class="w-6 h-6 rounded-full bg-secondary border-4 border-surface-container-lowest z-10"></div>
+<div class="flex-1">
+<p class="text-body-sm font-bold">Work Anniversary</p>
+<p class="text-label-sm text-on-surface-variant mt-1">Sophia Chen celebrates 2 years at Savora today!</p>
+<p class="text-[12px] text-outline mt-2 italic">2 hours ago</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-lg relative">
+<div class="w-6 h-6 rounded-full bg-tertiary border-4 border-surface-container-lowest z-10"></div>
+<div class="flex-1">
+<p class="text-body-sm font-bold">Performance Milestone</p>
+<p class="text-label-sm text-on-surface-variant mt-1">Marcus Sterling reached a 5.0 rating for 3 consecutive weeks.</p>
+<p class="text-[12px] text-outline mt-2 italic">5 hours ago</p>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="flex gap-lg relative">
+<div class="w-6 h-6 rounded-full bg-primary border-4 border-surface-container-lowest z-10"></div>
+<div class="flex-1">
+<p class="text-body-sm font-bold">New Employee Onboarding</p>
+<p class="text-label-sm text-on-surface-variant mt-1">David Kim joined the 'Bar &amp; Beverage' team.</p>
+<p class="text-[12px] text-outline mt-2 italic">Yesterday</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-xl py-3 border border-outline-variant rounded-xl text-label-sm font-bold hover:bg-surface-container-high transition-colors">See All Activity</button>
+</div>
+<!-- Training Progress Ad -->
+<div class="relative overflow-hidden p-xl rounded-xl bg-primary text-on-primary">
+<div class="relative z-10">
+<h5 class="text-headline-md font-headline-md mb-2">Staff Training</h5>
+<p class="text-label-sm opacity-90 mb-lg">8 staff members need to complete their Food Safety certification this week.</p>
+<button class="bg-surface-container-lowest text-primary px-lg py-2 rounded-lg font-bold text-label-sm hover:opacity-90 transition-opacity">Launch Dashboard</button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] opacity-10 rotate-12">school</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on scroll or specific screens, but useful for quick employee entry) -->
+<button class="fixed bottom-xl right-xl w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50">
+<span class="material-symbols-outlined text-[32px]">person_add</span>
+</button>
+<script>
+        // Simple Interaction: Change Active Tab Logic
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // In a real app, this would handle routing
+                // This is just a UI demonstration of state change
+                document.querySelectorAll('nav div, nav a').forEach(el => {
+                    el.classList.remove('text-primary', 'font-bold', 'border-r-4', 'border-primary', 'bg-secondary-container/10');
+                    el.classList.add('text-on-surface-variant');
+                });
+                link.classList.add('text-primary', 'font-bold', 'border-r-4', 'border-primary', 'bg-secondary-container/10');
+                link.classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

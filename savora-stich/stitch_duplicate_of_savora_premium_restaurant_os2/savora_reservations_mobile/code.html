@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora Pro | Reservations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#edeeea",
+                    "secondary-container": "#cee9a2",
+                    "background": "#f9faf5",
+                    "outline": "#717972",
+                    "on-tertiary-fixed-variant": "#6b383e",
+                    "on-surface-variant": "#414942",
+                    "surface-container-low": "#f3f4f0",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-container": "#fffbff",
+                    "surface-container-highest": "#e2e3df",
+                    "surface-container-high": "#e7e9e4",
+                    "inverse-primary": "#a1d2af",
+                    "on-background": "#1a1c1a",
+                    "surface": "#f9faf5",
+                    "primary-container": "#517e60",
+                    "primary": "#386549",
+                    "on-secondary-container": "#536a30",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#d1eca5",
+                    "on-primary-fixed-variant": "#224f35",
+                    "on-primary-container": "#f6fff5",
+                    "on-error": "#ffffff",
+                    "secondary": "#4f652d",
+                    "surface-bright": "#f9faf5",
+                    "tertiary-container": "#a0646b",
+                    "tertiary": "#834c53",
+                    "primary-fixed-dim": "#a1d2af",
+                    "on-secondary-fixed-variant": "#384d17",
+                    "surface-dim": "#d9dad6",
+                    "surface-variant": "#e2e3df",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed": "#121f00",
+                    "inverse-on-surface": "#f0f1ed",
+                    "inverse-surface": "#2e312e",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#bceeca",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#00210f",
+                    "on-tertiary-fixed": "#360d15",
+                    "tertiary-fixed": "#ffd9dc",
+                    "outline-variant": "#c1c9c0",
+                    "secondary-fixed-dim": "#b5d08b",
+                    "on-surface": "#1a1c1a",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#3b684b",
+                    "tertiary-fixed-dim": "#fbb4bb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "container-margin": "24px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "gutter": "16px",
+                    "lg": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "headline-xl-mobile": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f9faf5; color: #1a1c1a; -webkit-tap-highlight-color: transparent; }
+        .glass-header { backdrop-filter: blur(12px); background: rgba(249, 250, 245, 0.8); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .drawer-transition { transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .active-dot::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #386549; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top Navigation Anchor -->
+<header class="glass-header sticky top-0 z-50 px-lg py-md border-b border-outline-variant/10">
+<div class="flex justify-between items-center mb-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">Savora Pro</span>
+<div class="flex gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional close-up portrait of a high-end restaurant manager with a friendly expression. The lighting is soft and cinematic, highlighting sophisticated features against a blurred background of a luxurious, minimalist dining room with deep green accents and warm wooden textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJmMjwbi68yIjlznX5ChpGWB-1_h9fFrEDuvj49F8p9YLOWhdZBeavVyxduu2ssVY0Z8mdR2srUoj_WHx2Cu-QoX5mn23csmx5adNQBw4n4LUQ_gci7RLuY2IBymWQYQt6FIYXT6nDLghgYhrUUUgXsJ_QUPZ7eBWgJzRJgZDlSOBLihKqpcUwCojYqW3rv7TKpF7IWbKFqEdV4YQPuWizuNA1rJPtsQPXf8cGKPtkFxHhZN36OXdBG2NVoRadp_K-774fhKUKaJ4"/>
+</div>
+</div>
+</div>
+<div class="flex gap-sm items-center">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-xl text-body-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant" placeholder="Search reservations..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-xl flex items-center gap-xs font-label-md text-label-md active:scale-95 transition-transform shadow-sm" onclick="toggleDrawer()">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                New
+            </button>
+</div>
+</header>
+<main class="pb-24">
+<!-- Horizontal Stats Cards -->
+<section class="mt-lg overflow-x-auto hide-scrollbar flex gap-md px-lg">
+<div class="min-w-[140px] p-md bg-secondary-container rounded-2xl flex flex-col gap-xs">
+<span class="text-on-secondary-container font-label-sm text-label-sm opacity-80">Total Bookings</span>
+<span class="font-headline-lg text-headline-lg text-on-secondary-container">42</span>
+</div>
+<div class="min-w-[140px] p-md bg-surface-container-high rounded-2xl flex flex-col gap-xs">
+<span class="text-on-surface-variant font-label-sm text-label-sm opacity-80">Remaining</span>
+<span class="font-headline-lg text-headline-lg text-on-surface">18</span>
+</div>
+<div class="min-w-[140px] p-md bg-tertiary-container rounded-2xl flex flex-col gap-xs">
+<span class="text-on-tertiary-container font-label-sm text-label-sm opacity-80">Cancellations</span>
+<span class="font-headline-lg text-headline-lg text-on-tertiary-container">2</span>
+</div>
+</section>
+<!-- Optimized Calendar Strip -->
+<section class="mt-xl px-lg">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-md text-headline-md text-on-surface">September</h2>
+<button class="text-primary font-label-md text-label-md">Change Date</button>
+</div>
+<div class="flex justify-between items-center py-sm border-y border-outline-variant/10">
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-outline-variant">Mon</span>
+<span class="w-10 h-10 flex items-center justify-center font-label-md text-label-md rounded-full text-on-surface">12</span>
+</div>
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-outline-variant">Tue</span>
+<span class="w-10 h-10 flex items-center justify-center font-label-md text-label-md rounded-full text-on-surface">13</span>
+</div>
+<div class="flex flex-col items-center gap-xs relative">
+<span class="font-label-sm text-label-sm text-primary">Wed</span>
+<span class="w-10 h-10 flex items-center justify-center font-label-md text-label-md rounded-full bg-primary text-on-primary active-dot">14</span>
+</div>
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-outline-variant">Thu</span>
+<span class="w-10 h-10 flex items-center justify-center font-label-md text-label-md rounded-full text-on-surface">15</span>
+</div>
+<div class="flex flex-col items-center gap-xs">
+<span class="font-label-sm text-label-sm text-outline-variant">Fri</span>
+<span class="w-10 h-10 flex items-center justify-center font-label-md text-label-md rounded-full text-on-surface">16</span>
+</div>
+</div>
+</section>
+<!-- Vertical Timeline & Reservation List -->
+<section class="mt-xl px-lg space-y-lg">
+<div class="relative pl-lg border-l-2 border-outline-variant/30 space-y-md">
+<!-- Time Slot Group -->
+<div class="relative">
+<div class="absolute -left-[33px] top-1 w-4 h-4 rounded-full border-4 border-background bg-primary"></div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">18:00 — Early Dinner</span>
+<div class="mt-md space-y-md">
+<!-- Reservation Card 1 -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/10 active:scale-[0.98] transition-transform" onclick="openReservation('Alex Thompson')">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Alex Thompson</h3>
+<div class="flex gap-sm items-center mt-xs">
+<span class="flex items-center gap-1 text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">group</span> 4
+                                        </span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="flex items-center gap-1 text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">table_restaurant</span> T-12
+                                        </span>
+</div>
+</div>
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded uppercase">Seated</span>
+</div>
+<div class="flex gap-2 mt-md">
+<button class="flex-1 py-2 flex items-center justify-center gap-1 bg-surface-container-low rounded-xl text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">call</span> Call
+                                </button>
+<button class="flex-1 py-2 flex items-center justify-center gap-1 bg-surface-container-low rounded-xl text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">grid_view</span> Assign
+                                </button>
+<button class="w-11 py-2 flex items-center justify-center bg-surface-container-low rounded-xl text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Reservation Card 2 -->
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/10 active:scale-[0.98] transition-transform" onclick="openReservation('Sarah Jenkins')">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Sarah Jenkins</h3>
+<div class="flex gap-sm items-center mt-xs">
+<span class="flex items-center gap-1 text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">group</span> 2
+                                        </span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="flex items-center gap-1 text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">celebration</span> Birthday
+                                        </span>
+</div>
+</div>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant text-[10px] font-bold rounded uppercase">Confirmed</span>
+</div>
+<div class="flex gap-2 mt-md">
+<button class="flex-1 py-2 flex items-center justify-center gap-1 bg-surface-container-low rounded-xl text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">call</span> Call
+                                </button>
+<button class="flex-1 py-2 flex items-center justify-center gap-1 bg-surface-container-low rounded-xl text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">grid_view</span> Assign
+                                </button>
+<button class="w-11 py-2 flex items-center justify-center bg-surface-container-low rounded-xl text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Time Slot Group 2 -->
+<div class="relative pt-lg">
+<div class="absolute -left-[33px] top-[40px] w-4 h-4 rounded-full border-4 border-background bg-outline-variant"></div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">19:30 — Peak Service</span>
+<div class="mt-md">
+<div class="bg-surface-container-lowest p-md rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/10 active:scale-[0.98] transition-transform opacity-80" onclick="openReservation('Michael Chen')">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Michael Chen</h3>
+<div class="flex gap-sm items-center mt-xs">
+<span class="flex items-center gap-1 text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">group</span> 6
+                                        </span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-body-sm text-primary font-medium">VIP Member</span>
+</div>
+</div>
+<span class="px-2 py-1 bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold rounded uppercase">Pending</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Contextual Filter Rule Applied) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-surface/80 backdrop-blur-md px-lg py-sm flex justify-between items-center z-50 border-t border-outline-variant/10">
+<div class="flex flex-col items-center gap-xs transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-md">Home</span>
+</div>
+<div class="flex flex-col items-center gap-xs transition-all text-primary font-bold">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_available</span>
+<span class="text-[10px] font-label-md">Bookings</span>
+</div>
+<div class="flex flex-col items-center gap-xs transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="text-[10px] font-label-md">Floor</span>
+</div>
+<div class="flex flex-col items-center gap-xs transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-[10px] font-label-md">Insights</span>
+</div>
+<div class="flex flex-col items-center gap-xs transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-label-md">Admin</span>
+</div>
+</nav>
+<!-- Reservation Detail Drawer (Hidden by default) -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="fixed bottom-0 left-0 right-0 h-[92%] bg-surface rounded-t-[32px] z-[70] translate-y-full drawer-transition shadow-2xl flex flex-col" id="reservation-drawer">
+<div class="w-full h-12 flex items-center justify-center cursor-pointer" onclick="closeDrawer()">
+<div class="w-12 h-1.5 rounded-full bg-outline-variant/40"></div>
+</div>
+<div class="flex-1 overflow-y-auto px-lg pb-10">
+<div class="flex justify-between items-start mb-lg">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface" id="drawer-name">Alex Thompson</h2>
+<p class="text-on-surface-variant flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-sm">schedule</span> Reserved for 18:00
+                    </p>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center" onclick="closeDrawer()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-md mb-xl">
+<div class="p-md bg-surface-container-low rounded-2xl border border-outline-variant/10">
+<span class="font-label-sm text-label-sm text-outline block mb-1">Guests</span>
+<span class="font-headline-md text-headline-md text-on-surface">4 People</span>
+</div>
+<div class="p-md bg-surface-container-low rounded-2xl border border-outline-variant/10">
+<span class="font-label-sm text-label-sm text-outline block mb-1">Table</span>
+<span class="font-headline-md text-headline-md text-on-surface">T-12 (Window)</span>
+</div>
+</div>
+<div class="space-y-xl">
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Contact Info</h4>
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<p class="font-body-md text-body-md">+1 (555) 012-3456</p>
+<p class="text-body-sm text-outline">Mobile</p>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<p class="font-body-md text-body-md">alex.t@example.com</p>
+<p class="text-body-sm text-outline">Personal Email</p>
+</div>
+</div>
+</div>
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Special Requests</h4>
+<div class="p-md bg-surface-container-low rounded-2xl text-on-surface-variant italic">
+                        "Celebrating an anniversary. Would love a quiet booth near the garden view if possible. No allergies."
+                    </div>
+</div>
+<div class="pt-xl space-y-md">
+<button class="w-full py-4 bg-primary text-on-primary rounded-2xl font-headline-md text-headline-md shadow-lg shadow-primary/20 active:scale-[0.98] transition-all">
+                        Check In Guest
+                    </button>
+<div class="flex gap-md">
+<button class="flex-1 py-4 bg-surface-container-high text-on-surface rounded-2xl font-label-md text-label-md active:scale-[0.98] transition-all">
+                            Edit
+                        </button>
+<button class="flex-1 py-4 bg-surface-container-high text-error rounded-2xl font-label-md text-label-md active:scale-[0.98] transition-all">
+                            Cancel
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('reservation-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            drawer.classList.remove('translate-y-full');
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeDrawer() {
+            const drawer = document.getElementById('reservation-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            drawer.classList.add('translate-y-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function openReservation(name) {
+            document.getElementById('drawer-name').innerText = name;
+            toggleDrawer();
+        }
+
+        // Add touch swipe to close for the drawer
+        let startY = 0;
+        const drawer = document.getElementById('reservation-drawer');
+        
+        drawer.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+        });
+
+        drawer.addEventListener('touchmove', (e) => {
+            const currentY = e.touches[0].clientY;
+            const diff = currentY - startY;
+            if (diff > 0 && drawer.scrollTop <= 0) {
+                drawer.style.transform = `translateY(${diff}px)`;
+            }
+        });
+
+        drawer.addEventListener('touchend', (e) => {
+            const currentY = e.changedTouches[0].clientY;
+            const diff = currentY - startY;
+            if (diff > 150) {
+                closeDrawer();
+            }
+            drawer.style.transform = '';
+        });
+    </script>
+</body></html>

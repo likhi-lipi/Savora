@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora - Restaurant Management Dashboard</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary": "#1d3708",
+                "secondary-fixed": "#cbedac",
+                "on-tertiary-fixed": "#001c39",
+                "on-secondary-fixed": "#0c2000",
+                "surface-dim": "#0b141d",
+                "on-tertiary": "#00315d",
+                "on-surface": "#dae3f0",
+                "on-error-container": "#ffdad6",
+                "on-secondary-container": "#9ebf82",
+                "inverse-on-surface": "#28313b",
+                "tertiary-fixed": "#d4e3ff",
+                "surface-tint": "#95d5a0",
+                "on-primary-container": "#00401c",
+                "surface": "#0b141d",
+                "on-primary-fixed-variant": "#105229",
+                "outline-variant": "#404940",
+                "tertiary-container": "#5ea3f8",
+                "secondary": "#afd192",
+                "outline": "#8a9389",
+                "tertiary-fixed-dim": "#a4c9ff",
+                "on-secondary-fixed-variant": "#334e1d",
+                "inverse-surface": "#dae3f0",
+                "error": "#ffb4ab",
+                "on-primary-fixed": "#00210b",
+                "secondary-fixed-dim": "#afd192",
+                "on-background": "#dae3f0",
+                "primary-fixed-dim": "#95d5a0",
+                "primary-fixed": "#b0f2bb",
+                "tertiary": "#a4c9ff",
+                "inverse-primary": "#2d6a3f",
+                "primary-container": "#6fae7c",
+                "surface-container-high": "#222b34",
+                "surface-container": "#182029",
+                "surface-container-low": "#141c25",
+                "error-container": "#93000a",
+                "on-error": "#690005",
+                "surface-container-highest": "#2d363f",
+                "secondary-container": "#334e1d",
+                "surface-container-lowest": "#060f17",
+                "background": "#0b141d",
+                "primary": "#95d5a0",
+                "on-tertiary-container": "#003868",
+                "surface-variant": "#2d363f",
+                "on-tertiary-fixed-variant": "#004883",
+                "on-surface-variant": "#c0c9be",
+                "on-primary": "#003918",
+                "surface-bright": "#313a44",
+                "dark-background": "#111827"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "gutter": "16px",
+                    "container-margin": "24px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "2xl": "48px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter", "Geist"],
+                    "body-md": ["Inter", "Geist"],
+                    "label-sm": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "label-md": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "headline-xl-mobile": ["Geist"],
+                    "body-sm": ["Inter", "Geist"],
+                    "headline-md": ["Geist"],
+                    "headline-lg": ["Geist"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-dark-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-container-margin py-md w-full sticky top-0 z-50 bg-[#111827]/90 backdrop-blur-md border-b border-white/10 shadow-sm">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-white/10 transition-colors rounded-full active:opacity-70">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile font-bold text-primary">Savora</h1>
+</div>
+<div class="flex items-center">
+<button class="p-2 hover:bg-white/10 transition-colors rounded-full active:opacity-70 relative">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-2 right-2 w-2.5 h-2.5 bg-error rounded-full border-2 border-[#111827]"></span>
+</button>
+</div>
+</header>
+<main class="px-container-margin py-lg space-y-xl overflow-x-hidden">
+<!-- Greeting -->
+<section class="animate-fade-up">
+<p class="font-body-md text-on-surface-variant mb-1">Morning report</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Good Morning, Admin 👋</h2>
+</section>
+<!-- KPI Row -->
+<section class="animate-fade-up stagger-1">
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 -mx-container-margin px-container-margin">
+<!-- Revenue Card -->
+<div class="min-w-[200px] bg-[#1f2937] p-md rounded-xl shadow-lg border border-white/5 flex-shrink-0">
+<div class="flex items-center justify-between mb-sm">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">payments</span>
+<span class="text-secondary font-label-md text-label-md font-bold">+12%</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">Revenue</p>
+<p class="font-headline-md text-headline-md text-on-surface">$14,230</p>
+</div>
+<!-- Orders Card -->
+<div class="min-w-[200px] bg-[#1f2937] p-md rounded-xl shadow-lg border border-white/5 flex-shrink-0">
+<div class="flex items-center justify-between mb-sm">
+<span class="material-symbols-outlined text-secondary bg-secondary/10 p-2 rounded-lg">receipt_long</span>
+<span class="text-secondary font-label-md text-label-md font-bold">+8%</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">Total Orders</p>
+<p class="font-headline-md text-headline-md text-on-surface">184</p>
+</div>
+<!-- Customers Card -->
+<div class="min-w-[200px] bg-[#1f2937] p-md rounded-xl shadow-lg border border-white/5 flex-shrink-0">
+<div class="flex items-center justify-between mb-sm">
+<span class="material-symbols-outlined text-tertiary bg-tertiary/10 p-2 rounded-lg">group</span>
+<span class="text-error font-label-md text-label-md font-bold">-2%</span>
+</div>
+<p class="font-label-sm text-on-surface-variant">New Customers</p>
+<p class="font-headline-md text-headline-md text-on-surface">42</p>
+</div>
+</div>
+</section>
+<!-- Analytics Chart Placeholder -->
+<section class="animate-fade-up stagger-2">
+<div class="bg-[#1f2937] p-lg rounded-xl shadow-lg border border-white/5">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface">Revenue Trend</h3>
+<select class="bg-[#111827] border-white/10 rounded-lg font-label-sm text-label-sm text-primary focus:ring-primary focus:border-primary px-3 py-1">
+<option>Today</option>
+<option>Week</option>
+</select>
+</div>
+<!-- Simplified Vector Chart Path -->
+<div class="h-40 w-full relative flex items-end justify-between">
+<svg class="absolute inset-0 w-full h-full" viewbox="0 0 400 150">
+<defs>
+<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#95d5a0;stop-opacity:0.3"></stop>
+<stop offset="100%" style="stop-color:#95d5a0;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,120 C50,100 100,130 150,80 C200,30 250,90 300,50 C350,10 400,40 400,40 L400,150 L0,150 Z" fill="url(#gradient)"></path>
+<path d="M0,120 C50,100 100,130 150,80 C200,30 250,90 300,50 C350,10 400,40 400,40" fill="none" stroke="#95d5a0" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<!-- Floating Points -->
+<div class="w-2.5 h-2.5 rounded-full bg-primary absolute border-2 border-[#1f2937]" style="left: 37%; bottom: 45%;"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-primary absolute border-2 border-[#1f2937]" style="left: 75%; bottom: 66%;"></div>
+</div>
+<div class="flex justify-between mt-md font-label-sm text-label-sm text-on-surface-variant">
+<span>08:00</span>
+<span>12:00</span>
+<span>16:00</span>
+<span>20:00</span>
+</div>
+</div>
+</section>
+<!-- AI Insights Card (Glassmorphism) -->
+<section class="animate-fade-up stagger-3">
+<div class="glass-card p-lg rounded-xl shadow-2xl border border-white/10 overflow-hidden relative">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="font-headline-md text-headline-md text-primary">Savora AI Insight</h3>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                        Lunch rush is predicted to be <span class="font-bold text-on-surface">20% busier</span> than usual today. Consider opening an extra station in Section B by 11:30 AM.
+                    </p>
+<button class="mt-lg w-full py-3 bg-primary text-on-primary font-bold font-label-md text-label-md rounded-xl transition-transform active:scale-95 shadow-lg">
+                        Review Schedule
+                    </button>
+</div>
+</div>
+</section>
+<!-- Recent Orders -->
+<section class="animate-fade-up stagger-4 space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Orders</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">View All</button>
+</div>
+<div class="space-y-sm">
+<!-- Order Item -->
+<div class="bg-[#1f2937] p-md rounded-xl border border-white/5 flex items-center justify-between active:bg-[#374151] transition-colors shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-[#111827] overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A professional top-down shot of a gourmet salmon dish with microgreens on a white ceramic plate, warm restaurant lighting, high-end culinary aesthetic, depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyqo2-80ESlo2LupeNHmqegXQQfERDXWvqUUPkl75OEaAqNywaAaCxL5gRWuOQkJ8rGw2kaRR_sHhcethwCoiEzLg6-igVZaOxxHM2hPU9gOlIhEbb4AE5yCBBAFEaFKMsmJf_CfkfJ5m10dl7ZkWjX-CG4ZNrLoRN8A1hMpFFc2rvA6QQGZq-3uY6I1t4wdCWSKv8xsODO_nsWw8LyNtNfzoqtcNJ9WO76zSuWPQr8eOinplrTmggnueEvMXNady-uq_0ZdpNhyg"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Table #14</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">3 items • 4m ago</p>
+</div>
+</div>
+<span class="bg-secondary/20 text-secondary border border-secondary/30 px-3 py-1 rounded-full font-label-sm text-label-sm font-bold">Preparing</span>
+</div>
+<!-- Order Item -->
+<div class="bg-[#1f2937] p-md rounded-xl border border-white/5 flex items-center justify-between active:bg-[#374151] transition-colors shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-[#111827] overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="Close-up of a premium artisan burger with melting cheese and fresh arugula, rustic wooden background, warm golden hour lighting, cinematic food photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDioD7Ew2_X5dDXZ-WYcgsL7tzA97VOTsU_rl6Q1YkgG6EgLQPktRTRxPdQFrGCd1qksn8Rb6y4S0a2UJap1txWm4FSYvFG7W5Onqr6DADHfyP7FGNEzYdTj7B8WU6HLtYRXwv2BwtPxZJ6Dy5C-ckUrF7EkN1-EIR4hsWMC9N-SniiV3KU5kjMPigZ4UgdSJr0hNsaNz1JYzz1ry4f0pzBd93upXBEPGa7lCeDlB0W89q7lUMvoKCFRiXHqszkH-DTCqlcjXWuLY4"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Table #08</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">2 items • 12m ago</p>
+</div>
+</div>
+<span class="bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded-full font-label-sm text-label-sm font-bold">Served</span>
+</div>
+<!-- Order Item -->
+<div class="bg-[#1f2937] p-md rounded-xl border border-white/5 flex items-center justify-between active:bg-[#374151] transition-colors shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-[#111827] overflow-hidden border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A vibrant fresh Caesar salad with hand-shaved parmesan and artisanal croutons in a shallow bowl, bright natural daylight, minimalist restaurant interior style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX_dEn9TYrmKtupErVLazzM4xhSK1CoUTVlNilxI0AZ4rvUmz8RsyaEW7jKO7axOkZcARubFGGgcdVje1CEeacYibvZrp3HGozgBU5WOms3Rhs4Z7Pw2UAW6tqKpnttSbwpj6o66WNNmXr_E-wIInDxU3wLI9rJs6iEOcPnhXWmN9zS0zjICiCkEXCHWFodVSl5wGcDX2Jm8B6ptpXU33Ll7KBfttiSHxG9HXrgcztsouvt2NnGpKUtOvXNA6HdVb8IuYvvx7_wLg"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Table #21</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">5 items • 18m ago</p>
+</div>
+</div>
+<span class="bg-tertiary/20 text-tertiary border border-tertiary/30 px-3 py-1 rounded-full font-label-sm text-label-sm font-bold">Pending</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-2xl flex items-center justify-center z-[60] hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[32px] font-bold">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-6 bg-[#111827]/95 backdrop-blur-xl border-t border-white/10 shadow-lg rounded-t-2xl">
+<!-- Dashboard (Active) -->
+<a class="flex flex-col items-center justify-center text-primary font-bold bg-primary/10 rounded-xl px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all px-2" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<!-- Tables -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all px-2" href="#">
+<span class="material-symbols-outlined">table_restaurant</span>
+<span class="font-label-sm text-label-sm">Tables</span>
+</a>
+<!-- Menu -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all px-2" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-label-sm text-label-sm">Menu</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all px-2" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interactions for mobile touch
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('touchstart', () => {
+                el.classList.add('opacity-80');
+            });
+            el.addEventListener('touchend', () => {
+                el.classList.remove('opacity-80');
+            });
+        });
+
+        // Background atmosphere: Subtle pulse on the AI card glow
+        const aiGlow = document.querySelector('.glass-card .blur-3xl');
+        let scale = 1;
+        let direction = 1;
+        setInterval(() => {
+            scale += 0.003 * direction;
+            if (scale > 1.15 || scale < 0.85) direction *= -1;
+            if (aiGlow) aiGlow.style.transform = `scale(${scale})`;
+        }, 60);
+    </script>
+</body></html>

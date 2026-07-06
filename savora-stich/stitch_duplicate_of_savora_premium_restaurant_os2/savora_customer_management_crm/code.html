@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savora | Customers</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Framer Motion (CDN version of Motion) -->
+<script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#e7e9e4",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#a0646b",
+                    "on-primary-container": "#f6fff5",
+                    "on-tertiary-fixed": "#360d15",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#fbb4bb",
+                    "on-surface": "#1a1c1a",
+                    "on-secondary-container": "#536a30",
+                    "secondary-fixed-dim": "#b5d08b",
+                    "secondary": "#4f652d",
+                    "primary-fixed": "#bceeca",
+                    "inverse-surface": "#2e312e",
+                    "secondary-fixed": "#d1eca5",
+                    "inverse-on-surface": "#f0f1ed",
+                    "surface-dim": "#d9dad6",
+                    "secondary-container": "#cee9a2",
+                    "surface": "#f9faf5",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#fffbff",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f3f4f0",
+                    "outline": "#717972",
+                    "on-surface-variant": "#414942",
+                    "surface-bright": "#f9faf5",
+                    "primary-fixed-dim": "#a1d2af",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#a1d2af",
+                    "surface-container": "#edeeea",
+                    "on-primary-fixed-variant": "#224f35",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#121f00",
+                    "primary-container": "#517e60",
+                    "surface-variant": "#e2e3df",
+                    "on-primary-fixed": "#00210f",
+                    "tertiary-fixed": "#ffd9dc",
+                    "on-background": "#1a1c1a",
+                    "outline-variant": "#c1c9c0",
+                    "error": "#ba1a1a",
+                    "background": "#f9faf5",
+                    "surface-container-highest": "#e2e3df",
+                    "primary": "#386549",
+                    "on-secondary-fixed-variant": "#384d17",
+                    "tertiary": "#834c53",
+                    "surface-tint": "#3b684b",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#6b383e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "base": "8px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "container-margin": "24px",
+                    "2xl": "48px"
+            },
+            "fontFamily": {
+                    "label-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "headline-xl-mobile": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "label-sm": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "headline-xl": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .soft-card-shadow {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f9faf5;
+            color: #1a1c1a;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c9c0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="bg-surface-container-low h-screen w-64 fixed left-0 top-0 border-r border-outline-variant/20 flex flex-col p-md space-y-base z-50">
+<div class="px-base py-lg">
+<h1 class="font-headline-md text-headline-md font-semibold text-on-surface">The Gilded Fork</h1>
+<p class="text-label-sm text-on-surface-variant/70">Premium SaaS Management</p>
+</div>
+<nav class="flex-grow space-y-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-lg font-semibold transform transition-transform active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span class="font-label-md text-label-md">Loyalty</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto space-y-xs pt-lg border-t border-outline-variant/20">
+<button class="w-full bg-primary text-on-primary py-md rounded-xl font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity">
+                New Reservation
+            </button>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-40 glass-header px-xl h-20 flex justify-between items-center w-full">
+<div class="flex flex-col">
+<h2 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">Customers</h2>
+<p class="text-body-sm text-on-surface-variant">Manage customer relationships and dining history.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/50 rounded-xl text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all w-64" placeholder="Search customers..." type="text"/>
+</div>
+<button class="flex items-center gap-xs px-md py-2 border border-outline-variant/50 rounded-xl hover:bg-surface-container transition-colors text-body-sm">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+                    Filter
+                </button>
+<button class="flex items-center gap-xs px-md py-2 border border-outline-variant/50 rounded-xl hover:bg-surface-container transition-colors text-body-sm">
+<span class="material-symbols-outlined text-[20px]">ios_share</span>
+                    Export
+                </button>
+<button class="flex items-center gap-xs px-md py-2 bg-primary text-on-primary rounded-xl hover:opacity-90 transition-opacity text-body-sm font-semibold">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Add Customer
+                </button>
+</div>
+</header>
+<div class="p-xl space-y-xl">
+<!-- Summary KPIs (Bento Style) -->
+<section class="grid grid-cols-6 gap-lg">
+<div class="col-span-1 bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10 flex flex-col justify-between">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider">Total Customers</span>
+<div class="mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">2,840</span>
+<div class="text-secondary text-label-sm flex items-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                            +5.2%
+                        </div>
+</div>
+</div>
+<div class="col-span-1 bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10 flex flex-col justify-between">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider">New This Month</span>
+<div class="mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">+124</span>
+<div class="text-secondary text-label-sm flex items-center gap-xs mt-xs">
+                            Target: 150
+                        </div>
+</div>
+</div>
+<div class="col-span-1 bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10 flex flex-col justify-between">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider">Returning Rate</span>
+<div class="mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">68%</span>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-md overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 68%"></div>
+</div>
+</div>
+</div>
+<div class="col-span-1 bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10 flex flex-col justify-between">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider">Loyalty Members</span>
+<div class="mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">1,240</span>
+<p class="text-on-surface-variant text-label-sm mt-xs">43% of base</p>
+</div>
+</div>
+<div class="col-span-1 bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10 flex flex-col justify-between">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider">Avg Spend</span>
+<div class="mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">$42.50</span>
+<p class="text-secondary text-label-sm mt-xs">↑ $2.10 vs LY</p>
+</div>
+</div>
+<div class="col-span-1 bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10 flex flex-col justify-between">
+<span class="text-label-sm text-on-surface-variant uppercase tracking-wider">Total Points</span>
+<div class="mt-base">
+<span class="font-headline-xl text-headline-xl text-on-surface">450K</span>
+<p class="text-on-surface-variant text-label-sm mt-xs">Issued YTD</p>
+</div>
+</div>
+</section>
+<!-- Customer Table -->
+<section class="bg-white rounded-xl soft-card-shadow border border-outline-variant/10 overflow-hidden">
+<div class="px-lg py-md border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-headline-md text-headline-md text-on-surface">Customer Directory</h3>
+<div class="flex gap-md">
+<select class="bg-transparent border-none text-body-sm font-medium focus:ring-0 cursor-pointer">
+<option>All Tiers</option>
+<option>Platinum</option>
+<option>Gold</option>
+<option>Silver</option>
+</select>
+</div>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-on-surface-variant text-label-sm uppercase tracking-wider border-b border-outline-variant/30">
+<tr>
+<th class="px-lg py-md font-semibold">Customer</th>
+<th class="px-lg py-md font-semibold">Tier</th>
+<th class="px-lg py-md font-semibold">Points</th>
+<th class="px-lg py-md font-semibold text-center">Orders</th>
+<th class="px-lg py-md font-semibold">Lifetime Spend</th>
+<th class="px-lg py-md font-semibold">Last Visit</th>
+<th class="px-lg py-md font-semibold">Status</th>
+<th class="px-lg py-md"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-pointer group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a sophisticated middle-aged man with short salt-and-pepper hair, wearing a high-end tailored beige linen blazer. The portrait is set against a warm, soft-focus restaurant interior background with muted natural light, maintaining the premium SaaS light-mode aesthetic and organic green palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS8jL0DGFMjabDo-m53QP2E6ondsPGFqDE40e3N6tOHD9p66WDjOzQ7iap6xiSJ_bQ8fPPbHf33x_uhgsb_-5npk-YG88c7aSZZgsLRIBkydQ6cx1mZ9_zrE47gKVhIJkAo8VPt_Q9MlTQiYjTjRFu8-py2es4_Dc9GhDHofX2-cm7gamga2Lf0rLUOvscvhq8B0fDh2Ffl45yYJBzLzyVKMFSwYl33Ah41JbpN9WGIT44Rrb5aQgO3svdH_eIxYO7FgLaSxdXNKw"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-on-surface">Jonathan Reeves</span>
+<span class="text-body-sm text-on-surface-variant">j.reeves@email.com</span>
+</div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="px-md py-1 bg-purple-100 text-purple-700 text-label-sm font-bold rounded-full border border-purple-200">Diamond</span>
+</td>
+<td class="px-lg py-md text-body-sm font-medium">12,450</td>
+<td class="px-lg py-md text-body-sm text-center font-medium">48</td>
+<td class="px-lg py-md text-body-sm font-semibold">$3,420.00</td>
+<td class="px-lg py-md text-body-sm text-on-surface-variant">2 days ago</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-2 py-0.5 bg-green-100 text-green-700 text-label-sm rounded-full">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="opacity-0 group-hover:opacity-100 p-2 hover:bg-surface-container rounded-lg transition-all">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-pointer group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed-dim overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A portrait of an elegant young woman with a warm, genuine smile. She has dark curly hair and is wearing a sleek minimalist emerald green silk blouse. The lighting is soft and flattering, with a bright white studio backdrop that feels modern and high-end, aligning with the premium minimalist brand style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcOwe8KUCxXlkkmVvlf37EOrv2CpIA9_4arzmJVGRTUlIIpz2KrPd6_hqPK7kTpnAbnuWfAVBIeRqfO7SNPUqhYpC0hAOT2qZ5Ql_Sp0OxDtr9j6BRFrYDgRhF9BLnHgiJ5s8BWAgmeT2dR8HKN2GWMO97l34w6bfH0aGAnQXg6dyzWOr7EQEa38yN3uF2p2Eop6DY535svRU9Byo1Qce8ZMS61qPi_vD92XZFyibidx7xQsHEeLApzYNA2LS_UQmbePR9uaRPqKg"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-on-surface">Sophia Martinez</span>
+<span class="text-body-sm text-on-surface-variant">sophia.m@webmail.com</span>
+</div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="px-md py-1 bg-blue-100 text-blue-700 text-label-sm font-bold rounded-full border border-blue-200">Platinum</span>
+</td>
+<td class="px-lg py-md text-body-sm font-medium">8,200</td>
+<td class="px-lg py-md text-body-sm text-center font-medium">32</td>
+<td class="px-lg py-md text-body-sm font-semibold">$2,150.40</td>
+<td class="px-lg py-md text-body-sm text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-2 py-0.5 bg-green-100 text-green-700 text-label-sm rounded-full">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                                        Active
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="opacity-0 group-hover:opacity-100 p-2 hover:bg-surface-container rounded-lg transition-all">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors cursor-pointer group">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A portrait of an older gentleman with distinguished features and silver hair, wearing a classic white oxford shirt. He exuded a sense of reliability and loyalty. The image has a very clean, high-key lighting profile with a subtle shadow and a bright off-white background, matching the organic and sophisticated aesthetic of the Savora brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR2No7nnoH_J0I-TqeLCfcVQ5FBzZSjNDf21PFZ8Ro_dXfhZRt-ysEwFMdtwe3eM3ouMU_S7x886kRyguNpHXi4F196Aq1vzacBHvN_0aq498B6myMV_t-tkCAZSDQ8cZkCowmq-hPrKCUFCAgQgE5FyvXY-vpU2SfUBHjQf4U717-7eUKV95ANOK5R2M6nEDyXbxDt38PzEbTRrWCm64Ry5LxvsBYEFnpftB1R89ue6r2XS_DrRtXu5OjG_hIm5dU_AG5GDOV9-0"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md font-semibold text-on-surface">Albert Chen</span>
+<span class="text-body-sm text-on-surface-variant">albert.chen@corp.com</span>
+</div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="px-md py-1 bg-yellow-100 text-yellow-700 text-label-sm font-bold rounded-full border border-yellow-200">Gold</span>
+</td>
+<td class="px-lg py-md text-body-sm font-medium">4,500</td>
+<td class="px-lg py-md text-body-sm text-center font-medium">18</td>
+<td class="px-lg py-md text-body-sm font-semibold">$1,280.00</td>
+<td class="px-lg py-md text-body-sm text-on-surface-variant">1 week ago</td>
+<td class="px-lg py-md">
+<span class="inline-flex items-center gap-xs px-2 py-0.5 bg-gray-100 text-gray-500 text-label-sm rounded-full">
+<span class="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                                        Inactive
+                                    </span>
+</td>
+<td class="px-lg py-md text-right">
+<button class="opacity-0 group-hover:opacity-100 p-2 hover:bg-surface-container rounded-lg transition-all">
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-lg py-md border-t border-outline-variant/30 flex justify-between items-center bg-surface-container-lowest">
+<span class="text-body-sm text-on-surface-variant">Showing 1 to 10 of 2,840 customers</span>
+<div class="flex gap-xs">
+<button class="p-2 border border-outline-variant/50 rounded-lg hover:bg-surface-container disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="px-3 py-1 bg-primary text-on-primary rounded-lg font-semibold text-body-sm">1</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded-lg text-body-sm transition-colors">2</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded-lg text-body-sm transition-colors">3</button>
+<button class="px-3 py-1 hover:bg-surface-container rounded-lg text-body-sm transition-colors">4</button>
+<button class="p-2 border border-outline-variant/50 rounded-lg hover:bg-surface-container">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-12 gap-xl">
+<!-- Loyalty Dashboard -->
+<section class="col-span-8 space-y-lg">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface">Loyalty Tiers</h3>
+<a class="text-primary font-label-md text-label-md hover:underline" href="#">Manage Program</a>
+</div>
+<div class="grid grid-cols-4 gap-lg">
+<div class="bg-white p-lg rounded-xl border border-outline-variant/20 soft-card-shadow hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-orange-600">award_star</span>
+</div>
+<h4 class="font-semibold text-on-surface">Bronze</h4>
+<p class="text-body-sm text-on-surface-variant mt-xs">0 - 1k Points</p>
+<ul class="mt-md space-y-sm text-body-sm text-on-surface-variant">
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    Free Dessert
+                                </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    1pt per $1
+                                </li>
+</ul>
+</div>
+<div class="bg-white p-lg rounded-xl border border-outline-variant/20 soft-card-shadow hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-10 h-10 rounded-lg bg-slate-200 flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-slate-600">award_star</span>
+</div>
+<h4 class="font-semibold text-on-surface">Silver</h4>
+<p class="text-body-sm text-on-surface-variant mt-xs">1k - 5k Points</p>
+<ul class="mt-md space-y-sm text-body-sm text-on-surface-variant">
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    Priority Booking
+                                </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    1.2pt per $1
+                                </li>
+</ul>
+</div>
+<div class="bg-white p-lg rounded-xl border border-outline-variant/20 soft-card-shadow hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-amber-600">award_star</span>
+</div>
+<h4 class="font-semibold text-on-surface">Gold</h4>
+<p class="text-body-sm text-on-surface-variant mt-xs">5k - 10k Points</p>
+<ul class="mt-md space-y-sm text-body-sm text-on-surface-variant">
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    Wine Tasting
+                                </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    Birthday Gift
+                                </li>
+</ul>
+</div>
+<div class="bg-white p-lg rounded-xl border-2 border-primary/20 soft-card-shadow ring-4 ring-primary/5 hover:translate-y-[-4px] transition-transform duration-300 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-1 bg-primary text-on-primary text-[10px] font-bold uppercase tracking-widest -rotate-45 translate-x-3 translate-y-1 w-20 text-center">Popular</div>
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-primary">award_star</span>
+</div>
+<h4 class="font-semibold text-on-surface">Platinum</h4>
+<p class="text-body-sm text-on-surface-variant mt-xs">10k+ Points</p>
+<ul class="mt-md space-y-sm text-body-sm text-on-surface-variant">
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    Chef's Table
+                                </li>
+<li class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+                                    Concierge Service
+                                </li>
+</ul>
+</div>
+</div>
+<!-- Analytics Charts -->
+<div class="grid grid-cols-2 gap-lg pt-lg">
+<div class="bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10">
+<h4 class="font-semibold text-on-surface mb-lg">Monthly Customer Growth</h4>
+<div class="h-48 w-full flex items-end justify-between px-md">
+<!-- Mock Chart Bars -->
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[40%]"></div>
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[55%]"></div>
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[45%]"></div>
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[70%]"></div>
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[60%]"></div>
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[85%]"></div>
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[75%]"></div>
+<div class="w-6 bg-primary-fixed-dim rounded-t hover:bg-primary transition-all cursor-pointer h-[95%]"></div>
+</div>
+<div class="flex justify-between px-md mt-sm text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+</div>
+</div>
+<div class="bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10">
+<h4 class="font-semibold text-on-surface mb-lg">LTV Distribution</h4>
+<div class="relative h-48 w-full flex items-center justify-center">
+<!-- Mock Donut Chart -->
+<div class="w-32 h-32 rounded-full border-[16px] border-primary-fixed-dim relative">
+<div class="absolute inset-[-16px] rounded-full border-[16px] border-primary border-t-transparent border-l-transparent" style="transform: rotate(45deg);"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-headline-md font-bold">$2.4k</span>
+<span class="text-[10px] uppercase text-on-surface-variant font-bold">Median</span>
+</div>
+</div>
+<div class="absolute right-0 top-0 space-y-sm">
+<div class="flex items-center gap-xs text-[12px]">
+<span class="w-2 h-2 bg-primary rounded-full"></span> <span>Top 10%</span>
+</div>
+<div class="flex items-center gap-xs text-[12px]">
+<span class="w-2 h-2 bg-primary-fixed-dim rounded-full"></span> <span>Others</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Feedback Section -->
+<aside class="col-span-4 space-y-lg">
+<div class="bg-white p-lg rounded-xl soft-card-shadow border border-outline-variant/10">
+<div class="flex items-center justify-between mb-xl">
+<h3 class="font-headline-md text-headline-md text-on-surface">Feedback</h3>
+<div class="flex items-center gap-xs bg-secondary-container px-md py-1 rounded-full text-on-secondary-container font-bold text-label-md">
+<span class="material-symbols-outlined text-[18px]">star</span>
+                                4.8
+                            </div>
+</div>
+<div class="space-y-xl">
+<!-- Review 1 -->
+<div class="space-y-md">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="font-semibold text-primary">MS</span>
+</div>
+<div>
+<p class="font-semibold text-on-surface text-body-sm">Michael Scott</p>
+<p class="text-label-sm text-on-surface-variant">2 hours ago</p>
+</div>
+</div>
+<div class="flex text-amber-500">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-body-sm text-on-surface-variant italic leading-relaxed">
+                                    "Exquisite experience! The attention to detail during our anniversary dinner was unmatched. The wine pairings suggested were perfect."
+                                </p>
+</div>
+<!-- Review 2 -->
+<div class="space-y-md">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="font-semibold text-primary">LB</span>
+</div>
+<div>
+<p class="font-semibold text-on-surface text-body-sm">Linda Blair</p>
+<p class="text-label-sm text-on-surface-variant">Yesterday</p>
+</div>
+</div>
+<div class="flex text-amber-500">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]">star</span>
+</div>
+</div>
+<p class="text-body-sm text-on-surface-variant italic leading-relaxed">
+                                    "Wonderful atmosphere, though the main course took a bit longer than expected. Staff was very apologetic and provided a complimentary dessert."
+                                </p>
+</div>
+<!-- Review 3 -->
+<div class="space-y-md">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="font-semibold text-primary">JK</span>
+</div>
+<div>
+<p class="font-semibold text-on-surface text-body-sm">James Knight</p>
+<p class="text-label-sm text-on-surface-variant">Oct 24, 2023</p>
+</div>
+</div>
+<div class="flex text-amber-500">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-body-sm text-on-surface-variant italic leading-relaxed">
+                                    "Best steak in the city. The loyalty rewards are actually worth it. Diamond tier benefits have made me a regular here."
+                                </p>
+</div>
+</div>
+<button class="w-full mt-xl py-md border border-outline-variant/50 rounded-xl font-label-md text-label-md hover:bg-surface-container transition-colors">
+                            View All Reviews
+                        </button>
+</div>
+<!-- Retention Quick Action -->
+<div class="bg-primary p-lg rounded-xl soft-card-shadow text-on-primary">
+<span class="material-symbols-outlined text-3xl mb-md">campaign</span>
+<h4 class="font-headline-md text-headline-md font-semibold leading-tight">Retain Inactive Customers</h4>
+<p class="text-body-sm opacity-80 mt-base">142 Gold-tier customers haven't visited in 30 days. Start a win-back campaign?</p>
+<button class="mt-lg w-full py-md bg-white text-primary font-bold rounded-xl hover:bg-opacity-90 transition-all active:scale-95 transform">
+                            Launch Campaign
+                        </button>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<script>
+        // Framer Motion initializations for entrance animations
+        const { animate, stagger } = Motion;
+
+        // Animate page sections on load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Animate KPI cards
+            animate("section > div", 
+                { opacity: [0, 1], y: [20, 0] }, 
+                { duration: 0.8, delay: stagger(0.1), ease: "easeOut" }
+            );
+
+            // Animate Table rows
+            animate("tbody tr", 
+                { opacity: [0, 1], x: [-10, 0] }, 
+                { duration: 0.6, delay: stagger(0.05), ease: "easeOut" }
+            );
+
+            // Animate Sidebar items
+            animate("aside nav a", 
+                { opacity: [0, 1], x: [-20, 0] }, 
+                { duration: 0.5, delay: stagger(0.08), ease: "easeOut" }
+            );
+        });
+
+        // Simple interactivity for the table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                animate(row, { backgroundColor: '#edeeea' }, { duration: 0.2 });
+            });
+            row.addEventListener('mouseleave', () => {
+                animate(row, { backgroundColor: '#ffffff' }, { duration: 0.2 });
+            });
+        });
+    </script>
+</body></html>
