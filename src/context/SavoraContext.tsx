@@ -91,6 +91,14 @@ export interface Notification {
   read: boolean;
 }
 
+export interface RestaurantSettings {
+  name: string;
+  hours: string;
+  tax: number;
+  service: number;
+  receiptFooter: string;
+}
+
 interface SavoraContextProps {
   user: { name: string; role: string; restaurantId?: string | null; email?: string | null } | null;
   login: (role: string, name: string) => void;
@@ -102,6 +110,8 @@ interface SavoraContextProps {
   inventory: InventoryItem[];
   employees: Employee[];
   notifications: Notification[];
+  settings: RestaurantSettings;
+  updateSettings: (newSettings: RestaurantSettings) => void;
   todayStats: {
     revenue: number;
     ordersCount: number;
@@ -470,6 +480,14 @@ const initialNotifications: Notification[] = [
   { id: 'notif-4', title: 'Sales target reached', message: 'Revenue for today exceeded ₹1,00,000 baseline milestone.', type: 'success', timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), read: true }
 ];
 
+const defaultSettings: RestaurantSettings = {
+  name: 'Saffron & Smoke',
+  hours: '11:30 - 23:00',
+  tax: 5.0, // 5% GST
+  service: 5.0, // 5% service charge
+  receiptFooter: 'Athithi Devo Bhava - Thank you for dining with us!'
+};
+
 export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<{ name: string; role: string; restaurantId?: string | null; email?: string | null } | null>(() => {
     const saved = localStorage.getItem('savora_user');
@@ -527,6 +545,11 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
     }
     return null;
+  });
+
+  const [settings, setSettings] = useState<RestaurantSettings>(() => {
+    const saved = localStorage.getItem('savora_settings');
+    return saved ? JSON.parse(saved) : defaultSettings;
   });
 
   // Listen for Firebase Auth state changes
@@ -646,6 +669,12 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       if (items.length > 0) setNotifications(items);
     });
 
+    const unsubSettings = onSnapshot(doc(db, 'restaurants', restaurantId, 'settings', 'config'), (docSnap) => {
+      if (docSnap.exists()) {
+        setSettings(docSnap.data() as RestaurantSettings);
+      }
+    });
+
     return () => {
       unsubMenu();
       unsubTables();
@@ -654,6 +683,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       unsubInventory();
       unsubEmployees();
       unsubNotifications();
+      unsubSettings();
     };
   }, [restaurantId]);
 
@@ -729,6 +759,12 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [notifications, restaurantId]);
 
+  useEffect(() => {
+    if (!restaurantId || restaurantId === 'demo-saffron-smoke') {
+      localStorage.setItem('savora_settings', JSON.stringify(settings));
+    }
+  }, [settings, restaurantId]);
+
   // Set Theme
   const setTheme = (newTheme: 'light' | 'dark') => {
     setThemeState(newTheme);
@@ -773,9 +809,11 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const table = tables.find(t => t.id === tableId);
     
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    // GST (2.5% CGST + 2.5% SGST = 5% total)
-    const tax = Number((subtotal * 0.05).toFixed(2));
-    const serviceCharge = Number((subtotal * 0.05).toFixed(2));
+    // GST (split in POS UI, e.g. 5% = 2.5% CGST + 2.5% SGST)
+    const taxRate = settings.tax / 100;
+    const serviceRate = settings.service / 100;
+    const tax = Number((subtotal * taxRate).toFixed(2));
+    const serviceCharge = Number((subtotal * serviceRate).toFixed(2));
     const totalPrice = Number((subtotal + tax + serviceCharge).toFixed(2));
 
     const newOrder: Order = {
@@ -846,8 +884,10 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
 
     const subtotal = mergedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const tax = Number((subtotal * 0.05).toFixed(2));
-    const serviceCharge = Number((subtotal * 0.05).toFixed(2));
+    const taxRate = settings.tax / 100;
+    const serviceRate = settings.service / 100;
+    const tax = Number((subtotal * taxRate).toFixed(2));
+    const serviceCharge = Number((subtotal * serviceRate).toFixed(2));
     const totalPrice = Number((subtotal + tax + serviceCharge).toFixed(2));
 
     if (restaurantId && restaurantId !== 'demo-saffron-smoke') {
@@ -893,8 +933,10 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }).filter(Boolean) as OrderItem[];
 
     const subtotal = updatedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const tax = Number((subtotal * 0.05).toFixed(2));
-    const serviceCharge = Number((subtotal * 0.05).toFixed(2));
+    const taxRate = settings.tax / 100;
+    const serviceRate = settings.service / 100;
+    const tax = Number((subtotal * taxRate).toFixed(2));
+    const serviceCharge = Number((subtotal * serviceRate).toFixed(2));
     const totalPrice = Number((subtotal + tax + serviceCharge).toFixed(2));
 
     if (restaurantId && restaurantId !== 'demo-saffron-smoke') {
@@ -1251,6 +1293,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       inventory.forEach(i => batch.delete(doc(db, 'restaurants', restaurantId, 'inventory', i.id)));
       employees.forEach(e => batch.delete(doc(db, 'restaurants', restaurantId, 'staff', e.id)));
       notifications.forEach(n => batch.delete(doc(db, 'restaurants', restaurantId, 'notifications', n.id)));
+      batch.delete(doc(db, 'restaurants', restaurantId, 'settings', 'config'));
       
       initialTables.forEach(t => batch.set(doc(db, 'restaurants', restaurantId, 'tables', t.id), t));
       initialMenuItems.forEach(m => batch.set(doc(db, 'restaurants', restaurantId, 'menu', m.id), m));
@@ -1259,6 +1302,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       initialInventory.forEach(i => batch.set(doc(db, 'restaurants', restaurantId, 'inventory', i.id), i));
       initialEmployees.forEach(e => batch.set(doc(db, 'restaurants', restaurantId, 'staff', e.id), e));
       initialNotifications.forEach(n => batch.set(doc(db, 'restaurants', restaurantId, 'notifications', n.id), n));
+      batch.set(doc(db, 'restaurants', restaurantId, 'settings', 'config'), defaultSettings);
 
       batch.commit().then(() => {
         addNotification('System Reset', 'All database items successfully reseeded to default states in Cloud Firestore.', 'success');
@@ -1273,6 +1317,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setInventory(initialInventory);
       setEmployees(initialEmployees);
       setNotifications(initialNotifications);
+      setSettings(defaultSettings);
       localStorage.removeItem('savora_tables');
       localStorage.removeItem('savora_menu');
       localStorage.removeItem('savora_orders');
@@ -1280,8 +1325,18 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       localStorage.removeItem('savora_inventory');
       localStorage.removeItem('savora_employees');
       localStorage.removeItem('savora_notifications');
+      localStorage.removeItem('savora_settings');
       addNotification('System Reset', 'All database items successfully reseeded to default states.', 'success');
     }
+  };
+
+  const updateSettings = (newSettings: RestaurantSettings) => {
+    if (restaurantId && restaurantId !== 'demo-saffron-smoke') {
+      setDoc(doc(db, 'restaurants', restaurantId, 'settings', 'config'), newSettings);
+    } else {
+      setSettings(newSettings);
+    }
+    addNotification('Settings Updated', 'Tax percentages and receipt footers successfully updated in system.', 'success');
   };
 
   return (
@@ -1296,6 +1351,8 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       inventory,
       employees,
       notifications,
+      settings,
+      updateSettings,
       todayStats,
       theme,
       setTheme,

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppShell } from './layouts/AppShell';
 import { Landing } from './pages/Landing';
 import { Login } from './pages/Login';
+import { Setup } from './pages/Setup';
 import { Dashboard } from './pages/Dashboard';
 import { POS } from './pages/POS';
 import { KitchenKDS } from './pages/KitchenKDS';
@@ -26,6 +27,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/setup" element={<Setup />} />
         
         {/* Authenticated Dashboard Shell */}
         <Route path="/app" element={<AppShell />}>

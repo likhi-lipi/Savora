@@ -1,18 +1,85 @@
 import React, { useState } from 'react';
+
 import { Users, Search, Mail, Gift, Phone } from 'lucide-react';
 
 const mockCustomers = [
-  { id: 'c-1', name: 'Sarah Jenkins', email: 'sarah.j@gmail.com', phone: '+1 (555) 234-9102', totalSpent: 420.00, visits: 8, tier: 'VIP (Top 1%)' },
-  { id: 'c-2', name: 'Elena Martinez', email: 'elena.m@martinez.co', phone: '+1 (555) 123-4567', totalSpent: 184.20, visits: 3, tier: 'Gold' },
-  { id: 'c-3', name: 'James Wilson', email: 'j.wilson@outlook.com', phone: '+1 (555) 987-6543', totalSpent: 292.50, visits: 5, tier: 'Gold' },
-  { id: 'c-4', name: 'Thomas Chen', email: 'tchen@siliconvalley.io', phone: '+1 (555) 456-7890', totalSpent: 524.00, visits: 12, tier: 'VIP (Top 1%)' },
-  { id: 'c-5', name: 'Anna Lee', email: 'annalee.design@icloud.com', phone: '+1 (555) 321-7654', totalSpent: 42.00, visits: 1, tier: 'Silver' }
+  {
+    id: 'c-1',
+    name: 'Aarav Sharma',
+    email: 'aarav.sharma@gmail.com',
+    phone: '+91 98765 43210',
+    totalSpent: 12450.00,
+    visits: 18,
+    tier: 'VIP (Top 1%)'
+  },
+  {
+    id: 'c-2',
+    name: 'Priya Nair',
+    email: 'priya.nair@outlook.com',
+    phone: '+91 91234 56789',
+    totalSpent: 6850.50,
+    visits: 9,
+    tier: 'Gold'
+  },
+  {
+    id: 'c-3',
+    name: 'Rohan Verma',
+    email: 'rohan.verma@gmail.com',
+    phone: '+91 99887 65432',
+    totalSpent: 4890.75,
+    visits: 6,
+    tier: 'Gold'
+  },
+  {
+    id: 'c-4',
+    name: 'Ananya Reddy',
+    email: 'ananya.reddy@icloud.com',
+    phone: '+91 90123 45678',
+    totalSpent: 18320.00,
+    visits: 24,
+    tier: 'VIP (Top 1%)'
+  },
+  {
+    id: 'c-5',
+    name: 'Vikram Singh',
+    email: 'vikram.singh@yahoo.com',
+    phone: '+91 93456 78901',
+    totalSpent: 2450.00,
+    visits: 3,
+    tier: 'Silver'
+  },
+  {
+    id: 'c-6',
+    name: 'Sneha Kulkarni',
+    email: 'sneha.kulkarni@gmail.com',
+    phone: '+91 97654 32109',
+    totalSpent: 7325.00,
+    visits: 10,
+    tier: 'Gold'
+  },
+  {
+    id: 'c-7',
+    name: 'Aditya Mehta',
+    email: 'aditya.mehta@gmail.com',
+    phone: '+91 98701 23456',
+    totalSpent: 1290.00,
+    visits: 2,
+    tier: 'Silver'
+  },
+  {
+    id: 'c-8',
+    name: 'Meera Iyer',
+    email: 'meera.iyer@outlook.com',
+    phone: '+91 94567 89012',
+    totalSpent: 9650.00,
+    visits: 14,
+    tier: 'Gold'
+  }
 ];
-
 export const Customers: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredCustomers = mockCustomers.filter(cust => 
+  const filteredCustomers = mockCustomers.filter(cust =>
     cust.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     cust.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -30,7 +97,7 @@ export const Customers: React.FC = () => {
 
   return (
     <div className="space-y-6 entrance-anim">
-      
+
       {/* Header */}
       <div>
         <h2 className="text-3xl font-extrabold tracking-tight text-text-primary">Guest CRM Directory</h2>
