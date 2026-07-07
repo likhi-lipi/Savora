@@ -165,9 +165,9 @@ export const MenuManager: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 h-full">
             <div className="relative overflow-hidden h-52 sm:h-auto">
               <img 
-                alt="Signature Wagyu Tartare" 
+                alt="Royal Paneer Tikka Platter" 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80"
+                src="https://images.unsplash.com/photo-1567188040759-fb8a883db6d8?w=800&auto=format&fit=crop&q=80"
               />
               <div className="absolute top-4 left-4">
                 <span className="bg-primary text-white px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest shadow-md">
@@ -178,18 +178,18 @@ export const MenuManager: React.FC = () => {
             <div className="p-6 flex flex-col justify-between">
               <div>
                 <span className="text-[10px] font-bold text-primary uppercase tracking-widest block mb-1">Signature Starters</span>
-                <h3 className="font-bold text-xl text-text-primary">Signature Wagyu Tartare</h3>
+                <h3 className="font-bold text-xl text-text-primary">Royal Paneer Tikka Platter</h3>
                 <p className="text-xs text-text-muted leading-relaxed mt-2">
-                  Hand-cut dry-aged Australian Wagyu beef loin, cured egg yolk sauce, caper berries, and house truffle sourdough crisps.
+                  Soft cottage cheese cubes marinated in hung curd, Kashmiri chilli, roasted spices and cooked in a traditional clay tandoor. Served with mint chutney and onion salad.
                 </p>
                 <div className="flex gap-1.5 mt-4 flex-wrap">
-                  <span className="px-2 py-0.5 bg-background border border-border-custom rounded-md text-[9px] font-bold text-text-muted uppercase">Gluten-Free</span>
-                  <span className="px-2 py-0.5 bg-primary/10 rounded-md text-[9px] font-bold text-primary uppercase">Chef Recipe</span>
+                  <span className="px-2 py-0.5 bg-background border border-border-custom rounded-md text-[9px] font-bold text-text-muted uppercase">Gluten-Free Option</span>
+                  <span className="px-2 py-0.5 bg-primary/10 rounded-md text-[9px] font-bold text-primary uppercase">Signature</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center mt-6 pt-4 border-t border-border-custom/40">
-                <span className="font-mono text-lg font-extrabold text-primary">₹32.00</span>
+                <span className="font-mono text-lg font-extrabold text-primary">₹520</span>
                 <div className="flex gap-2">
                   <button className="p-2 hover:bg-background border border-border-custom rounded-xl text-text-muted transition-colors"><Edit2 size={12} /></button>
                   <button className="p-2 hover:bg-background border border-border-custom rounded-xl text-text-muted transition-colors"><Eye size={12} /></button>
@@ -206,7 +206,7 @@ export const MenuManager: React.FC = () => {
           </div>
           <div>
             <span className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Beverage Alerts</span>
-            <h3 className="text-xl font-bold mt-2">Wine Racks Stock</h3>
+            <h3 className="text-xl font-bold mt-2">Beverage Stocks</h3>
           </div>
           <div className="space-y-4 relative z-10 my-4">
             <div>
@@ -219,7 +219,7 @@ export const MenuManager: React.FC = () => {
               </div>
             </div>
             <p className="text-[11px] opacity-90 leading-relaxed">
-              White chardonnays and reserve spirits are fully stocked. Veuve Clicquot champagne remains low.
+              Masala Chai and Fresh Lime Soda are fully stocked. Mango Lassi remains low.
             </p>
           </div>
           <button className="w-full py-2.5 bg-white/10 hover:bg-white/20 border border-white/25 rounded-xl text-xs font-bold transition-all active:scale-95">
@@ -240,7 +240,7 @@ export const MenuManager: React.FC = () => {
                 src={dish.image}
               />
               <div className="absolute bottom-3 right-3 bg-white/95 dark:bg-[#1A1D1A]/95 backdrop-blur-sm px-3 py-1 rounded-xl shadow-sm border border-border-custom/30 font-mono text-xs font-bold text-text-primary">
-                ${dish.price.toFixed(2)}
+                ₹{dish.price.toFixed(2)}
               </div>
               <div className="absolute top-3 left-3 flex gap-1">
                 <span className="px-2 py-0.5 bg-white/90 dark:bg-[#1A1D1A]/90 backdrop-blur-sm text-[8px] font-bold text-text-muted uppercase tracking-wider rounded-lg border border-border-custom/30">
@@ -281,7 +281,7 @@ export const MenuManager: React.FC = () => {
       {/* Beverage Inventory log list at bottom */}
       <div className="mt-8">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="font-bold text-lg text-text-primary">Cellar Beverage Stocks</h3>
+          <h3 className="font-bold text-lg text-text-primary">Traditional Beverage Stocks</h3>
           <span className="text-xs text-text-muted">Total items: {beveragesList.length}</span>
         </div>
         <div className="bg-surface rounded-2xl border border-border-custom/50 premium-shadow overflow-hidden">
@@ -302,7 +302,7 @@ export const MenuManager: React.FC = () => {
                     <Wine size={14} className="text-primary" /> {bev.name}
                   </td>
                   <td className="px-6 py-3.5 text-text-muted">Beverages</td>
-                  <td className="px-6 py-3.5 font-bold font-mono text-text-primary">${bev.price.toFixed(2)}</td>
+                  <td className="px-6 py-3.5 font-bold font-mono text-text-primary">₹{bev.price.toFixed(2)}</td>
                   <td className="px-6 py-3.5">{getStockBadge(bev.stockLevel)}</td>
                   <td className="px-6 py-3.5 text-right">
                     <button className="text-primary hover:underline font-bold text-[10px] tracking-wide">
@@ -346,7 +346,7 @@ export const MenuManager: React.FC = () => {
                   <input
                     type="text"
                     {...register('name', { required: 'Dish name is required' })}
-                    placeholder="e.g. Braised Beef Short Ribs"
+                    placeholder="e.g. Mutton Rogan Josh"
                     className="w-full bg-[#F8F7F4] dark:bg-[#111311] border border-border-custom rounded-xl px-4 py-3 text-xs outline-none focus:ring-1 focus:ring-primary text-text-primary"
                   />
                   {errors.name && <p className="text-[10px] text-danger mt-1 font-bold">{errors.name.message}</p>}
