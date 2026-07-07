@@ -113,7 +113,7 @@ export const Dashboard: React.FC = () => {
                 <h3 className="text-2xl font-extrabold tracking-tight font-mono text-text-primary">
                   ${todayStats.revenue.toLocaleString()}
                 </h3>
-                <span className="text-text-muted text-xs font-medium">USD</span>
+                <span className="text-text-muted text-xs font-medium">INR</span>
               </div>
             </div>
             <div className="flex items-center gap-1 text-primary text-[10px] font-bold bg-primary/10 px-2 py-0.5 rounded-full">
@@ -194,7 +194,7 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="flex bg-[#F8F7F4] dark:bg-[#111311] border border-border-custom/60 rounded-xl p-1 shadow-inner">
               <button className="px-4 py-1.5 text-xs font-bold bg-white dark:bg-[#1A1D1A] rounded-lg shadow-sm text-primary transition-all">
-                Revenue ($)
+                Revenue (₹)
               </button>
             </div>
           </div>
@@ -310,7 +310,7 @@ export const Dashboard: React.FC = () => {
                   <td className="px-6 py-4 font-semibold text-text-primary">{order.tableName}</td>
                   <td className="px-6 py-4 text-text-muted">{order.waiterName}</td>
                   <td className="px-6 py-4">{getStatusBadge(order.status)}</td>
-                  <td className="px-6 py-4 font-mono font-bold text-text-primary">${order.totalPrice.toFixed(2)}</td>
+                  <td className="px-6 py-4 font-mono font-bold text-text-primary">₹{order.totalPrice.toFixed(2)}</td>
                   <td className="px-6 py-4 text-right font-mono text-text-muted">
                     {order.status === 'completed' ? 'Settled' : `${order.timeElapsed}m ago`}
                   </td>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSavoraState } from '../context/SavoraContext';
-import { Settings as SettingsIcon, Save, Store, Receipt, AlertCircle } from 'lucide-react';
+import { Save, Store, Receipt } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 interface SettingsFormInputs {
@@ -12,20 +12,14 @@ interface SettingsFormInputs {
 }
 
 export const Settings: React.FC = () => {
-  const { addNotification } = useSavoraState();
+  const { settings, updateSettings } = useSavoraState();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<SettingsFormInputs>({
-    defaultValues: {
-      name: 'Lumière Fine Dining',
-      hours: '11:30 - 23:00',
-      tax: 8.0,
-      service: 5.0,
-      receiptFooter: 'Merci pour votre visite.'
-    }
+  const { register, handleSubmit } = useForm<SettingsFormInputs>({
+    defaultValues: settings
   });
 
   const handleSaveSettings = (data: SettingsFormInputs) => {
-    addNotification('Settings Updated', 'Tax percentages and receipt footers successfully updated in system.', 'success');
+    updateSettings(data);
   };
 
   return (
@@ -82,7 +76,7 @@ export const Settings: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">
-                  Sales Tax Bracket (%)
+                  GST Bracket (%)
                 </label>
                 <input
                   type="number"

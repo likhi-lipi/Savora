@@ -288,7 +288,10 @@ export const TopAppBar: React.FC = () => {
 
               <div className="p-1">
                 <button
-                  onClick={() => selectRole(user?.role || 'admin', user?.name || 'Guest')}
+                  onClick={() => {
+                    setShowProfileDropdown(false);
+                    window.location.href = '/app/profile';
+                  }}
                   className="w-full flex items-center gap-2 px-3 py-2 text-xs text-left rounded-xl hover:bg-background text-text-primary"
                 >
                   <User size={14} />
