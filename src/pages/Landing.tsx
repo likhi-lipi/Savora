@@ -268,16 +268,20 @@ export const Landing: React.FC = () => {
             <div className="bg-[#F8F7F4] dark:bg-[#111311] p-8 rounded-3xl border border-border-custom flex flex-col justify-between">
               <div>
                 <h3 className="font-bold text-lg text-text-primary">Starter</h3>
-                <p className="text-text-muted text-xs mt-1">For small cafés and food carts</p>
+                <p className="text-text-muted text-xs mt-1">Perfect for cafés, cloud kitchens, and small restaurants.</p>
                 <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-text-primary">₹{isAnnual ? '63' : '79'}</span>
+                  <span className="text-4xl font-extrabold text-text-primary">₹{isAnnual ? '799' : '999'}</span>
                   <span className="text-text-muted text-xs">/ month</span>
                 </div>
                 <ul className="mt-8 space-y-4 text-xs text-text-muted">
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Up to 8 tables</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> 2 Waiter tablet connections</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Core POS & Kitchen display</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Standard receipt prints</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Up to 8 Tables</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> 2 Staff Accounts</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> POS Billing System</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Kitchen Display System (KDS)</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Basic Inventory Management</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Digital & Printed Receipts</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Basic Sales Reports</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Email Support</li>
                 </ul>
               </div>
               <Link to="/login" className="mt-8 w-full bg-white dark:bg-[#1A1D1A] hover:bg-[#EEF2EC] text-text-primary border border-border-custom py-3 rounded-xl text-center text-xs font-bold shadow-sm transition-all">
@@ -292,17 +296,22 @@ export const Landing: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-lg text-text-primary">Professional</h3>
-                <p className="text-text-muted text-xs mt-1">For active bistro restaurants</p>
+                <p className="text-text-muted text-xs mt-1">Ideal for growing restaurants and multi-table dining.</p>
                 <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-text-primary">₹{isAnnual ? '119' : '149'}</span>
+                  <span className="text-4xl font-extrabold text-text-primary">₹{isAnnual ? '1,999' : '2,499'}</span>
                   <span className="text-text-muted text-xs">/ month</span>
                 </div>
                 <ul className="mt-8 space-y-4 text-xs text-text-muted">
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Unlimited tables</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Unlimited waiters & cashiers</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Full inventory with alarms</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Multi-location analytics</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> AI Insights predictive suggestions</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Unlimited Tables</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Unlimited Staff Accounts</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Advanced POS & Billing</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Kitchen Display System (KDS)</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Complete Inventory Management</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Customer CRM</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> AI Sales Insights</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Reservation Management</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Advanced Analytics & Reports</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Priority Support</li>
                 </ul>
               </div>
               <Link to="/login" className="mt-8 w-full bg-primary hover:bg-primary/95 text-white py-3 rounded-xl text-center text-xs font-bold shadow-md transition-all">
@@ -314,15 +323,19 @@ export const Landing: React.FC = () => {
             <div className="bg-[#F8F7F4] dark:bg-[#111311] p-8 rounded-3xl border border-border-custom flex flex-col justify-between">
               <div>
                 <h3 className="font-bold text-lg text-text-primary">Enterprise</h3>
-                <p className="text-text-muted text-xs mt-1">For hotels and chain franchises</p>
+                <p className="text-text-muted text-xs mt-1">Designed for restaurant chains and enterprise businesses.</p>
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className="text-4xl font-extrabold text-text-primary">Custom</span>
                 </div>
                 <ul className="mt-8 space-y-4 text-xs text-text-muted">
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Custom software integrations</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> 24/7 dedicated account engineers</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Custom server deployment</li>
-                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> SLA uptime agreements</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Multi-Branch Management</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Franchise Support</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Dedicated Account Manager</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> API & ERP Integrations</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> White Label Solution</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Advanced Security</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> Custom Deployment</li>
+                  <li className="flex items-center gap-2.5"><CheckCircle size={14} className="text-primary" /> SLA & 24/7 Priority Support</li>
                 </ul>
               </div>
               <Link to="/login" className="mt-8 w-full bg-white dark:bg-[#1A1D1A] hover:bg-[#EEF2EC] text-text-primary border border-border-custom py-3 rounded-xl text-center text-xs font-bold shadow-sm transition-all">
