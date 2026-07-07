@@ -270,7 +270,7 @@ export const Landing: React.FC = () => {
                 <h3 className="font-bold text-lg text-text-primary">Starter</h3>
                 <p className="text-text-muted text-xs mt-1">For small cafés and food carts</p>
                 <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-text-primary">${isAnnual ? '63' : '79'}</span>
+                  <span className="text-4xl font-extrabold text-text-primary">₹{isAnnual ? '63' : '79'}</span>
                   <span className="text-text-muted text-xs">/ month</span>
                 </div>
                 <ul className="mt-8 space-y-4 text-xs text-text-muted">
@@ -294,7 +294,7 @@ export const Landing: React.FC = () => {
                 <h3 className="font-bold text-lg text-text-primary">Professional</h3>
                 <p className="text-text-muted text-xs mt-1">For active bistro restaurants</p>
                 <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-text-primary">${isAnnual ? '119' : '149'}</span>
+                  <span className="text-4xl font-extrabold text-text-primary">₹{isAnnual ? '119' : '149'}</span>
                   <span className="text-text-muted text-xs">/ month</span>
                 </div>
                 <ul className="mt-8 space-y-4 text-xs text-text-muted">
