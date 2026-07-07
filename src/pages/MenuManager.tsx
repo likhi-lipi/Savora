@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 
 interface MenuFormInputs {
   name: string;
-  category: 'appetizers' | 'mains' | 'desserts' | 'beverages';
+  category: 'starters' | 'soups' | 'mains' | 'breads' | 'rice' | 'desserts' | 'beverages';
   price: number;
   description: string;
   stockLevel: 'available' | 'low' | 'out';
@@ -126,56 +126,19 @@ export const MenuManager: React.FC = () => {
         
         {/* Categories picker */}
         <div className="flex flex-wrap gap-2 text-xs font-bold">
-          <button 
-            onClick={() => setSelectedCategory('all')}
-            className={`px-4 py-2 rounded-full transition-all ${
-              selectedCategory === 'all' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'bg-background hover:bg-border-custom/30 text-text-muted hover:text-text-primary border border-border-custom/50'
-            }`}
-          >
-            All Items
-          </button>
-          <button 
-            onClick={() => setSelectedCategory('appetizers')}
-            className={`px-4 py-2 rounded-full transition-all ${
-              selectedCategory === 'appetizers' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'bg-background hover:bg-border-custom/30 text-text-muted hover:text-text-primary border border-border-custom/50'
-            }`}
-          >
-            Appetizers
-          </button>
-          <button 
-            onClick={() => setSelectedCategory('mains')}
-            className={`px-4 py-2 rounded-full transition-all ${
-              selectedCategory === 'mains' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'bg-background hover:bg-border-custom/30 text-text-muted hover:text-text-primary border border-border-custom/50'
-            }`}
-          >
-            Main Courses
-          </button>
-          <button 
-            onClick={() => setSelectedCategory('desserts')}
-            className={`px-4 py-2 rounded-full transition-all ${
-              selectedCategory === 'desserts' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'bg-background hover:bg-border-custom/30 text-text-muted hover:text-text-primary border border-border-custom/50'
-            }`}
-          >
-            Desserts
-          </button>
-          <button 
-            onClick={() => setSelectedCategory('beverages')}
-            className={`px-4 py-2 rounded-full transition-all ${
-              selectedCategory === 'beverages' 
-                ? 'bg-primary text-white shadow-md' 
-                : 'bg-background hover:bg-border-custom/30 text-text-muted hover:text-text-primary border border-border-custom/50'
-            }`}
-          >
-            Beverages
-          </button>
+          {['all', 'starters', 'soups', 'mains', 'breads', 'rice', 'desserts', 'beverages'].map(cat => (
+            <button 
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-2 rounded-full transition-all capitalize ${
+                selectedCategory === cat 
+                  ? 'bg-primary text-white shadow-md' 
+                  : 'bg-background hover:bg-border-custom/30 text-text-muted hover:text-text-primary border border-border-custom/50'
+              }`}
+            >
+              {cat === 'all' ? 'All Items' : cat === 'rice' ? 'Rice & Biryani' : cat === 'mains' ? 'Main Courses' : cat}
+            </button>
+          ))}
         </div>
 
         {/* Live Filter Search */}
@@ -226,7 +189,7 @@ export const MenuManager: React.FC = () => {
               </div>
 
               <div className="flex justify-between items-center mt-6 pt-4 border-t border-border-custom/40">
-                <span className="font-mono text-lg font-extrabold text-primary">$32.00</span>
+                <span className="font-mono text-lg font-extrabold text-primary">₹32.00</span>
                 <div className="flex gap-2">
                   <button className="p-2 hover:bg-background border border-border-custom rounded-xl text-text-muted transition-colors"><Edit2 size={12} /></button>
                   <button className="p-2 hover:bg-background border border-border-custom rounded-xl text-text-muted transition-colors"><Eye size={12} /></button>
@@ -395,15 +358,18 @@ export const MenuManager: React.FC = () => {
                     {...register('category')}
                     className="w-full bg-[#F8F7F4] dark:bg-[#111311] border border-border-custom rounded-xl px-4 py-3 text-xs outline-none focus:ring-1 focus:ring-primary text-text-primary"
                   >
-                    <option value="appetizers">Appetizers</option>
+                    <option value="starters">Starters</option>
+                    <option value="soups">Soups</option>
                     <option value="mains">Main Courses</option>
+                    <option value="breads">Breads</option>
+                    <option value="rice">Rice & Biryani</option>
                     <option value="desserts">Desserts</option>
                     <option value="beverages">Beverages</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">Selling Price ($)</label>
+                  <label className="block text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">Selling Price (₹)</label>
                   <input
                     type="number"
                     step="0.01"

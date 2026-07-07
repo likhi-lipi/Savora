@@ -35,7 +35,7 @@ export const AIInsights: React.FC = () => {
 
     // Generate responsive AI response based on query keywords
     setTimeout(() => {
-      let aiText = "I've reviewed our data logs. Today's sales performance is solid, showing $14,920 in total revenue. Average prep speed is optimal at 14 minutes. Let me know if you'd like a specific breakdown of dishes or inventory.";
+      let aiText = "I've reviewed our data logs. Today's sales performance is solid, showing ₹14,920 in total revenue. Average prep speed is optimal at 14 minutes. Let me know if you'd like a specific breakdown of dishes or inventory.";
       const query = chatInput.toLowerCase();
 
       if (query.includes('dish') || query.includes('sell') || query.includes('menu')) {
@@ -155,7 +155,7 @@ export const AIInsights: React.FC = () => {
             <span className="text-[9px] font-extrabold uppercase bg-primary/10 text-primary px-2 py-0.5 rounded-full">Menu Pricing</span>
             <h5 className="font-bold text-xs text-text-primary mt-2">Chardonnay Price Uplift</h5>
             <p className="text-[10px] text-text-muted mt-1 leading-relaxed">
-              Domain Chardonnay is priced 8% lower than competitor average. Raising glass price by $1.50 is predicted to add $620 monthly.
+              Domain Chardonnay is priced 8% lower than competitor average. Raising glass price by ₹1.50 is predicted to add ₹620 monthly.
             </p>
             <a href="#" className="text-[9px] font-bold text-primary hover:underline flex items-center gap-0.5 mt-2">
               Apply pricing change <ArrowUpRight size={10} />

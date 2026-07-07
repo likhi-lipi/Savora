@@ -1,5 +1,19 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
+
+// Cache buster for the new Indian mock data
+const CACHE_VERSION = 'v3_indian_menu';
+const currentVersion = localStorage.getItem('savora_cache_version');
+if (currentVersion !== CACHE_VERSION) {
+  const keysToRemove = [
+    'savora_menu', 'savora_orders', 'savora_tables', 
+    'savora_reservations', 'savora_inventory', 'savora_employees', 
+    'savora_notifications', 'savora_settings'
+  ];
+  keysToRemove.forEach(k => localStorage.removeItem(k));
+  localStorage.setItem('savora_cache_version', CACHE_VERSION);
+}
+
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot, writeBatch } from 'firebase/firestore';
 
@@ -9,7 +23,7 @@ export interface MenuItem {
   name: string;
   description: string;
   price: number;
-  category: 'appetizers' | 'mains' | 'desserts' | 'beverages';
+  category: 'starters' | 'soups' | 'mains' | 'breads' | 'rice' | 'desserts' | 'beverages';
   image: string;
   stockLevel: 'available' | 'low' | 'out';
   labels: string[];
@@ -145,156 +159,65 @@ interface SavoraContextProps {
 const SavoraContext = createContext<SavoraContextProps | undefined>(undefined);
 
 const initialMenuItems: MenuItem[] = [
-  {
-    id: 'menu-1',
-    name: 'Paneer Tikka Multani',
-    description: 'Clay-oven roasted cottage cheese infused with saffron, curd, and hand-ground Multani spices.',
-    price: 450.00,
-    category: 'appetizers',
-    image: 'https://images.unsplash.com/photo-1567188040759-fb8a883db6d8?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Signature', 'Vegetarian']
-  },
-  {
-    id: 'menu-2',
-    name: 'Galouti Kebab',
-    description: 'Melt-in-your-mouth minced lamb kebabs from Awadh, smoked with cloves and served on saffron sheermal.',
-    price: 550.00,
-    category: 'appetizers',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Signature']
-  },
-  {
-    id: 'menu-3',
-    name: 'Tandoori Broccoli',
-    description: 'Broccoli florets marinated in cream cheese, cardamom, and yellow chili, charred in the tandoor.',
-    price: 420.00,
-    category: 'appetizers',
-    image: 'https://images.unsplash.com/photo-1532636875304-0c8fe1197e14?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian', 'Gluten-Free']
-  },
-  {
-    id: 'menu-4',
-    name: 'Amritsari Fish Fry',
-    description: 'Crispy batter-fried caraway flavored fish fillets served with mint-coriander relish.',
-    price: 480.00,
-    category: 'appetizers',
-    image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Gluten-Free']
-  },
-  {
-    id: 'menu-5',
-    name: 'Murgh Makhani (Butter Chicken)',
-    description: 'Classic shredded tandoori chicken cooked in a rich, creamy, velvety tomato gravy with white butter.',
-    price: 650.00,
-    category: 'mains',
-    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Signature']
-  },
-  {
-    id: 'menu-6',
-    name: 'Dal Bukhara',
-    description: 'Slow-cooked black lentils simmered overnight on hot embers with tomatoes, cream, and butter.',
-    price: 550.00,
-    category: 'mains',
-    image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian', 'Gluten-Free']
-  },
-  {
-    id: 'menu-7',
-    name: 'Awadhi Mutton Biryani',
-    description: 'Fragrant Basmati rice cooked under steam (dum) with tender lamb cubes, saffron, and rose water.',
-    price: 720.00,
-    category: 'mains',
-    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Signature']
-  },
-  {
-    id: 'menu-8',
-    name: 'Paneer Butter Masala',
-    description: 'Fresh cottage cheese cubes simmered in a spiced tomato-onion gravy with dried fenugreek.',
-    price: 520.00,
-    category: 'mains',
-    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian']
-  },
-  {
-    id: 'menu-9',
-    name: 'Kesari Elaichi Kulfi',
-    description: 'Traditional frozen Indian dairy dessert flavoured with saffron strands, green cardamom, and pistachios.',
-    price: 320.00,
-    category: 'desserts',
-    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian', 'Gluten-Free']
-  },
-  {
-    id: 'menu-10',
-    name: 'Shahi Tukda',
-    description: 'Royal Mughlai dessert of fried bread soaked in condensed milk (rabri) and garnished with silver leaf.',
-    price: 350.00,
-    category: 'desserts',
-    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian']
-  },
-  {
-    id: 'menu-11',
-    name: 'Gulab Jamun with Rabri',
-    description: 'Golden fried milk dumplings soaked in rose-flavored sugar syrup, layered with thick chilled rabri.',
-    price: 300.00,
-    category: 'desserts',
-    image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian']
-  },
-  {
-    id: 'menu-12',
-    name: 'Mango Lassi',
-    description: 'Chilled yogurt drink blended with fresh sweet Alphonso mango pulp and cardamom.',
-    price: 180.00,
-    category: 'beverages',
-    image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian', 'Gluten-Free']
-  },
-  {
-    id: 'menu-13',
-    name: 'Masala Chai',
-    description: 'Brewed black tea with milk and a blend of aromatic spices like ginger, cardamom, and cloves.',
-    price: 120.00,
-    category: 'beverages',
-    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian']
-  },
-  {
-    id: 'menu-14',
-    name: 'Fresh Lime Soda',
-    description: 'Refreshing carbonated drink with freshly squeezed lime juice, choose salty or sweet.',
-    price: 150.00,
-    category: 'beverages',
-    image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'available',
-    labels: ['Vegetarian', 'Gluten-Free']
-  },
-  {
-    id: 'menu-15',
-    name: 'Kokum Sherbet',
-    description: 'Tangy coastal summer cooler made from wild mangosteen rind and cumin.',
-    price: 160.00,
-    category: 'beverages',
-    image: 'https://images.unsplash.com/photo-1594487523542-81c197780f18?w=600&auto=format&fit=crop&q=80',
-    stockLevel: 'low',
-    labels: ['Vegetarian', 'Gluten-Free']
-  }
+  // Starters
+  { id: 'menu-1', name: 'Paneer Tikka', description: 'Soft cubes of cottage cheese marinated in hung curd, aromatic Indian spices, and grilled to perfection in a traditional tandoor.', price: 349.00, category: 'starters', image: 'https://images.unsplash.com/photo-1567188040759-fb8a883db6d8?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-2', name: 'Hara Bhara Kebab', description: 'Healthy and tasty vegetarian kababs made with spinach, potatoes, and green peas.', price: 289.00, category: 'starters', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-3', name: 'Chicken Tikka', description: 'Juicy, tender chicken pieces marinated in spiced yogurt and roasted in the tandoor.', price: 429.00, category: 'starters', image: 'https://images.unsplash.com/photo-1599487405270-8950c42dcd68?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
+  { id: 'menu-4', name: 'Tandoori Chicken (Half)', description: 'Iconic half-portion tandoori chicken, marinated with robust spices and char-grilled.', price: 499.00, category: 'starters', image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
+  { id: 'menu-5', name: 'Seekh Kebab', description: 'Minced lamb blended with Indian spices, skewered and cooked in a clay oven.', price: 449.00, category: 'starters', image: 'https://images.unsplash.com/photo-1603496987351-f84a3ba5ec85?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
+  { id: 'menu-6', name: 'Crispy Corn Masala', description: 'Crunchy golden sweet corn kernels tossed with fiery spices and lemon juice.', price: 249.00, category: 'starters', image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-7', name: 'Tandoori Mushroom', description: 'Fresh button mushrooms marinated in tandoori masala and grilled to a smoky finish.', price: 319.00, category: 'starters', image: 'https://images.unsplash.com/photo-1626075936496-d2427a00824b?w=600&auto=format&fit=crop&q=80', stockLevel: 'low', labels: ['Vegetarian'] },
+
+  // Soups
+  { id: 'menu-8', name: 'Tomato Dhaniya Soup', description: 'A light, comforting soup made with fresh ripe tomatoes and a hint of fresh coriander.', price: 189.00, category: 'soups', image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-9', name: 'Sweet Corn Soup', description: 'Classic creamy soup bursting with sweet corn kernels and delicate flavors.', price: 199.00, category: 'soups', image: 'https://images.unsplash.com/photo-1604152135912-04a022e23696?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-10', name: 'Hot & Sour Soup', description: 'A perfectly balanced spicy and tangy broth loaded with finely chopped vegetables.', price: 209.00, category: 'soups', image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-11', name: 'Cream of Mushroom Soup', description: 'Rich, earthy mushroom soup finished with fresh cream and cracked black pepper.', price: 229.00, category: 'soups', image: 'https://images.unsplash.com/photo-1548943487-a2e4e43b4850?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+
+  // Main Course
+  { id: 'menu-12', name: 'Butter Chicken', description: 'Tender tandoori chicken simmered in a rich, creamy tomato gravy finished with butter and kasuri methi.', price: 499.00, category: 'mains', image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
+  { id: 'menu-13', name: 'Paneer Butter Masala', description: 'Fresh cottage cheese cubes simmered in a spiced tomato-onion gravy with dried fenugreek.', price: 389.00, category: 'mains', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-14', name: 'Dal Makhani', description: 'Slow-cooked black lentils simmered overnight on hot embers with tomatoes, cream, and butter.', price: 329.00, category: 'mains', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-15', name: 'Kadai Paneer', description: 'Cottage cheese and bell peppers cooked in a spicy, flavorful freshly ground kadai masala.', price: 379.00, category: 'mains', image: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-16', name: 'Shahi Paneer', description: 'Royal paneer dish in a thick, sweet and spicy creamy gravy made from nuts and cream.', price: 399.00, category: 'mains', image: 'https://images.unsplash.com/photo-1589301760014-d929f39ce9b0?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-17', name: 'Chicken Curry', description: 'Home-style chicken curry cooked slowly with traditional Indian whole spices.', price: 469.00, category: 'mains', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
+  { id: 'menu-18', name: 'Rogan Josh', description: 'A signature Kashmiri dish featuring tender mutton cooked with aromatic spices and a vibrant red chili gravy.', price: 589.00, category: 'mains', image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
+  { id: 'menu-19', name: 'Malai Kofta', description: 'Fried dumplings of potato and paneer served in a rich, mild, and creamy cashew gravy.', price: 389.00, category: 'mains', image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-20', name: 'Chole Masala', description: 'Classic North Indian dish made with white chickpeas simmered in an onion-tomato masala.', price: 299.00, category: 'mains', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-21', name: 'Palak Paneer', description: 'Cubes of soft paneer cooked in a smooth, mildly spiced spinach puree.', price: 369.00, category: 'mains', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+
+  // Breads
+  { id: 'menu-22', name: 'Butter Naan', description: 'Classic fluffy Indian flatbread baked in a tandoor and generously brushed with butter.', price: 79.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-23', name: 'Garlic Naan', description: 'Traditional Indian flatbread flavored with minced garlic and coriander.', price: 99.00, category: 'breads', image: 'https://images.unsplash.com/photo-1605804364028-591b9f620bd3?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-24', name: 'Cheese Naan', description: 'Indulgent soft naan bread stuffed with a blend of melted cheeses.', price: 149.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-25', name: 'Tandoori Roti', description: 'Whole wheat flatbread baked in a traditional clay oven.', price: 49.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-26', name: 'Butter Roti', description: 'Whole wheat tandoori roti glazed with fresh butter.', price: 59.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-27', name: 'Laccha Paratha', description: 'Multi-layered, flaky whole wheat bread cooked in the tandoor.', price: 99.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-28', name: 'Missi Roti', description: 'Savory bread made from a mix of whole wheat flour and gram flour, spiced with ajwain.', price: 89.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+
+  // Rice & Biryani
+  { id: 'menu-29', name: 'Hyderabadi Chicken Biryani', description: 'Fragrant basmati rice layered with succulent chicken, saffron, caramelized onions, and slow-cooked in the traditional dum style.', price: 459.00, category: 'rice', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
+  { id: 'menu-30', name: 'Hyderabadi Veg Biryani', description: 'Aromatic basmati rice cooked dum-style with assorted seasonal vegetables and biryani spices.', price: 359.00, category: 'rice', image: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-31', name: 'Mutton Dum Biryani', description: 'A royal delicacy of tender mutton pieces layered with long-grain rice and exotic spices.', price: 599.00, category: 'rice', image: 'https://images.unsplash.com/photo-1589301760014-d929f39ce9b0?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
+  { id: 'menu-32', name: 'Jeera Rice', description: 'Steamed basmati rice tempered with cumin seeds and ghee.', price: 199.00, category: 'rice', image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-33', name: 'Steamed Basmati Rice', description: 'Perfectly cooked, long-grain aromatic white basmati rice.', price: 149.00, category: 'rice', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-34', name: 'Veg Pulao', description: 'Mildly spiced rice cooked with a colorful medley of fresh vegetables.', price: 269.00, category: 'rice', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+
+  // Desserts
+  { id: 'menu-35', name: 'Gulab Jamun', description: 'Golden fried milk dumplings soaked in a warm, rose-flavored sugar syrup.', price: 149.00, category: 'desserts', image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-36', name: 'Rasmalai', description: 'Soft, spongy paneer discs delicately soaked in thickened, sweetened and cardamom-flavored milk.', price: 179.00, category: 'desserts', image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-37', name: 'Kulfi Falooda', description: 'Traditional Indian ice cream served with sweet vermicelli, rose syrup, and nuts.', price: 199.00, category: 'desserts', image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-38', name: 'Gajar Ka Halwa', description: 'A classic winter dessert of slow-cooked grated carrots, milk, sugar, and dry fruits.', price: 219.00, category: 'desserts', image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-39', name: 'Rabdi', description: 'Thickened, sweetened milk with layers of malai, flavored with saffron and cardamom.', price: 199.00, category: 'desserts', image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+
+  // Beverages
+  { id: 'menu-40', name: 'Mango Lassi', description: 'A chilled, refreshing yogurt drink blended with fresh sweet Alphonso mango pulp.', price: 179.00, category: 'beverages', image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-41', name: 'Sweet Lassi', description: 'Traditional sweetened churned yogurt beverage, served cold.', price: 149.00, category: 'beverages', image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-42', name: 'Masala Chai', description: 'Brewed black tea with milk and a fragrant blend of ginger, cardamom, and cloves.', price: 79.00, category: 'beverages', image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-43', name: 'Fresh Lime Soda', description: 'Refreshing sweet and salty sparkling water with freshly squeezed lime juice.', price: 129.00, category: 'beverages', image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-44', name: 'Jaljeera', description: 'Tangy and cooling Indian summer drink made with cumin, mint, and tamarind.', price: 119.00, category: 'beverages', image: 'https://images.unsplash.com/photo-1594487523542-81c197780f18?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
+  { id: 'menu-45', name: 'Cold Coffee', description: 'Creamy, chilled, and frothy blended iced coffee.', price: 189.00, category: 'beverages', image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-46', name: 'Mineral Water', description: 'Bottled premium mineral water.', price: 40.00, category: 'beverages', image: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4c?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] }
 ];
 
 const initialTables: Table[] = [
@@ -318,16 +241,16 @@ const initialOrders: Order[] = [
     tableId: 'T-01',
     tableName: 'Table 01',
     items: [
-      { menuItemId: 'menu-7', name: 'Awadhi Mutton Biryani', quantity: 2, price: 720.00, category: 'mains' },
-      { menuItemId: 'menu-8', name: 'Paneer Butter Masala', quantity: 1, price: 520.00, category: 'mains' },
-      { menuItemId: 'menu-12', name: 'Mango Lassi', quantity: 1, price: 180.00, category: 'beverages' }
+      { menuItemId: 'menu-7', name: 'Hyderabadi Chicken Biryani', quantity: 2, price: 459.00, category: 'mains' },
+      { menuItemId: 'menu-8', name: 'Paneer Butter Masala', quantity: 1, price: 389.00, category: 'mains' },
+      { menuItemId: 'menu-12', name: 'Mango Lassi', quantity: 1, price: 179.00, category: 'beverages' }
     ],
     status: 'ready',
     timestamp: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-    waiterName: 'Sarah Jenkins',
-    totalPrice: 2354.00,
-    tax: 107.00,
-    serviceCharge: 107.00,
+    waiterName: 'Neha Verma',
+    totalPrice: 1486.00,
+    tax: 74.30,
+    serviceCharge: 74.30,
     tip: 0,
     paymentMethod: 'pending',
     timeElapsed: 60
@@ -337,16 +260,16 @@ const initialOrders: Order[] = [
     tableId: 'T-04',
     tableName: 'Table 04',
     items: [
-      { menuItemId: 'menu-3', name: 'Tandoori Broccoli', quantity: 2, price: 420.00, notes: 'Extra tender', category: 'appetizers' },
-      { menuItemId: 'menu-5', name: 'Murgh Makhani (Butter Chicken)', quantity: 1, price: 650.00, notes: 'Spicy', category: 'mains' },
-      { menuItemId: 'menu-13', name: 'Masala Chai', quantity: 3, price: 120.00, category: 'beverages' }
+      { menuItemId: 'menu-4', name: 'Tandoori Mushroom', quantity: 2, price: 319.00, notes: 'Extra tender', category: 'appetizers' },
+      { menuItemId: 'menu-5', name: 'Butter Chicken', quantity: 1, price: 499.00, notes: 'Spicy', category: 'mains' },
+      { menuItemId: 'menu-13', name: 'Masala Chai', quantity: 3, price: 79.00, category: 'beverages' }
     ],
     status: 'preparing',
     timestamp: new Date(Date.now() - 42 * 60 * 1000).toISOString(),
-    waiterName: 'Sarah Jenkins',
-    totalPrice: 2035.00,
-    tax: 92.50,
-    serviceCharge: 92.50,
+    waiterName: 'Neha Verma',
+    totalPrice: 1374.00,
+    tax: 68.70,
+    serviceCharge: 68.70,
     tip: 0,
     paymentMethod: 'pending',
     timeElapsed: 42
@@ -356,15 +279,15 @@ const initialOrders: Order[] = [
     tableId: 'T-08',
     tableName: 'Table 08',
     items: [
-      { menuItemId: 'menu-14', name: 'Fresh Lime Soda', quantity: 2, price: 150.00, category: 'beverages' },
-      { menuItemId: 'menu-9', name: 'Kesari Elaichi Kulfi', quantity: 1, price: 320.00, category: 'desserts' }
+      { menuItemId: 'menu-15', name: 'Jaljeera', quantity: 2, price: 119.00, category: 'beverages' },
+      { menuItemId: 'menu-10', name: 'Rasmalai', quantity: 1, price: 179.00, category: 'desserts' }
     ],
     status: 'preparing',
     timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
-    waiterName: 'Sarah Jenkins',
-    totalPrice: 682.00,
-    tax: 31.00,
-    serviceCharge: 31.00,
+    waiterName: 'Arjun Sharma',
+    totalPrice: 417.00,
+    tax: 20.85,
+    serviceCharge: 20.85,
     tip: 0,
     paymentMethod: 'pending',
     timeElapsed: 15
@@ -374,16 +297,17 @@ const initialOrders: Order[] = [
     tableId: 'T-07',
     tableName: 'Table 07',
     items: [
-      { menuItemId: 'menu-5', name: 'Murgh Makhani (Butter Chicken)', quantity: 3, price: 650.00, category: 'mains' },
-      { menuItemId: 'menu-6', name: 'Dal Bukhara', quantity: 2, price: 550.00, category: 'mains' },
-      { menuItemId: 'menu-15', name: 'Kokum Sherbet', quantity: 1, price: 160.00, category: 'beverages' }
+      { menuItemId: 'menu-5', name: 'Butter Chicken', quantity: 2, price: 499.00, category: 'mains' },
+      { menuItemId: 'menu-11', name: 'Garlic Naan', quantity: 4, price: 99.00, category: 'mains' },
+      { menuItemId: 'menu-14', name: 'Jeera Rice', quantity: 1, price: 199.00, category: 'mains' },
+      { menuItemId: 'menu-12', name: 'Mango Lassi', quantity: 2, price: 179.00, category: 'beverages' }
     ],
     status: 'pending',
     timestamp: new Date(Date.now() - 80 * 60 * 1000).toISOString(),
-    waiterName: 'Sarah Jenkins',
-    totalPrice: 3531.00,
-    tax: 160.50,
-    serviceCharge: 160.50,
+    waiterName: 'Rohit Kumar',
+    totalPrice: 1951.00,
+    tax: 97.55,
+    serviceCharge: 97.55,
     tip: 0,
     paymentMethod: 'pending',
     timeElapsed: 80
@@ -394,17 +318,17 @@ const initialOrders: Order[] = [
     tableId: 'T-18',
     tableName: 'Table 18',
     items: [
-      { menuItemId: 'menu-2', name: 'Galouti Kebab', quantity: 2, price: 550.00, category: 'appetizers' },
-      { menuItemId: 'menu-5', name: 'Murgh Makhani (Butter Chicken)', quantity: 1, price: 650.00, category: 'mains' },
-      { menuItemId: 'menu-12', name: 'Mango Lassi', quantity: 3, price: 180.00, category: 'beverages' }
+      { menuItemId: 'menu-1', name: 'Paneer Tikka', quantity: 2, price: 349.00, category: 'appetizers' },
+      { menuItemId: 'menu-6', name: 'Dal Makhani', quantity: 1, price: 329.00, category: 'mains' },
+      { menuItemId: 'menu-12', name: 'Mango Lassi', quantity: 3, price: 179.00, category: 'beverages' }
     ],
     status: 'completed',
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-    waiterName: 'Sarah Jenkins',
-    totalPrice: 2739.00,
-    tax: 114.50,
-    serviceCharge: 114.50,
-    tip: 220.00,
+    waiterName: 'Aditi Rao',
+    totalPrice: 1564.00,
+    tax: 78.20,
+    serviceCharge: 78.20,
+    tip: 100.00,
     paymentMethod: 'card',
     timeElapsed: 45
   },
@@ -413,16 +337,16 @@ const initialOrders: Order[] = [
     tableId: 'T-12',
     tableName: 'Table 12',
     items: [
-      { menuItemId: 'menu-6', name: 'Dal Bukhara', quantity: 2, price: 550.00, category: 'mains' },
-      { menuItemId: 'menu-8', name: 'Paneer Butter Masala', quantity: 1, price: 520.00, category: 'mains' },
-      { menuItemId: 'menu-14', name: 'Fresh Lime Soda', quantity: 2, price: 150.00, category: 'beverages' }
+      { menuItemId: 'menu-6', name: 'Dal Makhani', quantity: 2, price: 329.00, category: 'mains' },
+      { menuItemId: 'menu-8', name: 'Paneer Butter Masala', quantity: 1, price: 389.00, category: 'mains' },
+      { menuItemId: 'menu-11', name: 'Garlic Naan', quantity: 2, price: 99.00, category: 'appetizers' }
     ],
     status: 'completed',
     timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-    waiterName: 'Sarah Jenkins',
-    totalPrice: 2332.00,
-    tax: 96.00,
-    serviceCharge: 96.00,
+    waiterName: 'Neha Verma',
+    totalPrice: 1245.00,
+    tax: 62.25,
+    serviceCharge: 62.25,
     tip: 150.00,
     paymentMethod: 'card',
     timeElapsed: 55
@@ -432,62 +356,60 @@ const initialOrders: Order[] = [
     tableId: 'T-05',
     tableName: 'Table 05',
     items: [
-      { menuItemId: 'menu-7', name: 'Awadhi Mutton Biryani', quantity: 6, price: 720.00, category: 'mains' },
-      { menuItemId: 'menu-12', name: 'Mango Lassi', quantity: 3, price: 180.00, category: 'beverages' }
+      { menuItemId: 'menu-7', name: 'Hyderabadi Chicken Biryani', quantity: 6, price: 459.00, category: 'mains' },
+      { menuItemId: 'menu-12', name: 'Mango Lassi', quantity: 3, price: 179.00, category: 'beverages' }
     ],
     status: 'completed',
     timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-    waiterName: 'Sarah Jenkins',
-    totalPrice: 5880.00,
-    tax: 243.00,
-    serviceCharge: 243.00,
-    tip: 500.00,
+    waiterName: 'Rohit Kumar',
+    totalPrice: 3291.00,
+    tax: 164.55,
+    serviceCharge: 164.55,
+    tip: 300.00,
     paymentMethod: 'card',
     timeElapsed: 75
   }
 ];
 
 const initialReservations: Reservation[] = [
-  { id: 'res-1', customerName: 'Rohan Sharma', partySize: 4, time: '19:30', date: 'Today', tableId: 'T-12', tableName: 'Table 12', status: 'confirmed' },
-  { id: 'res-2', customerName: 'Priya Patel', partySize: 2, time: '18:00', date: 'Today', tableId: 'T-03', tableName: 'Table 03', status: 'confirmed' },
-  { id: 'res-3', customerName: 'Vikram Singh', partySize: 6, time: '20:15', date: 'Tomorrow', tableId: 'T-01', tableName: 'Table 01', status: 'confirmed' },
-  { id: 'res-4', customerName: 'Ananya Rao', partySize: 2, time: '21:00', date: 'Today', tableId: 'T-10', tableName: 'Table 10', status: 'confirmed' }
+  { id: 'res-1', customerName: 'Aarav Sharma', partySize: 4, time: '19:30', date: 'Today', tableId: 'T-12', tableName: 'Table 12', status: 'confirmed' },
+  { id: 'res-2', customerName: 'Rohan Gupta', partySize: 2, time: '18:00', date: 'Today', tableId: 'T-03', tableName: 'Table 03', status: 'confirmed' },
+  { id: 'res-3', customerName: 'Priya Verma', partySize: 6, time: '20:15', date: 'Tomorrow', tableId: 'T-01', tableName: 'Table 01', status: 'confirmed' },
+  { id: 'res-4', customerName: 'Sneha Iyer', partySize: 2, time: '21:00', date: 'Today', tableId: 'T-10', tableName: 'Table 10', status: 'confirmed' }
 ];
 
 const initialInventory: InventoryItem[] = [
   { id: 'inv-1', name: 'Basmati Rice', category: 'Grains', quantity: 150, unit: 'kg', minLevel: 30.0, status: 'optimal' },
-  { id: 'inv-2', name: 'Cottage Cheese (Paneer)', category: 'Dairy', quantity: 8, unit: 'kg', minLevel: 15.0, status: 'low' },
-  { id: 'inv-3', name: 'Mutton Boneless', category: 'Meat', quantity: 45, unit: 'kg', minLevel: 10.0, status: 'optimal' },
-  { id: 'inv-4', name: 'Saffron Threads', category: 'Spices', quantity: 250, unit: 'g', minLevel: 50, status: 'optimal' },
-  { id: 'inv-5', name: 'Whole Spices (Cardamom/Clove)', category: 'Spices', quantity: 12, unit: 'kg', minLevel: 3, status: 'optimal' },
-  { id: 'inv-6', name: 'Alphonso Mango Pulp', category: 'Canned', quantity: 4, unit: 'tins', minLevel: 10, status: 'low' },
-  { id: 'inv-7', name: 'Dairy Cream Chilled', category: 'Dairy', quantity: 24.0, unit: 'l', minLevel: 5.0, status: 'optimal' },
-  { id: 'inv-8', name: 'Boneless Chicken Breast', category: 'Meat', quantity: 38, unit: 'kg', minLevel: 8, status: 'optimal' }
+  { id: 'inv-2', name: 'Paneer', category: 'Dairy', quantity: 8, unit: 'kg', minLevel: 15.0, status: 'low' },
+  { id: 'inv-3', name: 'Mutton', category: 'Meat', quantity: 45, unit: 'kg', minLevel: 10.0, status: 'optimal' },
+  { id: 'inv-4', name: 'Saffron', category: 'Spices', quantity: 250, unit: 'g', minLevel: 50, status: 'optimal' },
+  { id: 'inv-5', name: 'Garam Masala', category: 'Spices', quantity: 12, unit: 'kg', minLevel: 3, status: 'optimal' },
+  { id: 'inv-6', name: 'Ghee', category: 'Dairy', quantity: 24.0, unit: 'l', minLevel: 5.0, status: 'optimal' },
+  { id: 'inv-7', name: 'Chicken', category: 'Meat', quantity: 38, unit: 'kg', minLevel: 8, status: 'optimal' }
 ];
 
 const initialEmployees: Employee[] = [
-  { id: 'emp-1', name: 'Marc Jenkins', role: 'admin', email: 'marc@savora.com', status: 'active', shift: 'Double Shift' },
-  { id: 'emp-2', name: 'Sarah Jenkins', role: 'waiter', email: 'sarah@savora.com', status: 'active', shift: 'Morning Shift' },
-  { id: 'emp-3', name: 'Marcus Vance', role: 'manager', email: 'marcus@savora.com', status: 'active', shift: 'Evening Shift' },
-  { id: 'emp-4', name: 'Pierre Dubois', role: 'chef', email: 'pierre@savora.com', status: 'active', shift: 'Morning Shift' },
-  { id: 'emp-5', name: 'Elena Rostova', role: 'cashier', email: 'elena@savora.com', status: 'active', shift: 'Double Shift' }
+  { id: 'emp-1', name: 'Arjun Sharma', role: 'admin', email: 'arjun@savora.com', status: 'active', shift: 'Double Shift' },
+  { id: 'emp-2', name: 'Neha Verma', role: 'waiter', email: 'neha@savora.com', status: 'active', shift: 'Morning Shift' },
+  { id: 'emp-3', name: 'Rohit Kumar', role: 'manager', email: 'rohit@savora.com', status: 'active', shift: 'Evening Shift' },
+  { id: 'emp-4', name: 'Manish Singh', role: 'chef', email: 'manish@savora.com', status: 'active', shift: 'Morning Shift' },
+  { id: 'emp-5', name: 'Aditi Rao', role: 'cashier', email: 'aditi@savora.com', status: 'active', shift: 'Double Shift' }
 ];
 
 const initialNotifications: Notification[] = [
   { id: 'notif-1', title: '2 Late Orders', message: 'Table 04 & Table 07 active orders have exceeded average preparation timer.', type: 'warning', timestamp: new Date(Date.now() - 5 * 60 * 1000).toISOString(), read: false },
-  { id: 'notif-2', title: 'Low Stock Alert', message: 'Cottage Cheese (Paneer) is down to 8 kg. Reroute orders or request restock.', type: 'error', timestamp: new Date(Date.now() - 25 * 60 * 1000).toISOString(), read: false },
-  { id: 'notif-3', title: 'VIP Reservation seated', message: 'Rohan Sharma party has been checked in and assigned to Table 12.', type: 'info', timestamp: new Date(Date.now() - 40 * 60 * 1000).toISOString(), read: true },
+  { id: 'notif-2', title: 'Low Stock Alert', message: 'Paneer stock running low. Down to 8 kg. Request restock.', type: 'error', timestamp: new Date(Date.now() - 25 * 60 * 1000).toISOString(), read: false },
+  { id: 'notif-3', title: 'Zomato order received', message: 'New delivery order received via Zomato for ₹1,250.', type: 'info', timestamp: new Date(Date.now() - 40 * 60 * 1000).toISOString(), read: true },
   { id: 'notif-4', title: 'Sales target reached', message: 'Revenue for today exceeded ₹1,00,000 baseline milestone.', type: 'success', timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), read: true }
 ];
 
 const defaultSettings: RestaurantSettings = {
   name: 'Saffron & Smoke',
-  hours: '11:30 - 23:00',
+  hours: '11:00 AM - 11:00 PM',
   tax: 5.0, // 5% GST
   service: 5.0, // 5% service charge
-  receiptFooter: 'Athithi Devo Bhava - Thank you for dining with us!'
+  receiptFooter: 'Thank you for dining with us.\nअतिथि देवो भवः'
 };
-
 export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<{ name: string; role: string; restaurantId?: string | null; email?: string | null } | null>(() => {
     const saved = localStorage.getItem('savora_user');

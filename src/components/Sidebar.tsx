@@ -134,7 +134,7 @@ export const Sidebar: React.FC = () => {
       {/* Footer Info */}
       <div className="p-2 border-t border-border-custom/50 mt-auto space-y-1">
         <NavLink
-          to="/app/profile"
+          to="/app/support"
           className="flex items-center gap-3 py-2 px-3 rounded-xl text-text-muted hover:bg-border-custom/30 hover:text-text-primary group relative"
         >
           <HelpCircle className="w-5 h-5 flex-shrink-0" />

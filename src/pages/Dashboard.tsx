@@ -194,7 +194,7 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="flex bg-[#F8F7F4] dark:bg-[#111311] border border-border-custom/60 rounded-xl p-1 shadow-inner">
               <button className="px-4 py-1.5 text-xs font-bold bg-white dark:bg-[#1A1D1A] rounded-lg shadow-sm text-primary transition-all">
-                Revenue ($)
+                Revenue (₹)
               </button>
             </div>
           </div>

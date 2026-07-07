@@ -18,6 +18,9 @@ import { Reports } from './pages/Reports';
 import { AIInsights } from './pages/AIInsights';
 import { Settings } from './pages/Settings';
 import { Profile } from './pages/Profile';
+import { Support } from './pages/Support';
+import { SupportSuccess } from './pages/SupportSuccess';
+import { SupportTickets } from './pages/SupportTickets';
 import './App.css';
 
 function App() {
@@ -46,6 +49,9 @@ function App() {
           <Route path="ai-insights" element={<AIInsights />} />
           <Route path="settings" element={<Settings />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="support" element={<Support />} />
+          <Route path="support-success" element={<SupportSuccess />} />
+          <Route path="support-tickets" element={<SupportTickets />} />
         </Route>
 
         {/* Fallback */}
