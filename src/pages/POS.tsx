@@ -196,7 +196,7 @@ export const POS: React.FC = () => {
 
                 {table.status === 'occupied' && (
                   <p className={`font-mono text-xs font-bold mt-1.5 ${selectedTableId === table.id ? 'text-white' : 'text-primary'}`}>
-                    ${Math.round(orders.find(o => o.id === table.currentOrderId)?.totalPrice || 0)}
+                    ₹{Math.round(orders.find(o => o.id === table.currentOrderId)?.totalPrice || 0).toLocaleString('en-IN')}
                   </p>
                 )}
               </div>
@@ -305,7 +305,7 @@ export const POS: React.FC = () => {
                   </button>
                 </div>
                 <span className="font-mono text-xs font-bold w-16 text-right text-text-primary">
-                  ${Math.round(item.price * item.quantity)}
+                  ₹{Math.round(item.price * item.quantity).toLocaleString('en-IN')}
                 </span>
               </div>
             </div>
@@ -440,23 +440,23 @@ export const POS: React.FC = () => {
           <div className="space-y-3">
             <div className="flex justify-between text-xs text-text-muted">
               <span>Subtotal Items</span>
-              <span className="font-bold font-mono text-text-primary">₹{cartSubtotal.toFixed(2)}</span>
+              <span className="font-bold font-mono text-text-primary">₹{cartSubtotal.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-xs text-text-muted">
               <span>CGST ({(settings.tax / 2).toFixed(1)}%)</span>
-              <span className="font-bold font-mono text-text-primary">₹{(tax / 2).toFixed(2)}</span>
+              <span className="font-bold font-mono text-text-primary">₹{(tax / 2).toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-xs text-text-muted">
               <span>SGST ({(settings.tax / 2).toFixed(1)}%)</span>
-              <span className="font-bold font-mono text-text-primary">₹{(tax / 2).toFixed(2)}</span>
+              <span className="font-bold font-mono text-text-primary">₹{(tax / 2).toLocaleString('en-IN')}</span>
             </div>
             <div className="flex justify-between text-xs text-text-muted pb-3 border-b border-border-custom/60">
               <span>Service Charge ({settings.service}%)</span>
-              <span className="font-bold font-mono text-text-primary">₹{serviceCharge.toFixed(2)}</span>
+              <span className="font-bold font-mono text-text-primary">₹{serviceCharge.toLocaleString('en-IN')}</span>
             </div>
             <div className="pt-4 flex justify-between items-baseline">
               <span className="text-sm font-semibold text-text-muted">Sub Total</span>
-              <span className="text-xl font-extrabold text-text-primary font-mono">₹{orderTotal.toFixed(2)}</span>
+              <span className="text-xl font-extrabold text-text-primary font-mono">₹{orderTotal.toLocaleString('en-IN')}</span>
             </div>
           </div>
 
@@ -508,7 +508,7 @@ export const POS: React.FC = () => {
                   className="w-[120px] h-[120px]"
                 />
               </div>
-              <span className="text-[10px] font-bold font-mono text-primary mt-2">TOTAL: ${finalTotal.toFixed(2)}</span>
+              <span className="text-[10px] font-bold font-mono text-primary mt-2">TOTAL: ₹{finalTotal.toLocaleString('en-IN')}</span>
               <span className="text-[8px] text-text-muted mt-0.5">BHIM, GPay, PhonePe, Paytm accepted</span>
             </div>
           )}
@@ -517,7 +517,7 @@ export const POS: React.FC = () => {
           <div className="space-y-4">
             <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 flex justify-between items-baseline">
               <span className="text-xs font-semibold text-text-muted">Total Due:</span>
-              <span className="text-3xl font-extrabold text-primary font-mono tracking-tight">₹{finalTotal.toFixed(2)}</span>
+              <span className="text-3xl font-extrabold text-primary font-mono tracking-tight">₹{finalTotal.toLocaleString('en-IN')}</span>
             </div>
 
             <button 
@@ -589,7 +589,7 @@ export const POS: React.FC = () => {
                     <span>{item.quantity}x {item.name}</span>
                     {item.notes && <p className="text-[9px] text-text-muted pl-4 italic">"{item.notes}"</p>}
                   </div>
-                  <span>₹{Math.round(item.price * item.quantity)}</span>
+                  <span>₹{Math.round(item.price * item.quantity).toLocaleString('en-IN')}</span>
                 </div>
               ))}
             </div>
@@ -598,27 +598,27 @@ export const POS: React.FC = () => {
             <div className="space-y-1.5 mt-4 font-mono text-xs text-text-muted">
               <div className="flex justify-between">
                 <span>Subtotal Items</span>
-                <span>₹{cartSubtotal.toFixed(2)}</span>
+                <span>₹{cartSubtotal.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
                 <span>CGST ({(settings.tax / 2).toFixed(1)}%)</span>
-                <span>₹{(tax / 2).toFixed(2)}</span>
+                <span>₹{(tax / 2).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
                 <span>SGST ({(settings.tax / 2).toFixed(1)}%)</span>
-                <span>₹{(tax / 2).toFixed(2)}</span>
+                <span>₹{(tax / 2).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
                 <span>Service Fee ({settings.service}%)</span>
-                <span>₹{serviceCharge.toFixed(2)}</span>
+                <span>₹{serviceCharge.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between border-t border-dashed border-border-custom pt-2">
                 <span>Gratuity ({selectedTipPercent}%)</span>
-                <span>₹{tipAmount.toFixed(2)}</span>
+                <span>₹{tipAmount.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between font-extrabold text-base pt-3 border-t-2 border-border-custom text-text-primary">
                 <span>GRAND TOTAL</span>
-                <span className="text-primary">₹{finalTotal.toFixed(2)}</span>
+                <span className="text-primary">₹{finalTotal.toLocaleString('en-IN')}</span>
               </div>
             </div>
 

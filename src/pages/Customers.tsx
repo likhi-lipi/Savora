@@ -147,7 +147,7 @@ export const Customers: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 text-center font-bold text-text-primary">{cust.visits}</td>
                   <td className="px-6 py-4 text-center font-mono font-bold text-text-primary">
-                    ${cust.totalSpent.toFixed(2)}
+                    ₹{cust.totalSpent.toLocaleString('en-IN')}
                   </td>
                   <td className="px-6 py-4">{getTierBadge(cust.tier)}</td>
                   <td className="px-6 py-4 text-right font-mono font-bold text-primary">

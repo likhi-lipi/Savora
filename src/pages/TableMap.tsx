@@ -213,7 +213,7 @@ export const TableMap: React.FC = () => {
                         
                         {table.status === 'occupied' && (
                           <span className={`font-mono text-xs font-bold ${isSelected ? 'text-white' : 'text-primary'}`}>
-                            ${(orders.find(o => o.id === table.currentOrderId)?.totalPrice || 0).toFixed(2)}
+                            ₹{(orders.find(o => o.id === table.currentOrderId)?.totalPrice || 0).toLocaleString('en-IN')}
                           </span>
                         )}
                       </div>
@@ -258,7 +258,7 @@ export const TableMap: React.FC = () => {
                   <div className="flex justify-between text-xs text-text-muted">
                     <span>Current Active Bill:</span>
                     <span className="font-bold font-mono text-primary">
-                      ${(selectedTableOrder?.totalPrice || 0).toFixed(2)}
+                      ₹{(selectedTableOrder?.totalPrice || 0).toLocaleString('en-IN')}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs text-text-muted">

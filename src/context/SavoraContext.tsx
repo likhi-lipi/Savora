@@ -51,7 +51,7 @@ export interface Order {
   tax: number;
   serviceCharge: number;
   tip: number;
-  paymentMethod: 'card' | 'cash' | 'pending';
+  paymentMethod: 'card' | 'cash' | 'upi' | 'pending';
   timeElapsed: number; // minutes elapsed since order placed
 }
 
@@ -141,7 +141,7 @@ interface SavoraContextProps {
   addItemsToOrder: (orderId: string, items: OrderItem[]) => void;
   updateOrderItemQuantity: (orderId: string, menuItemId: string, change: number) => void;
   updateOrderStatus: (orderId: string, status: Order['status']) => void;
-  settleOrder: (orderId: string, paymentMethod: 'card' | 'cash' | 'pending', tipPercent: number, customTotal?: number) => void;
+  settleOrder: (orderId: string, paymentMethod: 'card' | 'cash' | 'upi' | 'pending', tipPercent: number, customTotal?: number) => void;
   clearTable: (tableId: string) => void;
   setTableStatus: (tableId: string, status: Table['status'], guestCount?: number) => void;
   addReservation: (res: Omit<Reservation, 'id' | 'status'>) => void;
@@ -160,13 +160,13 @@ const SavoraContext = createContext<SavoraContextProps | undefined>(undefined);
 
 const initialMenuItems: MenuItem[] = [
   // Starters
-  { id: 'menu-1', name: 'Paneer Tikka', description: 'Soft cubes of cottage cheese marinated in hung curd, aromatic Indian spices, and grilled to perfection in a traditional tandoor.', price: 349.00, category: 'starters', image: 'https://images.unsplash.com/photo-1567188040759-fb8a883db6d8?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-2', name: 'Hara Bhara Kebab', description: 'Healthy and tasty vegetarian kababs made with spinach, potatoes, and green peas.', price: 289.00, category: 'starters', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-3', name: 'Chicken Tikka', description: 'Juicy, tender chicken pieces marinated in spiced yogurt and roasted in the tandoor.', price: 429.00, category: 'starters', image: 'https://images.unsplash.com/photo-1599487405270-8950c42dcd68?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
+  { id: 'menu-1', name: 'Paneer Tikka', description: 'Soft cubes of cottage cheese marinated in hung curd, aromatic Indian spices, and grilled to perfection in a traditional tandoor.', price: 349.00, category: 'starters', image: 'https://images.unsplash.com/photo-1599487405270-8950c42dcd68?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-2', name: 'Hara Bhara Kebab', description: 'Healthy and tasty vegetarian kababs made with spinach, potatoes, and green peas.', price: 289.00, category: 'starters', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-3', name: 'Chicken Tikka', description: 'Juicy, tender chicken pieces marinated in spiced yogurt and roasted in the tandoor.', price: 429.00, category: 'starters', image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
   { id: 'menu-4', name: 'Tandoori Chicken (Half)', description: 'Iconic half-portion tandoori chicken, marinated with robust spices and char-grilled.', price: 499.00, category: 'starters', image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
   { id: 'menu-5', name: 'Seekh Kebab', description: 'Minced lamb blended with Indian spices, skewered and cooked in a clay oven.', price: 449.00, category: 'starters', image: 'https://images.unsplash.com/photo-1603496987351-f84a3ba5ec85?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
   { id: 'menu-6', name: 'Crispy Corn Masala', description: 'Crunchy golden sweet corn kernels tossed with fiery spices and lemon juice.', price: 249.00, category: 'starters', image: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-7', name: 'Tandoori Mushroom', description: 'Fresh button mushrooms marinated in tandoori masala and grilled to a smoky finish.', price: 319.00, category: 'starters', image: 'https://images.unsplash.com/photo-1626075936496-d2427a00824b?w=600&auto=format&fit=crop&q=80', stockLevel: 'low', labels: ['Vegetarian'] },
+  { id: 'menu-7', name: 'Tandoori Mushroom', description: 'Fresh button mushrooms marinated in tandoori masala and grilled to a smoky finish.', price: 319.00, category: 'starters', image: 'https://images.unsplash.com/photo-1599487405270-8950c42dcd68?w=600&auto=format&fit=crop&q=80', stockLevel: 'low', labels: ['Vegetarian'] },
 
   // Soups
   { id: 'menu-8', name: 'Tomato Dhaniya Soup', description: 'A light, comforting soup made with fresh ripe tomatoes and a hint of fresh coriander.', price: 189.00, category: 'soups', image: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
@@ -180,9 +180,9 @@ const initialMenuItems: MenuItem[] = [
   { id: 'menu-14', name: 'Dal Makhani', description: 'Slow-cooked black lentils simmered overnight on hot embers with tomatoes, cream, and butter.', price: 329.00, category: 'mains', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
   { id: 'menu-15', name: 'Kadai Paneer', description: 'Cottage cheese and bell peppers cooked in a spicy, flavorful freshly ground kadai masala.', price: 379.00, category: 'mains', image: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
   { id: 'menu-16', name: 'Shahi Paneer', description: 'Royal paneer dish in a thick, sweet and spicy creamy gravy made from nuts and cream.', price: 399.00, category: 'mains', image: 'https://images.unsplash.com/photo-1589301760014-d929f39ce9b0?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-17', name: 'Chicken Curry', description: 'Home-style chicken curry cooked slowly with traditional Indian whole spices.', price: 469.00, category: 'mains', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
+  { id: 'menu-17', name: 'Chicken Curry', description: 'Home-style chicken curry cooked slowly with traditional Indian whole spices.', price: 469.00, category: 'mains', image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: [] },
   { id: 'menu-18', name: 'Rogan Josh', description: 'A signature Kashmiri dish featuring tender mutton cooked with aromatic spices and a vibrant red chili gravy.', price: 589.00, category: 'mains', image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
-  { id: 'menu-19', name: 'Malai Kofta', description: 'Fried dumplings of potato and paneer served in a rich, mild, and creamy cashew gravy.', price: 389.00, category: 'mains', image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-19', name: 'Malai Kofta', description: 'Fried dumplings of potato and paneer served in a rich, mild, and creamy cashew gravy.', price: 389.00, category: 'mains', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
   { id: 'menu-20', name: 'Chole Masala', description: 'Classic North Indian dish made with white chickpeas simmered in an onion-tomato masala.', price: 299.00, category: 'mains', image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
   { id: 'menu-21', name: 'Palak Paneer', description: 'Cubes of soft paneer cooked in a smooth, mildly spiced spinach puree.', price: 369.00, category: 'mains', image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
 
@@ -190,15 +190,15 @@ const initialMenuItems: MenuItem[] = [
   { id: 'menu-22', name: 'Butter Naan', description: 'Classic fluffy Indian flatbread baked in a tandoor and generously brushed with butter.', price: 79.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
   { id: 'menu-23', name: 'Garlic Naan', description: 'Traditional Indian flatbread flavored with minced garlic and coriander.', price: 99.00, category: 'breads', image: 'https://images.unsplash.com/photo-1605804364028-591b9f620bd3?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
   { id: 'menu-24', name: 'Cheese Naan', description: 'Indulgent soft naan bread stuffed with a blend of melted cheeses.', price: 149.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-25', name: 'Tandoori Roti', description: 'Whole wheat flatbread baked in a traditional clay oven.', price: 49.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-26', name: 'Butter Roti', description: 'Whole wheat tandoori roti glazed with fresh butter.', price: 59.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-27', name: 'Laccha Paratha', description: 'Multi-layered, flaky whole wheat bread cooked in the tandoor.', price: 99.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
-  { id: 'menu-28', name: 'Missi Roti', description: 'Savory bread made from a mix of whole wheat flour and gram flour, spiced with ajwain.', price: 89.00, category: 'breads', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-25', name: 'Tandoori Roti', description: 'Whole wheat flatbread baked in a traditional clay oven.', price: 49.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-26', name: 'Butter Roti', description: 'Whole wheat tandoori roti glazed with fresh butter.', price: 59.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-27', name: 'Laccha Paratha', description: 'Multi-layered, flaky whole wheat bread cooked in the tandoor.', price: 99.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
+  { id: 'menu-28', name: 'Missi Roti', description: 'Savory bread made from a mix of whole wheat flour and gram flour, spiced with ajwain.', price: 89.00, category: 'breads', image: 'https://images.unsplash.com/photo-1573504859012-70b7904e5d6d?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian'] },
 
   // Rice & Biryani
   { id: 'menu-29', name: 'Hyderabadi Chicken Biryani', description: 'Fragrant basmati rice layered with succulent chicken, saffron, caramelized onions, and slow-cooked in the traditional dum style.', price: 459.00, category: 'rice', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
   { id: 'menu-30', name: 'Hyderabadi Veg Biryani', description: 'Aromatic basmati rice cooked dum-style with assorted seasonal vegetables and biryani spices.', price: 359.00, category: 'rice', image: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
-  { id: 'menu-31', name: 'Mutton Dum Biryani', description: 'A royal delicacy of tender mutton pieces layered with long-grain rice and exotic spices.', price: 599.00, category: 'rice', image: 'https://images.unsplash.com/photo-1589301760014-d929f39ce9b0?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
+  { id: 'menu-31', name: 'Mutton Dum Biryani', description: 'A royal delicacy of tender mutton pieces layered with long-grain rice and exotic spices.', price: 599.00, category: 'rice', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Signature'] },
   { id: 'menu-32', name: 'Jeera Rice', description: 'Steamed basmati rice tempered with cumin seeds and ghee.', price: 199.00, category: 'rice', image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
   { id: 'menu-33', name: 'Steamed Basmati Rice', description: 'Perfectly cooked, long-grain aromatic white basmati rice.', price: 149.00, category: 'rice', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
   { id: 'menu-34', name: 'Veg Pulao', description: 'Mildly spiced rice cooked with a colorful medley of fresh vegetables.', price: 269.00, category: 'rice', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&auto=format&fit=crop&q=80', stockLevel: 'available', labels: ['Vegetarian', 'Gluten-Free'] },
@@ -908,7 +908,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   // Settle Bill (Cashier)
-  const settleOrder = (orderId: string, paymentMethod: 'card' | 'cash' | 'pending', tipPercent: number, customTotal?: number) => {
+  const settleOrder = (orderId: string, paymentMethod: 'card' | 'cash' | 'upi' | 'pending', tipPercent: number, customTotal?: number) => {
     const order = orders.find(o => o.id === orderId);
     if (!order) return;
 

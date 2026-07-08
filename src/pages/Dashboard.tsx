@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSavoraState } from '../context/SavoraContext';
 import { 
   TrendingUp, 
@@ -33,6 +34,7 @@ const chartData = [
 ];
 
 export const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const { todayStats, orders, tables, resetMockData } = useSavoraState();
 
   const recentOrders = useMemo(() => {
@@ -67,16 +69,18 @@ export const Dashboard: React.FC = () => {
   const sparkTurn = [32, 22, 28, 10, 18, 12, 5];
 
   const renderSparkline = (points: number[], color: string) => (
-    <svg className="w-full h-10 overflow-visible" viewBox="0 0 100 20">
-      <path
-        d={`M ${points.map((p, i) => `${(i / (points.length - 1)) * 100},${p}`).join(' L ')}`}
-        fill="none"
-        stroke={color}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+    <div className="w-full h-12 overflow-hidden pb-1 mt-2">
+      <svg className="w-full h-full" viewBox="0 -2 100 45" preserveAspectRatio="none">
+        <path
+          d={`M ${points.map((p, i) => `${(i / (points.length - 1)) * 100},${p}`).join(' L ')}`}
+          fill="none"
+          stroke={color}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </div>
   );
 
   return (
@@ -105,13 +109,13 @@ export const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Revenue */}
-        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between">
+        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between overflow-hidden">
           <div className="flex justify-between items-start">
             <div className="flex flex-col">
               <span className="text-text-muted text-[10px] font-bold uppercase tracking-widest mb-1">Today's Revenue</span>
               <div className="flex items-baseline gap-1">
                 <h3 className="text-2xl font-extrabold tracking-tight font-mono text-text-primary">
-                  ${todayStats.revenue.toLocaleString()}
+                  ₹{todayStats.revenue.toLocaleString('en-IN')}
                 </h3>
                 <span className="text-text-muted text-xs font-medium">INR</span>
               </div>
@@ -124,7 +128,7 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Orders */}
-        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between">
+        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between overflow-hidden">
           <div className="flex justify-between items-start">
             <div className="flex flex-col">
               <span className="text-text-muted text-[10px] font-bold uppercase tracking-widest mb-1">Total Orders</span>
@@ -143,13 +147,13 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Avg Check */}
-        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between">
+        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between overflow-hidden">
           <div className="flex justify-between items-start">
             <div className="flex flex-col">
               <span className="text-text-muted text-[10px] font-bold uppercase tracking-widest mb-1">Average Check</span>
               <div className="flex items-baseline gap-1">
                 <h3 className="text-2xl font-extrabold tracking-tight font-mono text-text-primary">
-                  ${todayStats.avgCheck.toFixed(2)}
+                  ₹{todayStats.avgCheck.toLocaleString('en-IN')}
                 </h3>
                 <span className="text-text-muted text-xs font-medium">per cover</span>
               </div>
@@ -162,7 +166,7 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Occupancy / Turn */}
-        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between">
+        <div className="bg-surface rounded-2xl p-5 border border-border-custom/50 premium-shadow premium-shadow-hover flex flex-col justify-between overflow-hidden">
           <div className="flex justify-between items-start">
             <div className="flex flex-col">
               <span className="text-text-muted text-[10px] font-bold uppercase tracking-widest mb-1">Seating Occupancy</span>
@@ -248,7 +252,7 @@ export const Dashboard: React.FC = () => {
               <div className="bg-[#F8F7F4] dark:bg-[#111311] p-4 rounded-xl border border-border-custom/60 hover:border-primary/25 transition-all">
                 <span className="text-[10px] font-bold text-primary uppercase">Menu Optimization</span>
                 <p className="text-xs text-text-muted mt-1 leading-relaxed">
-                  Demand for <span className="text-text-primary font-bold">"Truffle Risotto"</span> is up 42%. Feature as chef's special tonight for high-margin revenue uplift.
+                  Demand for <span className="text-text-primary font-bold">"Hyderabadi Dum Biryani"</span> is up 42%. Feature as chef's special tonight for high-margin revenue uplift.
                 </p>
               </div>
 
@@ -264,14 +268,17 @@ export const Dashboard: React.FC = () => {
               <div className="bg-[#F8F7F4] dark:bg-[#111311] p-4 rounded-xl border border-border-custom/60 hover:border-primary/25 transition-all">
                 <span className="text-[10px] font-bold text-primary uppercase">VIP Guest Alert</span>
                 <p className="text-xs text-text-muted mt-1 leading-relaxed">
-                  VIP guest <span className="text-text-primary font-bold">Sarah Jenkins</span> (Top 1%) booked Table 12. Recommend preparing signature Chardonnay table welcome.
+                  VIP guest <span className="text-text-primary font-bold">Aarav Sharma</span> (Top 1%) booked Table 12. Recommend preparing signature Chardonnay table welcome.
                 </p>
               </div>
 
             </div>
           </div>
 
-          <button className="w-full bg-primary hover:bg-primary/95 text-white py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 mt-6 shadow-sm active:scale-95 group">
+          <button 
+            onClick={() => navigate("/app/analytics")}
+            className="w-full bg-primary hover:bg-primary/95 text-white py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 mt-6 shadow-sm active:scale-95 group"
+          >
             View Analytics Workspace
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </button>
@@ -310,7 +317,7 @@ export const Dashboard: React.FC = () => {
                   <td className="px-6 py-4 font-semibold text-text-primary">{order.tableName}</td>
                   <td className="px-6 py-4 text-text-muted">{order.waiterName}</td>
                   <td className="px-6 py-4">{getStatusBadge(order.status)}</td>
-                  <td className="px-6 py-4 font-mono font-bold text-text-primary">₹{order.totalPrice.toFixed(2)}</td>
+                  <td className="px-6 py-4 font-mono font-bold text-text-primary">₹{order.totalPrice.toLocaleString('en-IN')}</td>
                   <td className="px-6 py-4 text-right font-mono text-text-muted">
                     {order.status === 'completed' ? 'Settled' : `${order.timeElapsed}m ago`}
                   </td>

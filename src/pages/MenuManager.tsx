@@ -240,7 +240,7 @@ export const MenuManager: React.FC = () => {
                 src={dish.image}
               />
               <div className="absolute bottom-3 right-3 bg-white/95 dark:bg-[#1A1D1A]/95 backdrop-blur-sm px-3 py-1 rounded-xl shadow-sm border border-border-custom/30 font-mono text-xs font-bold text-text-primary">
-                ₹{dish.price.toFixed(2)}
+                ₹{dish.price.toLocaleString('en-IN')}
               </div>
               <div className="absolute top-3 left-3 flex gap-1">
                 <span className="px-2 py-0.5 bg-white/90 dark:bg-[#1A1D1A]/90 backdrop-blur-sm text-[8px] font-bold text-text-muted uppercase tracking-wider rounded-lg border border-border-custom/30">
@@ -302,7 +302,7 @@ export const MenuManager: React.FC = () => {
                     <Wine size={14} className="text-primary" /> {bev.name}
                   </td>
                   <td className="px-6 py-3.5 text-text-muted">Beverages</td>
-                  <td className="px-6 py-3.5 font-bold font-mono text-text-primary">₹{bev.price.toFixed(2)}</td>
+                  <td className="px-6 py-3.5 font-bold font-mono text-text-primary">₹{bev.price.toLocaleString('en-IN')}</td>
                   <td className="px-6 py-3.5">{getStockBadge(bev.stockLevel)}</td>
                   <td className="px-6 py-3.5 text-right">
                     <button className="text-primary hover:underline font-bold text-[10px] tracking-wide">
