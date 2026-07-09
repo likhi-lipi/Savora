@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSavoraState } from '../context/SavoraContext';
+import { SavoraLogo } from './SavoraLogo';
 import {
   LayoutDashboard,
   Calendar,
@@ -70,9 +71,7 @@ export const Sidebar: React.FC = () => {
       <div className="py-6 px-4 flex items-center justify-between border-b border-border-custom/50">
         {!collapsed && (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-sm">
-              <span className="font-bold text-xl font-mono">S</span>
-            </div>
+            <SavoraLogo size={36} />
             <div>
               <h1 className="font-bold text-lg text-primary tracking-tight leading-none">Savora</h1>
               <p className="text-[10px] text-text-muted uppercase tracking-widest font-semibold mt-1">Smart Dining</p>
@@ -80,9 +79,7 @@ export const Sidebar: React.FC = () => {
           </div>
         )}
         {collapsed && (
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-sm mx-auto">
-            <span className="font-bold text-xl font-mono">S</span>
-          </div>
+          <SavoraLogo size={32} className="mx-auto" />
         )}
         <button 
           onClick={() => setCollapsed(!collapsed)}

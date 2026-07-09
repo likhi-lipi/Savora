@@ -39,11 +39,11 @@ export const AIInsights: React.FC = () => {
       const query = chatInput.toLowerCase();
 
       if (query.includes('dish') || query.includes('sell') || query.includes('menu')) {
-        aiText = 'According to today\'s sales log, "Wagyu Sliders" is our top fire item with 42 units sold, followed by "Truffle Risotto" (+12% increase). Suggest placing the chardonnay on special as it yields high margin conversions.';
+        aiText = 'According to today\'s sales log, "Mutton Dum Biryani" is our top fire item with 42 units sold, followed by "Paneer Butter Masala" (+12% increase). Suggest placing the Mango Lassi on special as it yields high margin conversions.';
       } else if (query.includes('staff') || query.includes('shift') || query.includes('hour')) {
         aiText = 'Occupancy forecasting indicates a dining rush peaking at 19:30. Based on table booking checks, Table 12 has a VIP party (Sarah Jenkins) arriving. Ensure 1 extra server is assigned to the Main Room.';
       } else if (query.includes('stock') || query.includes('inventory') || query.includes('wine')) {
-        aiText = 'Stock levels audit: chardonnay and ribeye portions are optimal. However, Veuve Clicquot Yellow Label champagne is down to 4 bottles (safety limit is 12). I recommend sending a restock order to vendor Alpha Wine.';
+        aiText = 'Stock levels audit: Ghee and Basmati Rice portions are optimal. However, Saffron is down to 4 boxes (safety limit is 12). I recommend sending a restock order to vendor Alpha Spices.';
       }
 
       const aiMsg: ChatMessage = {
@@ -144,22 +144,25 @@ export const AIInsights: React.FC = () => {
           {/* Refill prediction */}
           <div className="bg-[#F8F7F4] dark:bg-[#111311] p-4 rounded-xl border border-border-custom/55">
             <span className="text-[9px] font-extrabold uppercase bg-danger/10 text-danger px-2 py-0.5 rounded-full">Refill Forecast</span>
-            <h5 className="font-bold text-xs text-text-primary mt-2">Veuve Clicquot Refill Date</h5>
+            <h5 className="font-bold text-xs text-text-primary mt-2">Basmati Rice Refill Date</h5>
             <p className="text-[10px] text-text-muted mt-1">
               Refill threshold will trigger in <span className="font-bold text-text-primary font-mono">2 days</span> based on weekend guest booking covers.
             </p>
           </div>
 
           {/* Pricing Suggestion */}
-          <div className="bg-[#F8F7F4] dark:bg-[#111311] p-4 rounded-xl border border-border-custom/55">
-            <span className="text-[9px] font-extrabold uppercase bg-primary/10 text-primary px-2 py-0.5 rounded-full">Menu Pricing</span>
-            <h5 className="font-bold text-xs text-text-primary mt-2">Chardonnay Price Uplift</h5>
-            <p className="text-[10px] text-text-muted mt-1 leading-relaxed">
-              Domain Chardonnay is priced 8% lower than competitor average. Raising glass price by ₹1.50 is predicted to add ₹620 monthly.
+          <div className="bg-[#F8F7F4] dark:bg-[#111311] p-4 rounded-xl border border-border-custom/60 hover:border-primary/25 transition-all group/card">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] font-bold text-primary uppercase">Pricing AI</span>
+              <TrendingUp size={14} className="text-primary group-hover/card:scale-110 transition-transform" />
+            </div>
+            <h5 className="font-bold text-xs text-text-primary mt-2">Masala Chai Price Uplift</h5>
+            <p className="text-xs text-text-muted mt-1 leading-relaxed">
+              Premium Masala Chai is priced 8% lower than competitor average. Raising glass price by ₹5.50 is predicted to add ₹620 monthly.
             </p>
-            <a href="#" className="text-[9px] font-bold text-primary hover:underline flex items-center gap-0.5 mt-2">
-              Apply pricing change <ArrowUpRight size={10} />
-            </a>
+            <button className="text-[10px] font-bold text-text-muted hover:text-primary mt-3 uppercase tracking-wider transition-colors">
+              Apply Price Rule
+            </button>
           </div>
 
           {/* Alert */}

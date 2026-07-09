@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSavoraState, MenuItem } from '../context/SavoraContext';
+import { ImageFallback } from '../components/ImageFallback';
 import { 
   Plus, 
   Download, 
@@ -97,6 +98,27 @@ export const MenuManager: React.FC = () => {
           </span>
         );
     }
+  const handleCategoryWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.currentTarget.scrollLeft += e.deltaY;
+  };
+  const handleCategoryMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    el.setAttribute('data-isdown', 'true');
+    el.setAttribute('data-startx', String(e.pageX - el.offsetLeft));
+    el.setAttribute('data-scrollleft', String(el.scrollLeft));
+  };
+  const handleCategoryMouseLeaveOrUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.setAttribute('data-isdown', 'false');
+  };
+  const handleCategoryMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    if (el.getAttribute('data-isdown') !== 'true') return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const startX = Number(el.getAttribute('data-startx') || 0);
+    const scrollLeft = Number(el.getAttribute('data-scrollleft') || 0);
+    const walk = (x - startX) * 1.5;
+    el.scrollLeft = scrollLeft - walk;
   };
 
   return (
@@ -124,13 +146,19 @@ export const MenuManager: React.FC = () => {
       {/* Filter and Search Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-surface border border-border-custom/50 rounded-2xl shadow-sm">
         
-        {/* Categories picker */}
-        <div className="flex flex-wrap gap-2 text-xs font-bold">
+        <div 
+          onWheel={handleCategoryWheel}
+          onMouseDown={handleCategoryMouseDown}
+          onMouseLeave={handleCategoryMouseLeaveOrUp}
+          onMouseUp={handleCategoryMouseLeaveOrUp}
+          onMouseMove={handleCategoryMouseMove}
+          className="flex gap-2 text-xs font-bold overflow-x-auto no-scrollbar touch-pan-x w-full sm:w-auto flex-nowrap pb-2 sm:pb-0 cursor-grab active:cursor-grabbing select-none"
+        >
           {['all', 'starters', 'soups', 'mains', 'breads', 'rice', 'desserts', 'beverages'].map(cat => (
             <button 
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full transition-all capitalize ${
+              className={`px-4 py-2 rounded-full transition-all capitalize whitespace-nowrap flex-shrink-0 ${
                 selectedCategory === cat 
                   ? 'bg-primary text-white shadow-md' 
                   : 'bg-background hover:bg-border-custom/30 text-text-muted hover:text-text-primary border border-border-custom/50'
@@ -164,7 +192,7 @@ export const MenuManager: React.FC = () => {
         <div className="md:col-span-8 bg-surface rounded-2xl border border-border-custom/50 overflow-hidden group hover:shadow-lg transition-all duration-300 premium-shadow">
           <div className="grid grid-cols-1 sm:grid-cols-2 h-full">
             <div className="relative overflow-hidden h-52 sm:h-auto">
-              <img 
+              <ImageFallback 
                 alt="Royal Paneer Tikka Platter" 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                 src="https://images.unsplash.com/photo-1567188040759-fb8a883db6d8?w=800&auto=format&fit=crop&q=80"
@@ -234,7 +262,7 @@ export const MenuManager: React.FC = () => {
             className="md:col-span-4 bg-surface border border-border-custom/50 rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300 premium-shadow flex flex-col"
           >
             <div className="h-44 relative overflow-hidden flex-shrink-0">
-              <img 
+              <ImageFallback 
                 alt={dish.name} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                 src={dish.image}

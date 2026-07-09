@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSavoraState } from '../context/SavoraContext';
 import { Shield, Layers, Utensils, CreditCard, UserCheck, ArrowRight, Sun, Moon } from 'lucide-react';
+import { SavoraLogo } from '../components/SavoraLogo';
 import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -109,9 +110,7 @@ export const Login: React.FC = () => {
           <div>
             <div className="flex justify-between items-center mb-8">
               <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
-                <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-white shadow-sm font-bold">
-                  S
-                </div>
+                <SavoraLogo size={32} />
                 <span className="font-extrabold text-primary tracking-tight">Savora</span>
               </div>
               

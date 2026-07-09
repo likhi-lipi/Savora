@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useSavoraState } from '../context/SavoraContext';
+import { SavoraLogo } from '../components/SavoraLogo';
 
 const features = [
   {
@@ -89,9 +90,7 @@ export const Landing: React.FC = () => {
       {/* Landing Top Header */}
       <header className="fixed top-0 left-0 w-full h-20 bg-white/70 dark:bg-[#111311]/70 backdrop-blur-md border-b border-border-custom/50 z-50 flex items-center justify-between px-6 md:px-16 transition-colors duration-300">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-sm">
-            <span className="font-bold text-xl font-mono">S</span>
-          </div>
+          <SavoraLogo size={36} />
           <span className="font-bold text-lg text-primary tracking-tight font-sans">Savora</span>
         </div>
 
@@ -226,7 +225,7 @@ export const Landing: React.FC = () => {
 
           <div className="bg-white dark:bg-[#1A1D1A] p-8 rounded-2xl border border-border-custom/60 shadow-sm text-left lg:col-span-1">
             <p className="text-text-muted text-sm leading-relaxed italic">
-              "The AI Inventory stock predictions alert my suppliers automatically before we run out of chardonnay or ribeyes. That feature alone is worth the subscription."
+              "The AI Inventory stock predictions alert my suppliers automatically before we run out of Paneer or Basmati Rice. That feature alone is worth the subscription."
             </p>
             <div className="mt-6 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">AL</div>
@@ -378,8 +377,8 @@ export const Landing: React.FC = () => {
       {/* Call to Action banner */}
       <section className="py-20 px-6 max-w-5xl mx-auto text-center">
         <div className="bg-primary rounded-[2rem] p-10 md:p-16 text-white shadow-xl relative overflow-hidden">
-          <div className="absolute right-0 top-0 opacity-10 font-bold font-mono text-[200px] select-none pointer-events-none translate-x-20 -translate-y-20">
-            S
+          <div className="absolute right-0 top-0 opacity-[0.07] select-none pointer-events-none translate-x-20 -translate-y-20 w-[350px] h-[350px]">
+            <SavoraLogo size={350} />
           </div>
           <h2 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight">
             Ready to upgrade your service speed?
@@ -399,9 +398,7 @@ export const Landing: React.FC = () => {
       <footer className="border-t border-border-custom bg-white dark:bg-[#111311] py-12 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
-              S
-            </div>
+            <SavoraLogo size={28} />
             <span className="font-bold text-text-primary text-sm">Savora Operating Suite</span>
           </div>
 

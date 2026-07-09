@@ -52,7 +52,7 @@ export const Inventory: React.FC = () => {
           <div>
             <h4 className="text-xs font-bold text-text-primary">Depleted Stock Levels Warning</h4>
             <p className="text-[10px] text-text-muted mt-0.5">
-              Some key pantry items are below minimum safety levels. Refill chardonnay, champagne, or burrata cheese to avoid service interruptions.
+              Some key pantry items are below minimum safety levels. Refill Paneer, Saffron, or Ghee to avoid service interruptions.
             </p>
           </div>
         </div>

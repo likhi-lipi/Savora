@@ -268,7 +268,7 @@ export const Dashboard: React.FC = () => {
               <div className="bg-[#F8F7F4] dark:bg-[#111311] p-4 rounded-xl border border-border-custom/60 hover:border-primary/25 transition-all">
                 <span className="text-[10px] font-bold text-primary uppercase">VIP Guest Alert</span>
                 <p className="text-xs text-text-muted mt-1 leading-relaxed">
-                  VIP guest <span className="text-text-primary font-bold">Aarav Sharma</span> (Top 1%) booked Table 12. Recommend preparing signature Chardonnay table welcome.
+                  VIP guest <span className="text-text-primary font-bold">Aarav Sharma</span> (Top 1%) booked Table 12. Recommend preparing signature Saffron Lassi table welcome.
                 </p>
               </div>
 

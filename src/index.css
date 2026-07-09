@@ -117,3 +117,33 @@ body {
     opacity: 1;
   }
 }
+
+/* Print Styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+  }
+  /* Hide print buttons and close buttons on the printout */
+  #printable-receipt .no-print {
+    display: none !important;
+  }
+}

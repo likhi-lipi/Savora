@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSavoraState, MenuItem, OrderItem, Table } from '../context/SavoraContext';
+import { SavoraLogo } from '../components/SavoraLogo';
 import { 
   Users, 
   Clock, 
@@ -139,6 +140,7 @@ export const POS: React.FC = () => {
   // Settle Payment
   const handleCompletePayment = () => {
     if (!activeOrder) return;
+    window.print();
     settleOrder(activeOrder.id, paymentMethod, selectedTipPercent, finalTotal);
     setShowReceiptModal(false);
   };
@@ -154,6 +156,28 @@ export const POS: React.FC = () => {
       default:
         return 'bg-white border border-border-custom border-dashed hover:bg-primary/5 hover:border-primary';
     }
+  };
+  const handleCategoryWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    e.currentTarget.scrollLeft += e.deltaY;
+  };
+  const handleCategoryMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    el.setAttribute('data-isdown', 'true');
+    el.setAttribute('data-startx', String(e.pageX - el.offsetLeft));
+    el.setAttribute('data-scrollleft', String(el.scrollLeft));
+  };
+  const handleCategoryMouseLeaveOrUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.setAttribute('data-isdown', 'false');
+  };
+  const handleCategoryMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    if (el.getAttribute('data-isdown') !== 'true') return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const startX = Number(el.getAttribute('data-startx') || 0);
+    const scrollLeft = Number(el.getAttribute('data-scrollleft') || 0);
+    const walk = (x - startX) * 1.5;
+    el.scrollLeft = scrollLeft - walk;
   };
 
   return (
@@ -350,12 +374,19 @@ export const POS: React.FC = () => {
               />
             </div>
 
-            <div className="flex bg-white dark:bg-[#1A1D1A] border border-border-custom rounded-xl p-0.5 text-[10px] font-bold">
+            <div 
+              onWheel={handleCategoryWheel}
+              onMouseDown={handleCategoryMouseDown}
+              onMouseLeave={handleCategoryMouseLeaveOrUp}
+              onMouseUp={handleCategoryMouseLeaveOrUp}
+              onMouseMove={handleCategoryMouseMove}
+              className="flex bg-white dark:bg-[#1A1D1A] border border-border-custom rounded-xl p-0.5 text-[10px] font-bold overflow-x-auto no-scrollbar touch-pan-x flex-nowrap shrink-0 max-w-full cursor-grab active:cursor-grabbing select-none"
+             >
               {['all', 'starters', 'soups', 'mains', 'breads', 'rice', 'desserts', 'beverages'].map(cat => (
                 <button 
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-2.5 py-1 rounded-lg capitalize ${selectedCategory === cat ? 'bg-primary text-white shadow-sm' : 'text-text-muted hover:text-text-primary'}`}
+                  className={`px-2.5 py-1 rounded-lg capitalize whitespace-nowrap flex-shrink-0 ${selectedCategory === cat ? 'bg-primary text-white shadow-sm' : 'text-text-muted hover:text-text-primary'}`}
                 >
                   {cat === 'all' ? 'All' : cat === 'rice' ? 'Rice & Biryani' : cat === 'mains' ? 'Mains' : cat}
                 </button>
@@ -542,101 +573,135 @@ export const POS: React.FC = () => {
 
       {/* RECEIPT PREVIEW MODAL */}
       {showReceiptModal && activeOrder && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/60 backdrop-blur-md">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/60 backdrop-blur-md no-print">
           <div 
             className="absolute inset-0" 
             onClick={() => setShowReceiptModal(false)}
           />
-          <div className="relative w-full max-w-sm bg-white dark:bg-[#1A1D1A] rounded-[2rem] shadow-2xl p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-border-custom">
+          <div 
+            id="printable-receipt"
+            className="relative w-full max-w-sm bg-white dark:bg-[#1A1D1A] rounded-[2rem] shadow-2xl p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-border-custom text-text-primary"
+          >
             
             {/* Modal close */}
             <button 
               onClick={() => setShowReceiptModal(false)}
-              className="absolute top-4 right-4 p-1 rounded-full hover:bg-sidebar text-text-muted cursor-pointer"
+              className="absolute top-4 right-4 p-1 rounded-full hover:bg-sidebar text-text-muted cursor-pointer no-print"
             >
               <X size={16} />
             </button>
 
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-primary" />
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-primary no-print" />
             
             {/* Monospace Thermal Receipt */}
             <div className="text-center font-mono mt-4">
-              <h2 className="font-extrabold text-xl leading-none text-text-primary">{settings.name.toUpperCase()}</h2>
-              <p className="text-[9px] text-text-muted uppercase tracking-[0.2em] mt-1 font-bold">Smart Dining Solutions</p>
+              <div className="flex justify-center mb-2">
+                <SavoraLogo size={32} />
+              </div>
+              <h2 className="font-extrabold text-sm leading-none text-text-primary">SAVORA</h2>
+              <p className="text-[9px] text-text-muted mt-1 uppercase tracking-wider font-bold">
+                {settings.tagline || 'Smart Dining Simplified'}
+              </p>
+              
+              <div className="mt-4 border-t border-dashed border-border-custom pt-3">
+                <p className="text-xs font-bold text-text-primary">{settings.name || 'Saffron & Smoke Restaurant'}</p>
+                <p className="text-[9px] text-text-muted mt-0.5">{settings.address || 'MG Road, Bengaluru, Karnataka 560001'}</p>
+              </div>
+
+              <div className="mt-2 text-[9px] text-text-muted">
+                <p><span className="font-bold">Phone:</span> {settings.phone || '+91 98765 43210'}</p>
+                <p><span className="font-bold">Website:</span> {settings.website || 'www.savora.app'}</p>
+                <p><span className="font-bold">GSTIN:</span> {settings.gstin || '29ABCDE1234F1Z5'}</p>
+              </div>
             </div>
 
             {/* Receipt metadata */}
-            <div className="space-y-1 mt-6 border-b border-dashed border-border-custom pb-3 font-mono text-[10px] text-text-muted">
+            <div className="space-y-1 mt-4 border-t border-b border-dashed border-border-custom py-3 font-mono text-[9px] text-text-muted">
               <div className="flex justify-between">
-                <span>Date: {new Date(activeOrder.timestamp).toLocaleDateString()}</span>
-                <span>Time: {new Date(activeOrder.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                <span>Invoice No: #{activeOrder.id}</span>
+                <span>Table: {selectedTable.name}</span>
               </div>
               <div className="flex justify-between">
-                <span>Table: {selectedTable.name} ({selectedTable.area})</span>
-                <span>Check: #{activeOrder.id}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Server: {activeOrder.waiterName}</span>
+                <span>Date & Time: {new Date(activeOrder.timestamp).toLocaleDateString()} {new Date(activeOrder.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                 <span>Guests: {selectedTable.guestCount || 2}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Cashier: {activeOrder.waiterName}</span>
+                <span>Status: PRE-SETTLED</span>
               </div>
             </div>
 
             {/* Items list */}
-            <div className="space-y-2 mt-4 font-mono text-xs border-b border-dashed border-border-custom pb-4 text-text-primary">
-              {activeOrder.items.map(item => (
-                <div key={item.menuItemId} className="flex justify-between items-start">
-                  <div className="max-w-[200px]">
-                    <span>{item.quantity}x {item.name}</span>
-                    {item.notes && <p className="text-[9px] text-text-muted pl-4 italic">"{item.notes}"</p>}
+            <div className="mt-4 font-mono text-xs border-b border-dashed border-border-custom pb-4 text-text-primary">
+              <div className="flex justify-between text-[10px] font-extrabold text-text-primary border-b border-dashed border-border-custom pb-1.5 mb-2 uppercase tracking-wider">
+                <span className="w-1/2 text-left">Item</span>
+                <span className="w-1/12 text-center">Qty</span>
+                <span className="w-3/12 text-right">Rate</span>
+                <span className="w-3/12 text-right">Amount</span>
+              </div>
+              <div className="space-y-2">
+                {activeOrder.items.map(item => (
+                  <div key={item.menuItemId} className="flex justify-between items-start text-[10px]">
+                    <div className="w-1/2 text-left pr-1">
+                      <span className="break-words font-semibold">{item.name}</span>
+                      {item.notes && <p className="text-[8px] text-text-muted italic leading-tight mt-0.5">"{item.notes}"</p>}
+                    </div>
+                    <span className="w-1/12 text-center font-semibold">{item.quantity}</span>
+                    <span className="w-3/12 text-right">{Math.round(item.price).toLocaleString('en-IN')}</span>
+                    <span className="w-3/12 text-right">{Math.round(item.price * item.quantity).toLocaleString('en-IN')}</span>
                   </div>
-                  <span>₹{Math.round(item.price * item.quantity).toLocaleString('en-IN')}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             {/* Summary calculations */}
-            <div className="space-y-1.5 mt-4 font-mono text-xs text-text-muted">
+            <div className="space-y-1.5 mt-4 font-mono text-[10px] text-text-muted border-b border-dashed border-border-custom pb-3">
               <div className="flex justify-between">
-                <span>Subtotal Items</span>
+                <span>Subtotal</span>
                 <span>₹{cartSubtotal.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
-                <span>CGST ({(settings.tax / 2).toFixed(1)}%)</span>
+                <span>CGST (2.5%)</span>
                 <span>₹{(tax / 2).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
-                <span>SGST ({(settings.tax / 2).toFixed(1)}%)</span>
+                <span>SGST (2.5%)</span>
                 <span>₹{(tax / 2).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
-                <span>Service Fee ({settings.service}%)</span>
-                <span>₹{serviceCharge.toLocaleString('en-IN')}</span>
+                <span>Discount</span>
+                <span>₹0</span>
               </div>
-              <div className="flex justify-between border-t border-dashed border-border-custom pt-2">
-                <span>Gratuity ({selectedTipPercent}%)</span>
-                <span>₹{tipAmount.toLocaleString('en-IN')}</span>
-              </div>
-              <div className="flex justify-between font-extrabold text-base pt-3 border-t-2 border-border-custom text-text-primary">
+              <div className="flex justify-between font-extrabold text-sm pt-2 border-t border-dashed border-border-custom text-text-primary mt-2">
                 <span>GRAND TOTAL</span>
                 <span className="text-primary">₹{finalTotal.toLocaleString('en-IN')}</span>
               </div>
             </div>
 
-            {/* Loyalty QR scan */}
-            <div className="text-center mt-6 space-y-4 font-mono">
-              <div className="bg-[#F8F7F4] dark:bg-[#111311] p-3 rounded-2xl inline-block border border-border-custom/50">
+            {/* Loyalty QR scan & footer */}
+            <div className="text-center mt-5 space-y-3 font-mono">
+              <div className="bg-[#F8F7F4] dark:bg-[#111311] p-2.5 rounded-2xl inline-block border border-border-custom/50 no-print">
                 <img 
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(`upi://pay?pa=savorapay@upi&pn=${encodeURIComponent(settings.name)}&am=${finalTotal}&cu=INR`)}`}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=95x95&data=${encodeURIComponent(`upi://pay?pa=savorapay@upi&pn=${encodeURIComponent(settings.name)}&am=${finalTotal}&cu=INR`)}`}
                   alt="Receipt Pay QR"
-                  className="w-[110px] h-[110px] mx-auto bg-white p-1 rounded-lg"
+                  className="w-[95px] h-[95px] mx-auto bg-white p-1 rounded-lg"
                 />
-                <p className="text-[8px] mt-1.5 font-bold text-text-muted tracking-tight">SCAN WITH ANY UPI APP TO PAY</p>
+                <p className="text-[7.5px] mt-1.5 font-extrabold text-text-muted tracking-tight">SCAN QR FOR FEEDBACK & UPI PAY</p>
               </div>
-              <p className="text-[10px] italic text-text-muted">{settings.receiptFooter}</p>
+              
+              <div className="space-y-0.5 text-text-primary">
+                <p className="text-[10px] font-bold">Thank You For Dining With Us</p>
+                <p className="text-[9px] font-medium text-text-muted">Visit Again</p>
+              </div>
+
+              <div className="text-[8px] text-text-muted pt-1">
+                <p>{settings.website || 'www.savora.app'}</p>
+                <p>{settings.email || 'support@savora.app'}</p>
+              </div>
               
               <button 
                 onClick={handleCompletePayment}
-                className="w-full py-3 bg-primary hover:bg-primary/95 text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-3 bg-primary hover:bg-primary/95 text-white rounded-xl text-xs font-bold transition-all active:scale-95 shadow-md flex items-center justify-center gap-1.5 cursor-pointer no-print"
               >
                 Settle & Print check <CheckCircle2 size={12} />
               </button>

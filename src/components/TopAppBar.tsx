@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSavoraState } from '../context/SavoraContext';
+import { SavoraLogo } from './SavoraLogo';
 import { 
   Bell, 
   Search, 
@@ -25,7 +26,12 @@ export const TopAppBar: React.FC = () => {
     markNotificationAsRead, 
     markAllNotificationsAsRead,
     theme, 
-    setTheme 
+    setTheme,
+    menuItems,
+    orders,
+    customers,
+    employees,
+    inventory
   } = useSavoraState();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,6 +43,18 @@ export const TopAppBar: React.FC = () => {
 
   const unreadCount = notifications.filter(n => !n.read).length;
   const isFirebaseUser = !!(user && (user as any).email);
+
+  const normalizedQuery = searchQuery.toLowerCase();
+  
+  const searchResults = {
+    menu: searchQuery.length > 1 ? menuItems.filter(m => m.name.toLowerCase().includes(normalizedQuery) || m.category.includes(normalizedQuery)) : [],
+    orders: searchQuery.length > 1 ? orders.filter(o => o.id.toLowerCase().includes(normalizedQuery) || o.tableName.toLowerCase().includes(normalizedQuery)) : [],
+    customers: searchQuery.length > 1 ? customers.filter(c => c.name.toLowerCase().includes(normalizedQuery) || c.phone.includes(normalizedQuery)) : [],
+    staff: searchQuery.length > 1 ? employees.filter(e => e.name.toLowerCase().includes(normalizedQuery) || e.role.includes(normalizedQuery)) : [],
+    inventory: searchQuery.length > 1 ? inventory.filter(i => i.name.toLowerCase().includes(normalizedQuery)) : []
+  };
+
+  const hasResults = Object.values(searchResults).some(arr => arr.length > 0);
 
   // Toggle Theme
   const toggleTheme = () => {
@@ -89,30 +107,116 @@ export const TopAppBar: React.FC = () => {
   };
 
   return (
-    <header className="h-16 border-b border-border-custom bg-surface/80 backdrop-blur-xl flex items-center justify-between px-6 fixed top-0 right-0 z-40 transition-all duration-300 w-full md:w-[calc(100%-16rem)] has-[+aside]:md:w-[calc(100%-18px)]">
+    <header className="h-16 border-b border-border-custom bg-surface/80 backdrop-blur-xl flex items-center justify-between px-6 fixed top-0 right-0 z-40 transition-all duration-300 w-full md:w-[calc(100%-16rem)]">
+      
       {/* Global Search */}
-      <div className="flex-1 max-w-md hidden sm:block">
+      <div className="flex-1 max-w-md hidden sm:block relative">
         <div className="relative flex items-center bg-background/50 border border-border-custom rounded-full px-3 py-1.5 focus-within:ring-2 focus-within:ring-primary/20 transition-all group">
           <Search size={18} className="text-text-muted mr-2" />
           <input
             id="global-search"
             type="text"
-            placeholder="Search orders, tables, menu..."
+            placeholder="Search orders, tables, menu, customers..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-transparent border-none text-sm w-full outline-none focus:ring-0 placeholder:text-text-muted/70 text-text-primary"
+            autoComplete="off"
           />
-          <span className="text-[10px] font-bold text-text-muted border border-border-custom rounded px-1.5 py-0.5 group-focus-within:hidden select-none">
-            Ctrl K
-          </span>
+          {searchQuery && (
+            <button onClick={() => setSearchQuery('')} className="p-1 text-text-muted hover:text-text-primary">
+              <X size={14} />
+            </button>
+          )}
+          {!searchQuery && (
+            <span className="text-[10px] font-bold text-text-muted border border-border-custom rounded px-1.5 py-0.5 group-focus-within:hidden select-none">
+              Ctrl K
+            </span>
+          )}
         </div>
+
+        {/* Global Search Results Dropdown */}
+        {searchQuery.length > 1 && (
+          <div className="absolute top-full mt-2 w-full max-h-[70vh] overflow-y-auto bg-surface border border-border-custom rounded-2xl shadow-xl z-50 custom-scroll text-left entrance-anim">
+            <div className="p-2 space-y-1">
+              {!hasResults && (
+                <div className="p-4 text-center text-text-muted text-xs">
+                  No results found for "{searchQuery}"
+                </div>
+              )}
+              
+              {searchResults.orders.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Orders</div>
+                  {searchResults.orders.map(o => (
+                    <div key={o.id} className="px-3 py-2 hover:bg-background/50 rounded-xl cursor-pointer flex justify-between items-center transition-colors">
+                      <div>
+                        <p className="text-sm font-semibold text-text-primary">{o.id}</p>
+                        <p className="text-xs text-text-muted">{o.tableName} • {o.items.length} items</p>
+                      </div>
+                      <span className="text-xs font-bold text-primary">₹{o.totalPrice}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {searchResults.customers.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Customers</div>
+                  {searchResults.customers.map(c => (
+                    <div key={c.id} className="px-3 py-2 hover:bg-background/50 rounded-xl cursor-pointer flex justify-between items-center transition-colors">
+                      <div>
+                        <p className="text-sm font-semibold text-text-primary">{c.name}</p>
+                        <p className="text-xs text-text-muted">{c.phone}</p>
+                      </div>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">{c.tier}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {searchResults.menu.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Menu Items</div>
+                  {searchResults.menu.map(m => (
+                    <div key={m.id} className="px-3 py-2 hover:bg-background/50 rounded-xl cursor-pointer flex justify-between items-center transition-colors">
+                      <div className="flex items-center gap-3">
+                        <img src={m.image} alt={m.name} className="w-8 h-8 rounded-lg object-cover" />
+                        <div>
+                          <p className="text-sm font-semibold text-text-primary">{m.name}</p>
+                          <p className="text-xs text-text-muted capitalize">{m.category}</p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold text-text-primary">₹{m.price}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {searchResults.staff.length > 0 && (
+                <div>
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Staff</div>
+                  {searchResults.staff.map(s => (
+                    <div key={s.id} className="px-3 py-2 hover:bg-background/50 rounded-xl cursor-pointer flex justify-between items-center transition-colors">
+                      <div>
+                        <p className="text-sm font-semibold text-text-primary">{s.name}</p>
+                        <p className="text-xs text-text-muted capitalize">{s.role}</p>
+                      </div>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${s.status === 'active' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'}`}>
+                        {s.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Mobile Title */}
       <div className="sm:hidden flex items-center gap-2">
-        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
-          S
-        </div>
+        <SavoraLogo size={28} />
         <span className="font-bold text-primary">Savora</span>
       </div>
 
