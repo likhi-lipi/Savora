@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Send, Bot, User, Cpu, AlertTriangle, ArrowUpRight } from 'lucide-react';
+import { Sparkles, Send, Bot, User, Cpu, AlertTriangle, ArrowUpRight, TrendingUp } from 'lucide-react';
 
 interface ChatMessage {
   id: string;

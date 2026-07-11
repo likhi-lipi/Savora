@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 
 import { Users, Search, Mail, Gift, Phone } from 'lucide-react';
 
-import { useSavoraState } from '../context/SavoraContext';
+import { useSavoraState, Customer } from '../context/SavoraContext';
 export const Customers: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { customers } = useSavoraState();
 
-  const filteredCustomers = customers.filter(cust =>
+  const filteredCustomers = customers.filter((cust: Customer) =>
     cust.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     cust.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -61,7 +61,7 @@ export const Customers: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-border-custom/35">
-              {filteredCustomers.map(cust => (
+              {filteredCustomers.map((cust: Customer) => (
                 <tr key={cust.id} className="hover:bg-background/25 transition-colors">
                   <td className="px-6 py-4 font-bold text-text-primary flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px]">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSavoraState } from '../context/SavoraContext';
+import { useSavoraState, Customer } from '../context/SavoraContext';
 import { SavoraLogo } from './SavoraLogo';
 import { 
   Bell, 
@@ -49,7 +49,7 @@ export const TopAppBar: React.FC = () => {
   const searchResults = {
     menu: searchQuery.length > 1 ? menuItems.filter(m => m.name.toLowerCase().includes(normalizedQuery) || m.category.includes(normalizedQuery)) : [],
     orders: searchQuery.length > 1 ? orders.filter(o => o.id.toLowerCase().includes(normalizedQuery) || o.tableName.toLowerCase().includes(normalizedQuery)) : [],
-    customers: searchQuery.length > 1 ? customers.filter(c => c.name.toLowerCase().includes(normalizedQuery) || c.phone.includes(normalizedQuery)) : [],
+    customers: searchQuery.length > 1 ? customers.filter((c: Customer) => c.name.toLowerCase().includes(normalizedQuery) || c.phone.includes(normalizedQuery)) : [],
     staff: searchQuery.length > 1 ? employees.filter(e => e.name.toLowerCase().includes(normalizedQuery) || e.role.includes(normalizedQuery)) : [],
     inventory: searchQuery.length > 1 ? inventory.filter(i => i.name.toLowerCase().includes(normalizedQuery)) : []
   };
@@ -162,7 +162,7 @@ export const TopAppBar: React.FC = () => {
               {searchResults.customers.length > 0 && (
                 <div>
                   <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-text-muted">Customers</div>
-                  {searchResults.customers.map(c => (
+                  {searchResults.customers.map((c: Customer) => (
                     <div key={c.id} className="px-3 py-2 hover:bg-background/50 rounded-xl cursor-pointer flex justify-between items-center transition-colors">
                       <div>
                         <p className="text-sm font-semibold text-text-primary">{c.name}</p>

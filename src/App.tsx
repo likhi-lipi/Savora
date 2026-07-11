@@ -53,7 +53,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={<Setup />} />
-        
+
         {/* Authenticated Dashboard Shell */}
         <Route path="/app" element={<AppShell />}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />

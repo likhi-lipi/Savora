@@ -8,7 +8,7 @@ if (currentVersion !== CACHE_VERSION) {
   const keysToRemove = [
     'savora_menu', 'savora_orders', 'savora_tables', 
     'savora_reservations', 'savora_inventory', 'savora_employees', 
-    'savora_notifications', 'savora_settings'
+    'savora_notifications', 'savora_settings', 'savora_customers'
   ];
   keysToRemove.forEach(k => localStorage.removeItem(k));
   localStorage.setItem('savora_cache_version', CACHE_VERSION);
@@ -119,6 +119,16 @@ export interface RestaurantSettings {
   email?: string;
 }
 
+export interface Customer {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  visits: number;
+  totalSpent: number;
+  tier: string;
+}
+
 interface SavoraContextProps {
   user: { name: string; role: string; restaurantId?: string | null; email?: string | null } | null;
   login: (role: string, name: string) => void;
@@ -130,6 +140,7 @@ interface SavoraContextProps {
   inventory: InventoryItem[];
   employees: Employee[];
   notifications: Notification[];
+  customers: Customer[];
   settings: RestaurantSettings;
   updateSettings: (newSettings: RestaurantSettings) => void;
   todayStats: {
@@ -409,6 +420,14 @@ const initialNotifications: Notification[] = [
   { id: 'notif-4', title: 'Sales target reached', message: 'Revenue for today exceeded ₹1,00,000 baseline milestone.', type: 'success', timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), read: true }
 ];
 
+const initialCustomers: Customer[] = [
+  { id: 'cust-1', name: 'Aarav Sharma', email: 'aarav.sharma@gmail.com', phone: '+91 98765 43211', visits: 18, totalSpent: 24500, tier: 'VIP (Top 1%)' },
+  { id: 'cust-2', name: 'Rohan Gupta', email: 'rohan.gupta@yahoo.com', phone: '+91 87654 32109', visits: 8, totalSpent: 12400, tier: 'Gold' },
+  { id: 'cust-3', name: 'Priya Verma', email: 'priya.v@gmail.com', phone: '+91 76543 21098', visits: 12, totalSpent: 18900, tier: 'Gold' },
+  { id: 'cust-4', name: 'Sneha Iyer', email: 'sneha.iyer@outlook.com', phone: '+91 95432 10987', visits: 4, totalSpent: 5200, tier: 'Silver' },
+  { id: 'cust-5', name: 'Kabir Malhotra', email: 'kabir.m@hotmail.com', phone: '+91 99887 76655', visits: 22, totalSpent: 35000, tier: 'VIP (Top 1%)' }
+];
+
 const defaultSettings: RestaurantSettings = {
   name: 'Saffron & Smoke Restaurant',
   tagline: 'Smart Dining Simplified',
@@ -466,6 +485,11 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [notifications, setNotifications] = useState<Notification[]>(() => {
     const saved = localStorage.getItem('savora_notifications');
     return saved ? JSON.parse(saved) : initialNotifications;
+  });
+
+  const [customers, setCustomers] = useState<Customer[]>(() => {
+    const saved = localStorage.getItem('savora_customers');
+    return saved ? JSON.parse(saved) : initialCustomers;
   });
 
   const [restaurantId, setRestaurantId] = useState<string | null>(() => {
@@ -603,6 +627,12 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       if (items.length > 0) setNotifications(items);
     });
 
+    const unsubCustomers = onSnapshot(collection(db, 'restaurants', restaurantId, 'customers'), (snapshot) => {
+      const items: Customer[] = [];
+      snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() } as Customer));
+      if (items.length > 0) setCustomers(items);
+    });
+
     const unsubSettings = onSnapshot(doc(db, 'restaurants', restaurantId, 'settings', 'config'), (docSnap) => {
       if (docSnap.exists()) {
         setSettings(docSnap.data() as RestaurantSettings);
@@ -618,6 +648,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       unsubEmployees();
       unsubNotifications();
       unsubSettings();
+      unsubCustomers();
     };
   }, [restaurantId]);
 
@@ -692,6 +723,12 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       localStorage.setItem('savora_notifications', JSON.stringify(notifications));
     }
   }, [notifications, restaurantId]);
+
+  useEffect(() => {
+    if (!restaurantId || restaurantId === 'demo-saffron-smoke') {
+      localStorage.setItem('savora_customers', JSON.stringify(customers));
+    }
+  }, [customers, restaurantId]);
 
   useEffect(() => {
     if (!restaurantId || restaurantId === 'demo-saffron-smoke') {
@@ -1227,6 +1264,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       inventory.forEach(i => batch.delete(doc(db, 'restaurants', restaurantId, 'inventory', i.id)));
       employees.forEach(e => batch.delete(doc(db, 'restaurants', restaurantId, 'staff', e.id)));
       notifications.forEach(n => batch.delete(doc(db, 'restaurants', restaurantId, 'notifications', n.id)));
+      customers.forEach(c => batch.delete(doc(db, 'restaurants', restaurantId, 'customers', c.id)));
       batch.delete(doc(db, 'restaurants', restaurantId, 'settings', 'config'));
       
       initialTables.forEach(t => batch.set(doc(db, 'restaurants', restaurantId, 'tables', t.id), t));
@@ -1236,6 +1274,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       initialInventory.forEach(i => batch.set(doc(db, 'restaurants', restaurantId, 'inventory', i.id), i));
       initialEmployees.forEach(e => batch.set(doc(db, 'restaurants', restaurantId, 'staff', e.id), e));
       initialNotifications.forEach(n => batch.set(doc(db, 'restaurants', restaurantId, 'notifications', n.id), n));
+      initialCustomers.forEach(c => batch.set(doc(db, 'restaurants', restaurantId, 'customers', c.id), c));
       batch.set(doc(db, 'restaurants', restaurantId, 'settings', 'config'), defaultSettings);
 
       batch.commit().then(() => {
@@ -1251,6 +1290,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       setInventory(initialInventory);
       setEmployees(initialEmployees);
       setNotifications(initialNotifications);
+      setCustomers(initialCustomers);
       setSettings(defaultSettings);
       localStorage.removeItem('savora_tables');
       localStorage.removeItem('savora_menu');
@@ -1260,6 +1300,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       localStorage.removeItem('savora_employees');
       localStorage.removeItem('savora_notifications');
       localStorage.removeItem('savora_settings');
+      localStorage.removeItem('savora_customers');
       addNotification('System Reset', 'All database items successfully reseeded to default states.', 'success');
     }
   };
@@ -1285,6 +1326,7 @@ export const SavoraProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       inventory,
       employees,
       notifications,
+      customers,
       settings,
       updateSettings,
       todayStats,
