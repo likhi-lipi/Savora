@@ -98,6 +98,7 @@ export const MenuManager: React.FC = () => {
           </span>
         );
     }
+  };
   const handleCategoryWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     e.currentTarget.scrollLeft += e.deltaY;
   };
